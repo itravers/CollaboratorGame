@@ -11,22 +11,46 @@ import java.util.ArrayList;
  * Created by Isaac Assegai on 8/13/2015.
  */
 public class GameWorld {
-    /* Parent */
-    MyGdxGame parent;
-    Player player;
-    //ArrayList <Planet> planets;
-    ArrayList<Player> ghosts;
-    SpriteBatch batch;
+    private MyGdxGame parent;  /* Parent */
+    private GameMenu menu;
+    private Player player;
+    //private ArrayList <Planet> planets;
+    private ArrayList<Player> ghosts;
+    private SpriteBatch batch;
     private BitmapFont font;
+
 
     public GameWorld(MyGdxGame p){
         parent = p;
         batch = new SpriteBatch();
+        menu = new GameMenu(this, batch);
         font = new BitmapFont();
         font.setColor(Color.RED);
     }
 
+    /**
+     * Depending on the game state this will render either the pregame, ingame or postgame
+     * @param elapsedTime The elapsed Time
+     */
     public void render(float elapsedTime){
+        if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
+            renderPreGame(elapsedTime);
+        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+            renderInGame(elapsedTime);
+        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.POSTGAME){
+            renderPostGame(elapsedTime);
+        }
+    }
+
+    /**
+     * Renders the menu's that allows the player to start the game.
+     * @param elapsedTime The time passed.
+     */
+    private void renderPreGame(float elapsedTime){
+        menu.render(elapsedTime);
+    }
+
+    private void renderInGame(float elapsedTime){
         updatePlayer(elapsedTime);
         updatePlanets(elapsedTime);
         updateGhosts(elapsedTime);
@@ -39,7 +63,9 @@ public class GameWorld {
         renderGhosts(elapsedTime, batch);
         renderUI(elapsedTime, batch);
         batch.end();
+    }
 
+    private void renderPostGame(float elapsedTime){
 
     }
 
