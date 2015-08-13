@@ -31,7 +31,8 @@ public class GameMenu {
         button.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 10f);
         button.addListener(new ClickListener(){
            public void clicked(InputEvent event, float x, float y){
-               button.setText("You clicked the button");
+               button.setText("Starting Game");
+               parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
            }
         });
         stage.addActor(button);

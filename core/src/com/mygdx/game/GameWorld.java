@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by Isaac Assegai on 8/13/2015.
  */
 public class GameWorld {
-    private MyGdxGame parent;  /* Parent */
+    public MyGdxGame parent;  /* Parent */
     private GameMenu menu;
     private Player player;
     //private ArrayList <Planet> planets;
