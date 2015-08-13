@@ -3,9 +3,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.Player.Player;
 import java.util.ArrayList;
+
 
 /**
  * Created by Isaac Assegai on 8/13/2015.
@@ -14,10 +16,12 @@ public class GameWorld {
     public MyGdxGame parent;  /* Parent */
     private GameMenu menu;
     private Player player;
+    private String playerName;
     //private ArrayList <Planet> planets;
     private ArrayList<Player> ghosts;
     private SpriteBatch batch;
     private BitmapFont font;
+    private GlyphLayout layout; /* Used to get bounds of fonts. */
 
 
     public GameWorld(MyGdxGame p){
@@ -26,6 +30,7 @@ public class GameWorld {
         menu = new GameMenu(this, batch);
         font = new BitmapFont();
         font.setColor(Color.RED);
+        layout = new GlyphLayout();
     }
 
     /**
@@ -93,6 +98,20 @@ public class GameWorld {
     }
 
     private void renderUI(float elapsedTime, SpriteBatch batch){
-        font.draw(batch, "ElapsedTime: " + elapsedTime, 10, Gdx.graphics.getHeight());
+        String msg = "ElapsedTime: " + elapsedTime;
+        layout.setText(font, playerName);
+        font.draw(batch, msg, layout.width + 20, Gdx.graphics.getHeight());
+        Color oldColor = Color.RED;
+        font.setColor(Color.GREEN);
+        font.draw(batch, playerName, 10, Gdx.graphics.getHeight());
+        font.setColor(oldColor);
+    }
+
+    public void setPlayerName(String name){
+        playerName = name;
+    }
+
+    public String getPlayerName(){
+        return playerName;
     }
 }
