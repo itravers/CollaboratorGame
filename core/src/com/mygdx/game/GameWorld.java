@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.Player.Player;
 import java.util.ArrayList;
 
-import javax.xml.soap.Text;
 
 
 /**
@@ -32,6 +33,8 @@ public class GameWorld  implements InputProcessor {
     private GlyphLayout layout; /* Used to get bounds of fonts. */
     private OrthographicCamera camera;
     private World world; /* box2d physics world. */
+    public Box2DDebugRenderer debugRenderer;
+    private Matrix4 debugMatrix;
 
     public final float PIXELS_TO_METERS = 100f;
 
@@ -46,7 +49,7 @@ public class GameWorld  implements InputProcessor {
         batch.setProjectionMatrix(camera.combined);
         world = new World(new Vector2(0, 0), false);
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        player = new Player(atlas, world);
+        player = new Player(atlas, world, this);
         player.setPosition(0, 0);
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
@@ -77,18 +80,21 @@ public class GameWorld  implements InputProcessor {
 
     private void renderInGame(float elapsedTime){
         camera.update();
+        world.step(1f / 60f, 6, 2);
         updatePlayer(elapsedTime);
         updatePlanets(elapsedTime);
         updateGhosts(elapsedTime);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
         batch.begin();
         renderPlayer(elapsedTime, batch);
         renderPlanets(elapsedTime, batch);
         renderGhosts(elapsedTime, batch);
         renderUI(elapsedTime, batch);
         batch.end();
+        debugRenderer.render(world, debugMatrix);
     }
 
     private void renderPostGame(float elapsedTime){
@@ -148,10 +154,17 @@ public class GameWorld  implements InputProcessor {
         System.out.println("keydown " + keycode);
         float moveAmount = 1.0f;
         if(keycode == Input.Keys.LEFT){
-            player.translateX(-moveAmount);
+            player.getBody().setLinearVelocity(-1f, 0f);
         }
         if(keycode == Input.Keys.RIGHT){
-            player.translateX(moveAmount);
+            player.getBody().setLinearVelocity(1f, 0f);
+        }
+
+        if(keycode == Input.Keys.UP){
+            player.getBody().setLinearVelocity(0f, 1f);
+        }
+        if(keycode == Input.Keys.DOWN){
+            player.getBody().setLinearVelocity(0f, -1f);
         }
         return true;
     }

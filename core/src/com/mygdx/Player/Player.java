@@ -12,13 +12,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mygdx.game.GameWorld;
 
 /**
  * The Player Sprites
  */
 public class Player extends Sprite {
+	GameWorld parent;
 	// Rendering Oriented Fields
-	private Box2DDebugRenderer debugRenderer;
 	private TextureRegion[] moveForwardFrames;
 	private TextureAtlas textureAtlas;
 	private Animation animation;
@@ -32,14 +33,16 @@ public class Player extends Sprite {
 	private Body body;
 	private PolygonShape shape;
 	private World world;
+	private float torque = 0.0f;
 
 	/**
 	 * Player Constructor
 	 * @param textureAtlas The spritesheet, etc
 	 * @param world The physics world the player exists in.
 	 */
-	public Player(TextureAtlas textureAtlas, World world){
+	public Player(TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
+		this.parent = parent;
 		setupRendering(textureAtlas);
 		setupPhysics(world);
 	}
@@ -50,7 +53,9 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		batch.draw(moveForwardAnimation.getKeyFrame(elapsedTime, true), getX(), getY());
+		batch.draw(moveForwardAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+				   this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+		           this.getScaleX(), this.getScaleY(), this.getRotation());
 	}
 
 	/**
@@ -77,7 +82,7 @@ public class Player extends Sprite {
 	 * @param textureAtlas The spritesheet for the player.
 	 */
 	private void setupRendering(TextureAtlas textureAtlas){
-		debugRenderer = new Box2DDebugRenderer();
+		parent.debugRenderer = new Box2DDebugRenderer();
 		this.textureAtlas = textureAtlas;
 		setupAnimations();
 	}
@@ -107,16 +112,20 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		checkInput(elapsedTime);
+		body.applyTorque(torque, true);
+		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
+				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
+		setRotation((float)Math.toDegrees(body.getAngle()));
 	}
 
-	private void checkInput(float elapsedTime){
-		/*if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-			this.translateX(-1f);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			this.translateX(1f);
-		}*/
+	public void setBody(Body b){
+		body = b;
 	}
+
+	public Body getBody(){
+		return body;
+	}
+
+
 
 }
