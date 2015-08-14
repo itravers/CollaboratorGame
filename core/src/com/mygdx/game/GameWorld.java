@@ -23,7 +23,7 @@ public class GameWorld {
     private GameMenu menu;
     private Player player;
     private String playerName;
-    //private ArrayList <Planet> planets;
+    private ArrayList <Planet> planets;
     private ArrayList<Player> ghosts;
     private SpriteBatch batch;
     private BitmapFont font;
@@ -44,6 +44,9 @@ public class GameWorld {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         player = new Player(atlas, world);
         player.setPosition(0, 0);
+        planets = new ArrayList<Planet>();
+        TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+        planets.add(new Planet(planetAtlas));
 
     }
 
@@ -105,7 +108,7 @@ public class GameWorld {
     }
 
     private void renderPlanets(float elapsedTime, SpriteBatch batch){
-
+        for(int i = 0; i < planets.size(); i++) planets.get(i).render(elapsedTime, batch);
     }
 
     private void renderGhosts(float elapsedTime, SpriteBatch batch){

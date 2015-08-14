@@ -1,0 +1,347 @@
+planetSprites.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0000
+  rotate: false
+  xy: 2, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 9
+0001
+  rotate: false
+  xy: 108, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 8
+0002
+  rotate: false
+  xy: 214, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 7
+0003
+  rotate: false
+  xy: 320, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 6
+0004
+  rotate: false
+  xy: 426, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 5
+0005
+  rotate: false
+  xy: 532, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 48
+0006
+  rotate: false
+  xy: 638, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 47
+0007
+  rotate: false
+  xy: 744, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 46
+0008
+  rotate: false
+  xy: 850, 2
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 45
+0009
+  rotate: false
+  xy: 2, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 44
+0010
+  rotate: false
+  xy: 108, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 43
+0011
+  rotate: false
+  xy: 214, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 42
+0012
+  rotate: false
+  xy: 320, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 41
+planet
+  rotate: false
+  xy: 426, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 40
+planet
+  rotate: false
+  xy: 532, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 4
+planet
+  rotate: false
+  xy: 638, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 39
+planet
+  rotate: false
+  xy: 744, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 38
+planet
+  rotate: false
+  xy: 850, 108
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 37
+planet
+  rotate: false
+  xy: 2, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 36
+planet
+  rotate: false
+  xy: 108, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 35
+planet
+  rotate: false
+  xy: 214, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 34
+planet
+  rotate: false
+  xy: 320, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 33
+planet
+  rotate: false
+  xy: 426, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 32
+planet
+  rotate: false
+  xy: 532, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 31
+planet
+  rotate: false
+  xy: 638, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 30
+planet
+  rotate: false
+  xy: 744, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 3
+planet
+  rotate: false
+  xy: 850, 214
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 29
+planet
+  rotate: false
+  xy: 2, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 28
+planet
+  rotate: false
+  xy: 108, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 27
+planet
+  rotate: false
+  xy: 214, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 26
+planet
+  rotate: false
+  xy: 320, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 25
+planet
+  rotate: false
+  xy: 426, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 24
+planet
+  rotate: false
+  xy: 532, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 23
+planet
+  rotate: false
+  xy: 638, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 22
+planet
+  rotate: false
+  xy: 744, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 21
+planet
+  rotate: false
+  xy: 850, 320
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 20
+planet
+  rotate: false
+  xy: 2, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 2
+planet
+  rotate: false
+  xy: 108, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 19
+planet
+  rotate: false
+  xy: 214, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 18
+planet
+  rotate: false
+  xy: 320, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 17
+planet
+  rotate: false
+  xy: 426, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 16
+planet
+  rotate: false
+  xy: 532, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 15
+planet
+  rotate: false
+  xy: 638, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 14
+planet
+  rotate: false
+  xy: 744, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 13
+planet
+  rotate: false
+  xy: 850, 426
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 12
+planet
+  rotate: false
+  xy: 2, 532
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 11
+planet
+  rotate: false
+  xy: 108, 532
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 10
+planet
+  rotate: false
+  xy: 214, 532
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 1
+planet
+  rotate: false
+  xy: 320, 532
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: 0
