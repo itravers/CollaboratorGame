@@ -72,12 +72,12 @@ public class Player extends Sprite {
 		bodyDef.position.set((getX()+getWidth()/2) / parent.PIXELS_TO_METERS,
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
+		body.setLinearDamping(1f);
 		shape = new PolygonShape();
 		shape.setAsBox((getWidth()/2) / parent.PIXELS_TO_METERS, (getHeight() / 2) / parent.PIXELS_TO_METERS );
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
-		fixtureDef.friction = 1f;
 		fixture = body.createFixture(fixtureDef);
 		//shape.dispose();
 	}
