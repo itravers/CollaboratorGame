@@ -70,7 +70,7 @@ public class Player extends Sprite {
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
 		shape = new PolygonShape();
-		shape.setAsBox(50, 50);
+		shape.setAsBox((getWidth()/2) / parent.PIXELS_TO_METERS, (getHeight() / 2) / parent.PIXELS_TO_METERS );
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
