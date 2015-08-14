@@ -160,6 +160,7 @@ public class GameWorld  implements InputProcessor {
         if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY) player.backwardPressed = true;
         if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
         if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateLeftPressed  = true;
+        if(keycode == Input.Keys.ESCAPE) drawSprite = ! drawSprite;
         return true;
     }
 

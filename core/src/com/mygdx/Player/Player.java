@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -74,19 +75,20 @@ public class Player extends Sprite {
 		this.world = world;
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set((getX()+getWidth()/2) / parent.PIXELS_TO_METERS,
+		bodyDef.position.set((getX() + getWidth()  / 2) / parent.PIXELS_TO_METERS,
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
 		body.setLinearDamping(1f);
 		body.setAngularDamping(1f);
 		shape = new PolygonShape();
-		shape.setAsBox((getWidth()/2) / parent.PIXELS_TO_METERS, (getHeight() / 2) / parent.PIXELS_TO_METERS );
+		shape.setAsBox((getWidth()  / 2) / parent.PIXELS_TO_METERS,
+				       (getHeight() / 2) / parent.PIXELS_TO_METERS);
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.friction = 1f;
 		fixture = body.createFixture(fixtureDef);
-		//shape.dispose();
+		shape.dispose();
 	}
 
 	/**
@@ -124,7 +126,13 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		if(forwardPressed) body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
+		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle()));
+		Vector2 pos = body.getPosition();
+		if(forwardPressed) {
+			System.out.println("impulse= " + impulse.x + ":" + impulse.y);
+			body.applyLinearImpulse(impulse, pos, true);
+		}
+		//if(forwardPressed) body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
 		if(backwardPressed) body.applyLinearImpulse(0, -2f, body.getPosition().x, body.getPosition().y, true);
 		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
 		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
