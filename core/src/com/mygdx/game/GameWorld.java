@@ -162,7 +162,7 @@ public class GameWorld  implements InputProcessor {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         world.step(1f / 60f, 6, 2);
-        
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
@@ -269,6 +269,14 @@ public class GameWorld  implements InputProcessor {
      */
     public String getPlayerName(){
         return playerName;
+    }
+
+    public ArrayList<Planet> getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(ArrayList<Planet> planets) {
+        this.planets = planets;
     }
 
     /**

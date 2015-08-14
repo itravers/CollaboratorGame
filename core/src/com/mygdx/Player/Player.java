@@ -14,6 +14,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.GameWorld;
+import com.mygdx.game.Planet;
+
+import java.util.ArrayList;
 
 /**
  * The Player Sprites
@@ -136,9 +139,28 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+		applyInput(elapsedTime);
+		applyGravity(elapsedTime);
+		body.applyTorque(torque, true);
+		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
+				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
+		setRotation((float)Math.toDegrees(body.getAngle()));
+	}
 
+	/**
+	 * We will apply orbital gravity, we will need to loop through all planets to add gravity.
+	 */
+	private void applyGravity(){
+		ArrayList<Planet> planets = parent.getPlanets();
+		for(int i = 0; i < planets.size(); i++){
+			
+		}
+	}
+
+	private void applyInput(){
+		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
 		Vector2 pos = body.getPosition();
+
 		if(forwardPressed || backwardPressed){
 			currentAnimation = moveForwardAnimation;
 		}else{
@@ -149,14 +171,8 @@ public class Player extends Sprite {
 			impulse = impulse.rotate(180f);
 			body.applyLinearImpulse(impulse, pos, true);
 		}
-
 		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
 		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
-
-		body.applyTorque(torque, true);
-		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
-				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
-		setRotation((float)Math.toDegrees(body.getAngle()));
 	}
 
 	public void setBody(Body b){
