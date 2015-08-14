@@ -25,6 +25,8 @@ public class Player extends Sprite {
 	private TextureAtlas textureAtlas;
 	private Animation animation;
 	private Animation moveForwardAnimation;
+	private Animation noMovementAnimation;
+	private TextureRegion[] noMovementAnimationFrames;
 	private Animation currentAnimation;
 
 	// Physics Oriented Fields
@@ -62,9 +64,9 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		batch.draw(moveForwardAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
-				   this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-		           this.getScaleX(), this.getScaleY(), this.getRotation());
+		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+				this.getScaleX(), this.getScaleY(), this.getRotation());
 	}
 
 	/**
@@ -107,7 +109,8 @@ public class Player extends Sprite {
 	private void setupAnimations(){
 		animation = new Animation(1/15f, textureAtlas.getRegions());
 		setupMoveForwardAnimation();
-		currentAnimation = moveForwardAnimation;
+		setupNoMovementAnimation();
+		currentAnimation = noMovementAnimation;
 	}
 
 	/**
@@ -125,16 +128,28 @@ public class Player extends Sprite {
 		moveForwardAnimation = new Animation(1/15f, moveForwardFrames);
 	}
 
+	private void setupNoMovementAnimation(){
+		noMovementAnimationFrames = new TextureRegion[2];
+		noMovementAnimationFrames[0] = (textureAtlas.findRegion("0005"));
+		noMovementAnimationFrames[1] = (textureAtlas.findRegion("0005"));
+		noMovementAnimation = new Animation(1/2f, noMovementAnimationFrames);
+	}
+
 	public void update(float elapsedTime){
 		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
 
 		Vector2 pos = body.getPosition();
-		if(forwardPressed) {
-			System.out.println("impulse= " + impulse.x + ":" + impulse.y);
+		if(forwardPressed || backwardPressed){
+			currentAnimation = moveForwardAnimation;
+		}else{
+			currentAnimation = noMovementAnimation;
+		}
+		if(forwardPressed) body.applyLinearImpulse(impulse, pos, true);
+		if(backwardPressed){
+			impulse = impulse.rotate(180f);
 			body.applyLinearImpulse(impulse, pos, true);
 		}
-		//if(forwardPressed) body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
-		if(backwardPressed) body.applyLinearImpulse(0, -2f, body.getPosition().x, body.getPosition().y, true);
+
 		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
 		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
 
