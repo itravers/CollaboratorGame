@@ -13,48 +13,120 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
 import java.util.ArrayList;
-
-
 
 /**
  * Created by Isaac Assegai on 8/13/2015.
  */
 public class GameWorld  implements InputProcessor {
     public MyGdxGame parent;  /* Parent */
-    private GameMenu menu;
-    private Player player;
-    private String playerName;
-    private ArrayList <Planet> planets;
-    private ArrayList<Player> ghosts;
-    private SpriteBatch batch;
-    private BitmapFont font;
-    private GlyphLayout layout; /* Used to get bounds of fonts. */
-    private OrthographicCamera camera;
-    private World world; /* box2d physics world. */
-    public Box2DDebugRenderer debugRenderer;
-    private Matrix4 debugMatrix;
 
-    public final float PIXELS_TO_METERS = 10f;
+    // Rendering Related Fields
+    private GameMenu menu;
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
+    private Matrix4 debugMatrix;
+    private Matrix4 originalProjectionMatrix;
+    public Box2DDebugRenderer debugRenderer;
     public boolean drawSprite = true;
 
+    //UI Related Fields
+    private Skin skin;
+    private Label nameLabel;
+    private Label elapsedTimeLabel;
+    private Stage stage; //for drawing ui
+    private BitmapFont font;
+    private GlyphLayout layout; /* Used to get bounds of fonts. */
+
+    // Physics Related Fields
+    private World world; /* box2d physics world. */
+
+    // Player Related Fields
+    private Player player;
+    private String playerName;
+
+    // Ghost Related Fields
+    private ArrayList<Player> ghosts;
+
+    // Planet Related Fields
+    private ArrayList <Planet> planets;
+
+    // Constant Fields
+    public final float PIXELS_TO_METERS = 10f;
+
+    /**
+     * Creates a new game world. Sets up all needed pieces.
+     * @param p The Parent wrapper of the game world.
+     */
     public GameWorld(MyGdxGame p){
         parent = p;
-        batch = new SpriteBatch();
-        menu = new GameMenu(this, batch);
-        font = new BitmapFont();
-        font.setColor(Color.RED);
-        layout = new GlyphLayout();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.setProjectionMatrix(camera.combined);
-        world = new World(new Vector2(0, 0), false);
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        player = new Player(atlas, world, this);
-        player.setPosition(0, 0);
+        setupRendering();
+        setupPhysics();
+        setupPlayer();
+        setupGhosts();
+        setupPlanets();
+    }
+
+    /**
+     * Setup players ghosts
+     */
+    private void setupGhosts(){
+        //setup ghosts here
+    }
+
+    /**
+     * Setup planets in the world
+     */
+    private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         planets.add(new Planet(planetAtlas, world, this));
+    }
+
+    /**
+     * Setup the player
+     */
+    private void setupPlayer(){
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+        player = new Player(atlas, world, this);
+        player.setPosition(0, 0);
+    }
+
+    /**
+     * Setup the worlds physics.
+     */
+    private void setupPhysics(){
+        world = new World(new Vector2(0, 0), false);
+    }
+
+    /**
+     * Prepare objects for rendering.
+     */
+    private void setupRendering(){
+        setupUI();
+        batch = new SpriteBatch();
+        menu = new GameMenu(this, batch);
+
+        layout = new GlyphLayout();
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        originalProjectionMatrix = batch.getProjectionMatrix();
+        batch.setProjectionMatrix(camera.combined);
+    }
+
+    private void setupUI(){
+       // layout.setText(font, playerName);
+        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        nameLabel = new Label("NAME", skin, "default");
+        nameLabel.setPosition(0, Gdx.graphics.getHeight() - 20);
+        elapsedTimeLabel = new Label("ELAPSEDTIME", skin, "default");
+        elapsedTimeLabel.setPosition(nameLabel.getWidth() + 2, Gdx.graphics.getHeight() - 20);
+        stage = new Stage();
+        stage.addActor(nameLabel);
+        stage.addActor(elapsedTimeLabel);
     }
 
     /**
@@ -79,8 +151,14 @@ public class GameWorld  implements InputProcessor {
         menu.render(elapsedTime);
     }
 
-    private void renderInGame(float elapsedTime){
+    /**
+     * Renders the game itself
+     * @param elapsedTime The time passed
+     */
+    private void renderInGame(float elapsedTime) {
+        camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
+        batch.setProjectionMatrix(camera.combined);
         world.step(1f / 60f, 6, 2);
         updatePlayer(elapsedTime);
         updatePlanets(elapsedTime);
@@ -90,53 +168,91 @@ public class GameWorld  implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
         batch.begin();
-        if(drawSprite){
+        if(drawSprite){ /* Draw sprites if true */
             renderPlayer(elapsedTime, batch);
             renderPlanets(elapsedTime, batch);
             renderGhosts(elapsedTime, batch);
         }
-        renderUI(elapsedTime, batch);
+        renderUI(elapsedTime, batch); /* Render UI even if sprites are invisible. */
         batch.end();
-        debugRenderer.render(world, debugMatrix);
+        debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
     }
 
+    /**
+     * Renders the score sheet, etc.
+     * @param elapsedTime The time elapsed
+     */
     private void renderPostGame(float elapsedTime){
 
     }
 
+    /**
+     * Updates the player
+     * @param elapsedTime The time passed
+     */
     private void updatePlayer(float elapsedTime) {
         player.update(elapsedTime);
     }
 
+    /**
+     * Updates the planets
+     * @param elapsedTime The time passed
+     */
     private void updatePlanets(float elapsedTime){
-
+        // Update Planets here
     }
 
+    /**
+     * Update the ghosts
+     * @param elapsedTime The time passed
+     */
     private void updateGhosts(float elapsedTime){
-
+        //Update Ghosts here.
     }
 
+    /**
+     * Renders the player
+     * @param elapsedTime The time passed
+     * @param batch The SpriteBatch we render with.
+     */
     private void renderPlayer(float elapsedTime, SpriteBatch batch){
         player.render(elapsedTime, batch);
     }
 
+    /**
+     * Render the planets
+     * @param elapsedTime The time passed
+     * @param batch The SpriteBatch we render with
+     */
     private void renderPlanets(float elapsedTime, SpriteBatch batch){
         for(int i = 0; i < planets.size(); i++) planets.get(i).render(elapsedTime, batch);
     }
 
+    /**
+     * Render the players ghosts
+     * @param elapsedTime The time passed
+     * @param batch The SpriteBatch we render with
+     */
     private void renderGhosts(float elapsedTime, SpriteBatch batch){
-
+        //Render Ghosts here.
     }
 
+    /**
+     * Render the UI Overlay
+     * @param elapsedTime The time passed.
+     * @param batch The SpriteBatch we render with.
+     */
     private void renderUI(float elapsedTime, SpriteBatch batch){
+        elapsedTimeLabel.setText(new Float(elapsedTime).toString());
+        stage.draw();
+        /*
         String msg = "ElapsedTime: " + elapsedTime;
         layout.setText(font, playerName);
         font.draw(batch, msg, -Gdx.graphics.getWidth()/2 + layout.width, Gdx.graphics.getHeight()/2);
         Color oldColor = Color.RED;
         font.setColor(Color.GREEN);
-        font.draw(batch, playerName, -Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        font.setColor(oldColor);
-       // font.draw(batch, "test", -50, 0);
+        font.draw(batch, playerName, -Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        font.setColor(oldColor);*/
     }
 
     /**
@@ -146,12 +262,24 @@ public class GameWorld  implements InputProcessor {
     public void setPlayerName(String name){
         Gdx.input.setInputProcessor(this);
         playerName = name;
+        nameLabel.setText(playerName);
+        //nameLabel.setText("this is just a test");
+        elapsedTimeLabel.setPosition(Gdx.graphics.getWidth()-elapsedTimeLabel.getWidth(), nameLabel.getY());
     }
 
+    /**
+     * Returns the players name.
+     * @return The players name.
+     */
     public String getPlayerName(){
         return playerName;
     }
 
+    /**
+     * Listens for key presses.
+     * @param keycode The code of the key pressed
+     * @return returns true when done. False if there is a problem.
+     */
     @Override
     public boolean keyDown(int keycode) {
         Vector2 vel = player.getBody().getLinearVelocity();
@@ -164,6 +292,11 @@ public class GameWorld  implements InputProcessor {
         return true;
     }
 
+    /**
+     * Listens for key releases
+     * @param keycode The code of the key released.
+     * @return Returns true if good, false if not.
+     */
     @Override
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.W) player.forwardPressed = false;
@@ -173,11 +306,24 @@ public class GameWorld  implements InputProcessor {
         return true;
     }
 
+    /**
+     * Listens for key typing, should probably use keyDown and keyUp instead.
+     * @param character
+     * @return
+     */
     @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
+    /**
+     * Touch listener for mouse or touchscreen
+     * @param screenX The X coords
+     * @param screenY The Y coords
+     * @param pointer
+     * @param button
+     * @return
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
