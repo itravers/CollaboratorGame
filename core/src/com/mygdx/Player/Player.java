@@ -1,9 +1,7 @@
 package com.mygdx.Player;
 
-
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,6 +14,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+/**
+ * The Player Sprites
+ */
 public class Player extends Sprite {
 	// Rendering Oriented Fields
 	private TextureRegion[] moveForwardFrames;
@@ -32,18 +33,30 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 
-	 
+	/**
+	 * Player Constructor
+	 * @param textureAtlas The spritesheet, etc
+	 * @param world The physics world the player exists in.
+	 */
 	public Player(TextureAtlas textureAtlas, World world){
 		super(textureAtlas.getRegions().first());
 		setupRendering(textureAtlas);
 		setupPhysics(world);
-
 	}
 
+	/**
+	 * Render the player with it's current animation.
+	 * @param elapsedTime Time passed since start of simulation.
+	 * @param batch The GL batch renderer.
+	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		batch.draw(moveForwardAnimation.getKeyFrame(elapsedTime, true), -this.getWidth()/2, -this.getHeight()/2);
+		batch.draw(moveForwardAnimation.getKeyFrame(elapsedTime, true), getX(), getY());
 	}
 
+	/**
+	 * Initialize players physics.
+	 * @param world The physics world the player exists in.
+	 */
 	private void setupPhysics(World world){
 		this.world = world;
 		bodyDef = new BodyDef();
@@ -58,18 +71,27 @@ public class Player extends Sprite {
 		fixture = body.createFixture(fixtureDef);
 	}
 
+	/**
+	 * Initialze player rendering.
+	 * @param textureAtlas The spritesheet for the player.
+	 */
 	private void setupRendering(TextureAtlas textureAtlas){
 		this.textureAtlas = textureAtlas;
-
 		setupAnimations();
 	}
 
+	/**
+	 * Initializes player animations.
+	 */
 	private void setupAnimations(){
 		animation = new Animation(1/15f, textureAtlas.getRegions());
 		setupMoveForwardAnimation();
 		currentAnimation = moveForwardAnimation;
 	}
 
+	/**
+	 * Gets our forward animation from the sprite sheet.
+	 */
 	private void setupMoveForwardAnimation(){
 		moveForwardFrames = new TextureRegion[7];
 		moveForwardFrames[0] = (textureAtlas.findRegion("0005"));
@@ -80,6 +102,19 @@ public class Player extends Sprite {
 		moveForwardFrames[5] = (textureAtlas.findRegion("0006"));
 		moveForwardFrames[6] = (textureAtlas.findRegion("0005"));
 		moveForwardAnimation = new Animation(1/15f, moveForwardFrames);
+	}
+
+	public void update(float elapsedTime){
+		checkInput(elapsedTime);
+	}
+
+	private void checkInput(float elapsedTime){
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			this.translateX(-1f);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			this.translateX(1f);
+		}
 	}
 
 }

@@ -93,6 +93,7 @@ public class GameWorld {
     }
 
     private void updatePlayer(float elapsedTime) {
+        player.update(elapsedTime);
     }
 
     private void updatePlanets(float elapsedTime){
