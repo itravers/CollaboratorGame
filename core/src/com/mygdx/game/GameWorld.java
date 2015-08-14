@@ -124,6 +124,8 @@ public class GameWorld  implements InputProcessor {
         nameLabel.setPosition(0, Gdx.graphics.getHeight() - 20);
         elapsedTimeLabel = new Label("ELAPSEDTIME", skin, "default");
         elapsedTimeLabel.setPosition(nameLabel.getWidth() + 2, Gdx.graphics.getHeight() - 20);
+        nameLabel.setColor(Color.GREEN);
+        elapsedTimeLabel.setColor(Color.RED);
         stage = new Stage();
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
@@ -244,15 +246,7 @@ public class GameWorld  implements InputProcessor {
      */
     private void renderUI(float elapsedTime, SpriteBatch batch){
         elapsedTimeLabel.setText(new Float(elapsedTime).toString());
-        stage.draw();
-        /*
-        String msg = "ElapsedTime: " + elapsedTime;
-        layout.setText(font, playerName);
-        font.draw(batch, msg, -Gdx.graphics.getWidth()/2 + layout.width, Gdx.graphics.getHeight()/2);
-        Color oldColor = Color.RED;
-        font.setColor(Color.GREEN);
-        font.draw(batch, playerName, -Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        font.setColor(oldColor);*/
+       // stage.draw();
     }
 
     /**
@@ -263,7 +257,6 @@ public class GameWorld  implements InputProcessor {
         Gdx.input.setInputProcessor(this);
         playerName = name;
         nameLabel.setText(playerName);
-        //nameLabel.setText("this is just a test");
         elapsedTimeLabel.setPosition(Gdx.graphics.getWidth()-elapsedTimeLabel.getWidth(), nameLabel.getY());
     }
 

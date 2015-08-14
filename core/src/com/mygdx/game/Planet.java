@@ -37,7 +37,10 @@ public class Planet extends Sprite {
     }
 
     public void render(float elapsedTime, SpriteBatch batch){
-        batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), 0, 0);
+       // batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), 0, 0);
+        batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+                this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+                this.getScaleX(), this.getScaleY(), this.getRotation());
     }
 
     private void setupRendering(TextureAtlas textureAtlas){
