@@ -69,7 +69,7 @@ public class Planet extends Sprite {
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 10f;
-        fixtureDef.friction = 1f;
+        fixtureDef.friction = .5f;
         fixture = body.createFixture(fixtureDef);
         shape.dispose();
     }

@@ -41,8 +41,8 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 	private float torque = 0.0f;
-	public float MAX_VELOCITY = 40f;
-	public float MAX_ANGULAR_VELOCITY = 10f;
+	public float MAX_VELOCITY = 80f;
+	public float MAX_ANGULAR_VELOCITY = 20f;
 
 	//Inputs
 	public boolean forwardPressed = false;
@@ -91,8 +91,8 @@ public class Player extends Sprite {
 				       (getHeight() / 2) / parent.PIXELS_TO_METERS);
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 1f;
-		fixtureDef.friction = 1f;
+		fixtureDef.density = 1.25f;
+		fixtureDef.friction = .5f;
 		fixture = body.createFixture(fixtureDef);
 		shape.dispose();
 	}
@@ -173,7 +173,8 @@ public class Player extends Sprite {
 			force = force.add(preForce);
 		}
 		float elapsedTimeInLastFrame = elapsedTime - lastFrameTime;
-		force = force.scl(elapsedTimeInLastFrame/1000);
+		lastFrameTime = elapsedTime;
+		force = force.scl(elapsedTimeInLastFrame);
 		System.out.println("force = " + force.x + ":" + force.y);
 		this.getBody().applyForce(force, body.getPosition(), true);
 	}
