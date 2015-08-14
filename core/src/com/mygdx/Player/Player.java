@@ -1,13 +1,12 @@
 package com.mygdx.Player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
  */
 public class Player extends Sprite {
 	// Rendering Oriented Fields
+	private Box2DDebugRenderer debugRenderer;
 	private TextureRegion[] moveForwardFrames;
 	private TextureAtlas textureAtlas;
 	private Animation animation;
@@ -69,6 +69,7 @@ public class Player extends Sprite {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixture = body.createFixture(fixtureDef);
+		shape.dispose();
 	}
 
 	/**
@@ -76,6 +77,7 @@ public class Player extends Sprite {
 	 * @param textureAtlas The spritesheet for the player.
 	 */
 	private void setupRendering(TextureAtlas textureAtlas){
+		debugRenderer = new Box2DDebugRenderer();
 		this.textureAtlas = textureAtlas;
 		setupAnimations();
 	}
@@ -109,12 +111,12 @@ public class Player extends Sprite {
 	}
 
 	private void checkInput(float elapsedTime){
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+		/*if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			this.translateX(-1f);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 			this.translateX(1f);
-		}
+		}*/
 	}
 
 }

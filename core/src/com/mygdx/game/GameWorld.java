@@ -1,5 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +20,7 @@ import javax.xml.soap.Text;
 /**
  * Created by Isaac Assegai on 8/13/2015.
  */
-public class GameWorld {
+public class GameWorld  implements InputProcessor {
     public MyGdxGame parent;  /* Parent */
     private GameMenu menu;
     private Player player;
@@ -31,6 +33,7 @@ public class GameWorld {
     private OrthographicCamera camera;
     private World world; /* box2d physics world. */
 
+    public final float PIXELS_TO_METERS = 100f;
 
     public GameWorld(MyGdxGame p){
         parent = p;
@@ -39,7 +42,8 @@ public class GameWorld {
         font = new BitmapFont();
         font.setColor(Color.RED);
         layout = new GlyphLayout();
-        camera = new OrthographicCamera(480, 800);
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.setProjectionMatrix(camera.combined);
         world = new World(new Vector2(0, 0), false);
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         player = new Player(atlas, world);
@@ -47,7 +51,6 @@ public class GameWorld {
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         planets.add(new Planet(planetAtlas));
-
     }
 
     /**
@@ -73,7 +76,7 @@ public class GameWorld {
     }
 
     private void renderInGame(float elapsedTime){
-        batch.setProjectionMatrix(camera.combined);
+        camera.update();
         updatePlayer(elapsedTime);
         updatePlanets(elapsedTime);
         updateGhosts(elapsedTime);
@@ -127,11 +130,64 @@ public class GameWorld {
        // font.draw(batch, "test", -50, 0);
     }
 
+    /**
+     * Called by menu when game starts
+     * @param name
+     */
     public void setPlayerName(String name){
+        Gdx.input.setInputProcessor(this);
         playerName = name;
     }
 
     public String getPlayerName(){
         return playerName;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        System.out.println("keydown " + keycode);
+        float moveAmount = 1.0f;
+        if(keycode == Input.Keys.LEFT){
+            player.translateX(-moveAmount);
+        }
+        if(keycode == Input.Keys.RIGHT){
+            player.translateX(moveAmount);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
