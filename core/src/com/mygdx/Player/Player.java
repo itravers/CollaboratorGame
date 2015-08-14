@@ -34,6 +34,9 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 	private float torque = 0.0f;
+	public float MAX_VELOCITY = 20f;
+
+	public boolean forwardPressed = false;
 
 	/**
 	 * Player Constructor
@@ -74,6 +77,7 @@ public class Player extends Sprite {
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
+		fixtureDef.friction = 1f;
 		fixture = body.createFixture(fixtureDef);
 		//shape.dispose();
 	}
@@ -113,6 +117,9 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
+		if(forwardPressed){
+			body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
+		}
 		body.applyTorque(torque, true);
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
 				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);

@@ -155,9 +155,19 @@ public class GameWorld  implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         System.out.println("keydown " + keycode);
-        float moveAmount = 1.0f;
+        float moveAmount = 2.0f;
+        Vector2 vel = player.getBody().getLinearVelocity();
+        Vector2 pos = player.getBody().getPosition();
+
+        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY){
+            player.forwardPressed = true;
+            // player.getBody().applyLinearImpulse(0, moveAmount, pos.x, pos.y, true);
+        }
+
+
+
         if(keycode == Input.Keys.LEFT){
-            player.getBody().setLinearVelocity(-1f, 0f);
+           // player.getBody().setLinearVelocity(-1f, 0f);
         }
         if(keycode == Input.Keys.RIGHT){
             player.getBody().setLinearVelocity(1f, 0f);
@@ -177,7 +187,11 @@ public class GameWorld  implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if(keycode == Input.Keys.W){
+            player.forwardPressed = false;
+            // player.getBody().applyLinearImpulse(0, moveAmount, pos.x, pos.y, true);
+        }
+        return true;
     }
 
     @Override
