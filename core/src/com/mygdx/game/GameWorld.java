@@ -171,12 +171,13 @@ public class GameWorld  implements InputProcessor {
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
-            renderPlayer(elapsedTime, batch);
             renderPlanets(elapsedTime, batch);
+            renderPlayer(elapsedTime, batch);
             renderGhosts(elapsedTime, batch);
         }
-        renderUI(elapsedTime, batch); /* Render UI even if sprites are invisible. */
+
         batch.end();
+        renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
     }
 
@@ -246,7 +247,7 @@ public class GameWorld  implements InputProcessor {
      */
     private void renderUI(float elapsedTime, SpriteBatch batch){
         elapsedTimeLabel.setText(new Float(elapsedTime).toString());
-       // stage.draw();
+        stage.draw();
     }
 
     /**
