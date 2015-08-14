@@ -154,23 +154,12 @@ public class GameWorld  implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println("keydown " + keycode);
-        float moveAmount = 2.0f;
         Vector2 vel = player.getBody().getLinearVelocity();
-        Vector2 pos = player.getBody().getPosition();
-
-        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY){
-            player.forwardPressed = true;
-        }
-
-        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY){
-            player.backwardPressed = true;
-        }
-
-
-
-
-
+        float angularVelocity = player.getBody().getAngularVelocity();
+        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY) player.forwardPressed  = true;
+        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY) player.backwardPressed = true;
+        if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
+        if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateLeftPressed  = true;
         return true;
     }
 
@@ -178,7 +167,8 @@ public class GameWorld  implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.W) player.forwardPressed = false;
         if(keycode == Input.Keys.S) player.backwardPressed = false;
-
+        if(keycode == Input.Keys.Q) player.rotateRightPressed = false;
+        if(keycode == Input.Keys.E) player.rotateLeftPressed  = false;
         return true;
     }
 

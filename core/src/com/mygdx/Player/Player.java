@@ -35,10 +35,13 @@ public class Player extends Sprite {
 	private World world;
 	private float torque = 0.0f;
 	public float MAX_VELOCITY = 20f;
+	public float MAX_ANGULAR_VELOCITY = 5f;
 
 	//Inputs
 	public boolean forwardPressed = false;
 	public boolean backwardPressed = false;
+	public boolean rotateRightPressed = false;
+	public boolean rotateLeftPressed = false;
 
 	/**
 	 * Player Constructor
@@ -75,11 +78,13 @@ public class Player extends Sprite {
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
 		body.setLinearDamping(1f);
+		body.setAngularDamping(1f);
 		shape = new PolygonShape();
 		shape.setAsBox((getWidth()/2) / parent.PIXELS_TO_METERS, (getHeight() / 2) / parent.PIXELS_TO_METERS );
 		fixtureDef  = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
+		fixtureDef.friction = 1f;
 		fixture = body.createFixture(fixtureDef);
 		//shape.dispose();
 	}
@@ -121,6 +126,8 @@ public class Player extends Sprite {
 	public void update(float elapsedTime){
 		if(forwardPressed) body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
 		if(backwardPressed) body.applyLinearImpulse(0, -2f, body.getPosition().x, body.getPosition().y, true);
+		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
+		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
 
 		body.applyTorque(torque, true);
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
