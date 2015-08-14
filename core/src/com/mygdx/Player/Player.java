@@ -66,7 +66,8 @@ public class Player extends Sprite {
 		this.world = world;
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set(getX(), getY());
+		bodyDef.position.set((getX()+getWidth()/2) / parent.PIXELS_TO_METERS,
+				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
 		shape = new PolygonShape();
 		shape.setAsBox(50, 50);
@@ -74,7 +75,7 @@ public class Player extends Sprite {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixture = body.createFixture(fixtureDef);
-		shape.dispose();
+		//shape.dispose();
 	}
 
 	/**

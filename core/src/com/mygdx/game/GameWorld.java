@@ -36,7 +36,8 @@ public class GameWorld  implements InputProcessor {
     public Box2DDebugRenderer debugRenderer;
     private Matrix4 debugMatrix;
 
-    public final float PIXELS_TO_METERS = 100f;
+    public final float PIXELS_TO_METERS = 10f;
+    public boolean drawSprite = true;
 
     public GameWorld(MyGdxGame p){
         parent = p;
@@ -89,9 +90,11 @@ public class GameWorld  implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
         batch.begin();
-        renderPlayer(elapsedTime, batch);
-        renderPlanets(elapsedTime, batch);
-        renderGhosts(elapsedTime, batch);
+        if(drawSprite){
+            renderPlayer(elapsedTime, batch);
+            renderPlanets(elapsedTime, batch);
+            renderGhosts(elapsedTime, batch);
+        }
         renderUI(elapsedTime, batch);
         batch.end();
         debugRenderer.render(world, debugMatrix);
@@ -165,6 +168,9 @@ public class GameWorld  implements InputProcessor {
         }
         if(keycode == Input.Keys.DOWN){
             player.getBody().setLinearVelocity(0f, -1f);
+        }
+        if(keycode == Input.Keys.ESCAPE){
+            drawSprite =! drawSprite;
         }
         return true;
     }
