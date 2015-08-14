@@ -5,10 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -28,11 +30,14 @@ public class GameWorld  implements InputProcessor {
     // Rendering Related Fields
     private GameMenu menu;
     private SpriteBatch batch;
-    private OrthographicCamera camera;
+    private SpriteBatch backGroundBatch;
+    private OrthographicCamera camera; //drawing game pieces
+    private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
     private Matrix4 originalProjectionMatrix;
     public Box2DDebugRenderer debugRenderer;
     public boolean drawSprite = true;
+    private TextureRegion[] backgroundLayers; //Parallax background
 
     //UI Related Fields
     private Skin skin;
@@ -108,15 +113,26 @@ public class GameWorld  implements InputProcessor {
      */
     private void setupRendering(){
         setupUI();
+        setupBackground();
         batch = new SpriteBatch();
+        backGroundBatch = new SpriteBatch();
         menu = new GameMenu(this, batch);
 
         layout = new GlyphLayout();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        originalProjectionMatrix = batch.getProjectionMatrix();
+        backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
+        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
     }
 
+    private void setupBackground(){
+        Texture background = new Texture(Gdx.files.internal("data/background.png"));
+        backgroundLayers = new TextureRegion[3];
+        backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
+
+
+
+    }
     private void setupUI(){
        // layout.setText(font, playerName);
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
@@ -161,18 +177,21 @@ public class GameWorld  implements InputProcessor {
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        backgroundCamera.position.set(player.getX(), player.getY(), 0);
+        backgroundCamera.update();
+        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         world.step(1f / 60f, 6, 2);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
+        renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
             renderPlanets(elapsedTime, batch);
             renderPlayer(elapsedTime, batch);
             renderGhosts(elapsedTime, batch);
         }
-
         batch.end();
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
@@ -181,6 +200,18 @@ public class GameWorld  implements InputProcessor {
         updatePlayer(elapsedTime);
         updatePlanets(elapsedTime);
         updateGhosts(elapsedTime);
+    }
+
+    private void renderBackground(float elapsedTime, SpriteBatch batch){
+        Matrix4 temp = batch.getProjectionMatrix();
+        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.5f, .5f));
+        backGroundBatch.disableBlending();
+        backGroundBatch.begin();
+        backGroundBatch.draw(backgroundLayers[0], -(int) (backgroundLayers[0].getRegionWidth() / 2),
+                -(int) (backgroundLayers[0].getRegionHeight() / 2));
+        backGroundBatch.end();
+        backGroundBatch.enableBlending();
+        backGroundBatch.setProjectionMatrix(temp);
     }
 
     /**

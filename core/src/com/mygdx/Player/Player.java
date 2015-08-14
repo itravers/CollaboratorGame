@@ -175,7 +175,7 @@ public class Player extends Sprite {
 		float elapsedTimeInLastFrame = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
 		force = force.scl(elapsedTimeInLastFrame);
-		System.out.println("force = " + force.x + ":" + force.y);
+		//System.out.println("force = " + force.x + ":" + force.y);
 		this.getBody().applyForce(force, body.getPosition(), true);
 	}
 
