@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,6 +27,8 @@ public class GameMenu {
     private Label nameLabel;
     private TextField textField;
     private TextButton button;
+    private TextButton landscapeButton;
+    private TextButton portraitButton;
 
     public GameMenu(GameWorld p, SpriteBatch b){
         System.out.println("init gamemenu");
@@ -40,8 +44,8 @@ public class GameMenu {
         nameLabel.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 + 30f);
 
         textField = new TextField("", skin, "default");
-        textField.addListener(new InputListener(){
-            public void clicked(InputEvent event, float x, float y){
+        textField.addListener(new InputListener() {
+            public void clicked(InputEvent event, float x, float y) {
                 System.out.println("event happens");
                 textField.clear();
             }
@@ -64,9 +68,37 @@ public class GameMenu {
             }
         });
 
+        landscapeButton = new TextButton("Landscape", skin, "default");
+        portraitButton = new TextButton("Portrait", skin, "default");
+
+        landscapeButton.setWidth(100f);
+        landscapeButton.setHeight(20f);
+        portraitButton.setWidth(100f);
+        portraitButton.setHeight(20f);
+
+        landscapeButton.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 30f);
+        portraitButton.setPosition(Gdx.graphics.getWidth() / 2 - 0f, Gdx.graphics.getHeight() / 2 - 30f);
+
+        landscapeButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                button.setText("Setting Landscape Mode");
+
+            }
+        });
+
+        portraitButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                button.setText("Setting Portrait Mode");
+
+            }
+        });
+
+
         stage.addActor(nameLabel);
         stage.addActor(textField);
         stage.addActor(button);
+        stage.addActor(landscapeButton);
+        stage.addActor(portraitButton);
         Gdx.input.setInputProcessor(stage);
     }
 
