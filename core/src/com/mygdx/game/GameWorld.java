@@ -162,10 +162,7 @@ public class GameWorld  implements InputProcessor {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         world.step(1f / 60f, 6, 2);
-        updatePlayer(elapsedTime);
-        updatePlanets(elapsedTime);
-        updateGhosts(elapsedTime);
-
+        
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
@@ -179,6 +176,11 @@ public class GameWorld  implements InputProcessor {
         batch.end();
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
+
+        //Update after rendering, this will be rendered next frame
+        updatePlayer(elapsedTime);
+        updatePlanets(elapsedTime);
+        updateGhosts(elapsedTime);
     }
 
     /**
