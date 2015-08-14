@@ -31,6 +31,7 @@ public class Player extends Sprite {
 	private Animation noMovementAnimation;
 	private TextureRegion[] noMovementAnimationFrames;
 	private Animation currentAnimation;
+	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
 
 	// Physics Oriented Fields
 	private BodyDef bodyDef;
@@ -171,7 +172,8 @@ public class Player extends Sprite {
 			preForce.set(preForce.x / distanceSQ, preForce.y / distanceSQ); //Divide by a scalar.
 			force = force.add(preForce);
 		}
-		force = force.scl(elapsedTime/1000);
+		float elapsedTimeInLastFrame = elapsedTime - lastFrameTime;
+		force = force.scl(elapsedTimeInLastFrame/1000);
 		System.out.println("force = " + force.x + ":" + force.y);
 		this.getBody().applyForce(force, body.getPosition(), true);
 	}
