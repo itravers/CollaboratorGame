@@ -54,7 +54,7 @@ public class GameWorld  implements InputProcessor {
         player.setPosition(0, 0);
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        planets.add(new Planet(planetAtlas));
+        planets.add(new Planet(planetAtlas, world, this));
     }
 
     /**

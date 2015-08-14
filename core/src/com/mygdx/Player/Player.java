@@ -166,7 +166,4 @@ public class Player extends Sprite {
 	public Body getBody(){
 		return body;
 	}
-
-
-
 }
