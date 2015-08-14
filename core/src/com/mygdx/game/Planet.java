@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -26,12 +27,14 @@ public class Planet extends Sprite {
     private Body body;
     private CircleShape shape;
     private World world;
+    private float mass; /* A Static body doesn't have a mass of it's own, so we need this. */
 
     private GameWorld parent;
 
-    public Planet(TextureAtlas textureAtlas, World world, GameWorld parent){
+    public Planet(TextureAtlas textureAtlas, World world, float mass, GameWorld parent){
         super(textureAtlas.getRegions().first());
         this.parent = parent;
+        this.mass = mass;
         setupRendering(textureAtlas);
         setupPhysics(world);
     }
@@ -55,11 +58,17 @@ public class Planet extends Sprite {
         bodyDef.position.set((this.getX() + this.getWidth()  / 2) / parent.PIXELS_TO_METERS,
                              (this.getY() + this.getHeight() / 2) / parent.PIXELS_TO_METERS);
         body = world.createBody(bodyDef);
+       // MassData massData = new MassData();
+       // massData.center.set(body.getPosition());
+       // massData.I = 1f;
+       // massData.mass = 100000f;
+        //body.setMassData(massData);
+
         shape = new CircleShape();
         shape.setRadius((getHeight() / 2) / parent.PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 10f;
         fixtureDef.friction = 1f;
         fixture = body.createFixture(fixtureDef);
         shape.dispose();
@@ -67,5 +76,22 @@ public class Planet extends Sprite {
 
     private void setupAnimations(){
         rotateAnimation = new Animation(1/16f, textureAtlas.getRegions());
+    }
+
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setBody(Body body) {
+        this.body = body;
+    }
+
+    public float getMass() {
+        return mass;
+    }
+
+    public void setMass(float mass) {
+        this.mass = mass;
     }
 }

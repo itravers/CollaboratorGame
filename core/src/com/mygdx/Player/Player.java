@@ -150,14 +150,33 @@ public class Player extends Sprite {
 	/**
 	 * We will apply orbital gravity, we will need to loop through all planets to add gravity.
 	 */
-	private void applyGravity(){
+	private void applyGravity(float elapsedTime){
 		ArrayList<Planet> planets = parent.getPlanets();
+		Vector2 force = new Vector2(0, 0);
+		Vector2 preForce = new Vector2(0, 0);
 		for(int i = 0; i < planets.size(); i++){
-			
+			Planet p = planets.get(i);
+			float g = .08f;
+			float pMass = p.getMass();
+			float sMass = this.getBody().getMass();
+			Vector2 pCenter = p.getBody().getPosition();
+			Vector2 sCenter = this.getBody().getPosition();
+			float distanceSQ = sCenter.dst2(pCenter); // Offset the position so we orbit around center of planet
+			float distance = sCenter.dst(pCenter);
+			float pRadius = p.getBody().getFixtureList().first().getShape().getRadius();
+			//calculate force here
+			preForce.set(0, 0);
+			preForce = (pCenter.sub(sCenter));
+			preForce = preForce.scl(g * pMass * sMass);
+			preForce.set(preForce.x / distanceSQ, preForce.y / distanceSQ); //Divide by a scalar.
+			force = force.add(preForce);
 		}
+		force = force.scl(elapsedTime/1000);
+		System.out.println("force = " + force.x + ":" + force.y);
+		this.getBody().applyForce(force, body.getPosition(), true);
 	}
 
-	private void applyInput(){
+	private void applyInput(float elapsedTime){
 		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
 		Vector2 pos = body.getPosition();
 
