@@ -161,36 +161,24 @@ public class GameWorld  implements InputProcessor {
 
         if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY){
             player.forwardPressed = true;
-            // player.getBody().applyLinearImpulse(0, moveAmount, pos.x, pos.y, true);
+        }
+
+        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY){
+            player.backwardPressed = true;
         }
 
 
 
-        if(keycode == Input.Keys.LEFT){
-           // player.getBody().setLinearVelocity(-1f, 0f);
-        }
-        if(keycode == Input.Keys.RIGHT){
-            player.getBody().setLinearVelocity(1f, 0f);
-        }
 
-        if(keycode == Input.Keys.UP){
-            player.getBody().setLinearVelocity(0f, 1f);
-        }
-        if(keycode == Input.Keys.DOWN){
-            player.getBody().setLinearVelocity(0f, -1f);
-        }
-        if(keycode == Input.Keys.ESCAPE){
-            drawSprite =! drawSprite;
-        }
+
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.W){
-            player.forwardPressed = false;
-            // player.getBody().applyLinearImpulse(0, moveAmount, pos.x, pos.y, true);
-        }
+        if(keycode == Input.Keys.W) player.forwardPressed = false;
+        if(keycode == Input.Keys.S) player.backwardPressed = false;
+
         return true;
     }
 

@@ -36,7 +36,9 @@ public class Player extends Sprite {
 	private float torque = 0.0f;
 	public float MAX_VELOCITY = 20f;
 
+	//Inputs
 	public boolean forwardPressed = false;
+	public boolean backwardPressed = false;
 
 	/**
 	 * Player Constructor
@@ -117,9 +119,9 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		if(forwardPressed){
-			body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
-		}
+		if(forwardPressed) body.applyLinearImpulse(0, 2f, body.getPosition().x, body.getPosition().y, true);
+		if(backwardPressed) body.applyLinearImpulse(0, -2f, body.getPosition().x, body.getPosition().y, true);
+
 		body.applyTorque(torque, true);
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
 				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
