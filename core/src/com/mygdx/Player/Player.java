@@ -35,8 +35,8 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 	private float torque = 0.0f;
-	public float MAX_VELOCITY = 20f;
-	public float MAX_ANGULAR_VELOCITY = 5f;
+	public float MAX_VELOCITY = 40f;
+	public float MAX_ANGULAR_VELOCITY = 10f;
 
 	//Inputs
 	public boolean forwardPressed = false;
@@ -78,8 +78,8 @@ public class Player extends Sprite {
 		bodyDef.position.set((getX() + getWidth()  / 2) / parent.PIXELS_TO_METERS,
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
-		body.setLinearDamping(1f);
-		body.setAngularDamping(1f);
+		body.setLinearDamping(.5f);
+		body.setAngularDamping(.5f);
 		shape = new PolygonShape();
 		shape.setAsBox((getWidth()  / 2) / parent.PIXELS_TO_METERS,
 				       (getHeight() / 2) / parent.PIXELS_TO_METERS);
@@ -126,7 +126,8 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle()));
+		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+
 		Vector2 pos = body.getPosition();
 		if(forwardPressed) {
 			System.out.println("impulse= " + impulse.x + ":" + impulse.y);
