@@ -127,11 +127,12 @@ public class GameWorld  implements InputProcessor {
 
     private void setupBackground(){
         Texture background = new Texture(Gdx.files.internal("data/background.png"));
+        Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
+        background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         backgroundLayers = new TextureRegion[3];
         backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-
-
-
+        backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+        //backgroundLayers[1].
     }
     private void setupUI(){
        // layout.setText(font, playerName);
@@ -204,13 +205,20 @@ public class GameWorld  implements InputProcessor {
 
     private void renderBackground(float elapsedTime, SpriteBatch batch){
         Matrix4 temp = batch.getProjectionMatrix();
-        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.5f, .5f));
+        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.1f, .1f));
         backGroundBatch.disableBlending();
         backGroundBatch.begin();
         backGroundBatch.draw(backgroundLayers[0], -(int) (backgroundLayers[0].getRegionWidth() / 2),
                 -(int) (backgroundLayers[0].getRegionHeight() / 2));
         backGroundBatch.end();
         backGroundBatch.enableBlending();
+
+        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.3f, .3f));
+        backGroundBatch.begin();
+        backGroundBatch.draw(backgroundLayers[1], -(int) (backgroundLayers[1].getRegionWidth() / 2),
+                -(int) (backgroundLayers[1].getRegionHeight() / 2));
+        backGroundBatch.end();
+
         backGroundBatch.setProjectionMatrix(temp);
     }
 
