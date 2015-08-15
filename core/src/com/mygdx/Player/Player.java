@@ -1,5 +1,6 @@
 package com.mygdx.Player;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -45,10 +46,11 @@ public class Player extends Sprite {
 	public float MAX_ANGULAR_VELOCITY = 20f;
 
 	//Inputs
-	public boolean forwardPressed = false;
-	public boolean backwardPressed = false;
-	public boolean rotateRightPressed = false;
-	public boolean rotateLeftPressed = false;
+	public boolean forwardPressed;
+	public boolean backwardPressed;
+	public boolean rotateRightPressed;
+	public boolean rotateLeftPressed;
+	public ArrayList<Input>inputList;
 
 	/**
 	 * Player Constructor
@@ -58,8 +60,17 @@ public class Player extends Sprite {
 	public Player(TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
 		this.parent = parent;
+		setupInputs();
 		setupRendering(textureAtlas);
 		setupPhysics(world);
+	}
+
+	private void setupInputs(){
+		forwardPressed = false;
+		backwardPressed = false;
+		rotateLeftPressed = false;
+		rotateRightPressed = false;
+		inputList = new ArrayList<Input>();
 	}
 
 	/**

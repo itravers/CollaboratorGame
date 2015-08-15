@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
 import java.util.ArrayList;
 
+import input.InputManager;
+
 /**
  * Created by Isaac Assegai on 8/13/2015.
  */
@@ -57,6 +59,9 @@ public class GameWorld  implements InputProcessor {
     // Ghost Related Fields
     private ArrayList<Player> ghosts;
 
+    //Input Related Fields
+    private InputManager inputManager;
+
     // Planet Related Fields
     private ArrayList <Planet> planets;
 
@@ -74,6 +79,7 @@ public class GameWorld  implements InputProcessor {
         setupPlayer();
         setupGhosts();
         setupPlanets();
+        inputManager = new InputManager(this);
     }
 
     /**
@@ -296,7 +302,7 @@ public class GameWorld  implements InputProcessor {
      * @param name
      */
     public void setPlayerName(String name){
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(inputManager);
         playerName = name;
         nameLabel.setText(playerName);
         elapsedTimeLabel.setPosition(Gdx.graphics.getWidth()-elapsedTimeLabel.getWidth(), nameLabel.getY());
@@ -318,77 +324,11 @@ public class GameWorld  implements InputProcessor {
         this.planets = planets;
     }
 
-    /**
-     * Listens for key presses.
-     * @param keycode The code of the key pressed
-     * @return returns true when done. False if there is a problem.
-     */
-    @Override
-    public boolean keyDown(int keycode) {
-        Vector2 vel = player.getBody().getLinearVelocity();
-        float angularVelocity = player.getBody().getAngularVelocity();
-        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY) player.forwardPressed  = true;
-        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY) player.backwardPressed = true;
-        if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
-        if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateLeftPressed  = true;
-        if(keycode == Input.Keys.ESCAPE) drawSprite = ! drawSprite;
-        return true;
+    public Player getPlayer() {
+        return player;
     }
 
-    /**
-     * Listens for key releases
-     * @param keycode The code of the key released.
-     * @return Returns true if good, false if not.
-     */
-    @Override
-    public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.W) player.forwardPressed = false;
-        if(keycode == Input.Keys.S) player.backwardPressed = false;
-        if(keycode == Input.Keys.Q) player.rotateRightPressed = false;
-        if(keycode == Input.Keys.E) player.rotateLeftPressed  = false;
-        return true;
-    }
-
-    /**
-     * Listens for key typing, should probably use keyDown and keyUp instead.
-     * @param character
-     * @return
-     */
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    /**
-     * Touch listener for mouse or touchscreen
-     * @param screenX The X coords
-     * @param screenY The Y coords
-     * @param pointer
-     * @param button
-     * @return
-     */
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
