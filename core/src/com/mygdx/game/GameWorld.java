@@ -102,7 +102,14 @@ public class GameWorld{
     private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        planets.add(new Planet(planetAtlas, world, 100000f, this));
+        TextureAtlas planetAtlas2 = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+        Vector2 pPos = new Vector2(0,0);
+        Vector2 p2Pos = new Vector2(0, 1000);
+        Planet p = new Planet(pPos, planetAtlas, world, 100000f, this);
+        Planet p2 = new Planet(p2Pos, planetAtlas2, world, 100000f, this);
+        planets.add(p);
+        planets.add(p2);
+
     }
 
     /**
@@ -297,7 +304,9 @@ public class GameWorld{
      * @param elapsedTime The time passed
      */
     private void updatePlanets(float elapsedTime){
-        // Update Planets here
+        for(int i = 0; i < planets.size(); i++){
+            planets.get(i).update(elapsedTime);
+        }
     }
 
     /**

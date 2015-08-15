@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -31,15 +32,17 @@ public class Planet extends Sprite {
 
     private GameWorld parent;
 
-    public Planet(TextureAtlas textureAtlas, World world, float mass, GameWorld parent){
+    public Planet(Vector2 pos, TextureAtlas textureAtlas, World world, float mass, GameWorld parent){
         super(textureAtlas.getRegions().first());
         this.parent = parent;
         this.mass = mass;
+        this.setPosition(pos.x, pos.y);
         setupRendering(textureAtlas);
         setupPhysics(world);
     }
 
     public void render(float elapsedTime, SpriteBatch batch){
+        System.out.println("Planet: " + getX() + " " + getY() + " Body: " + body.getPosition().x + " " + body.getPosition().y);
        // batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), 0, 0);
         batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
                 this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
@@ -55,8 +58,8 @@ public class Planet extends Sprite {
         this.world = world;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody; //Planets are not moving
-        bodyDef.position.set((this.getX() + this.getWidth()  / 2) / parent.PIXELS_TO_METERS,
-                             (this.getY() + this.getHeight() / 2) / parent.PIXELS_TO_METERS);
+        bodyDef.position.set((getX() + getWidth()  / 2) / parent.PIXELS_TO_METERS,
+                             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
         body = world.createBody(bodyDef);
 
         shape = new CircleShape();
@@ -72,6 +75,11 @@ public class Planet extends Sprite {
 
     private void setupAnimations(){
         rotateAnimation = new Animation(1/16f, textureAtlas.getRegions());
+    }
+
+    public void update(float elapsedTime){
+        this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
+                body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
     }
 
 

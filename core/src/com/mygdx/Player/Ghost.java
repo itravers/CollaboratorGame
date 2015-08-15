@@ -20,6 +20,7 @@ import input.GameInput;
 public class Ghost extends Player {
     private BitmapFont indexFont;
     int index;
+    int nextInput;
     /**
      * Ghost Constructor
      *
@@ -30,6 +31,7 @@ public class Ghost extends Player {
     public Ghost(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent, ArrayList<GameInput>inputList, int index) {
         super(pos, textureAtlas, world, parent);
         this.index = index;
+        nextInput = 0;
         indexFont = new BitmapFont();
         indexFont.setColor(Color.RED);
         super.inputList = inputList;
@@ -63,25 +65,29 @@ public class Ghost extends Player {
      * @param elapsedTime
      */
     private void checkInputList(float elapsedTime){
-        GameInput i = inputList.get(0);
-        if(i.getTimeStamp() <= elapsedTime){
-            Vector2 vel = getBody().getLinearVelocity();
-            float angularVelocity = getBody().getAngularVelocity();
-            int keycode = i.getKeycode();
-            System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " timestamp: " + i.getTimeStamp() + " elapsedTime: " + elapsedTime);
-            inputList.remove(0);
-            if(i.getType() == GameInput.InputType.KEYPRESSED){
-                if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = true;
-                if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = true;
-                if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = true;
-                if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = true;
-            }else if(i.getType() == GameInput.InputType.KEYRELEASED){
-                if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = false;
-                if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = false;
-                if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = false;
-                if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = false;
-            }
+        if(nextInput < inputList.size()){
+            GameInput i = inputList.get(nextInput);
+            if(i.getTimeStamp() <= elapsedTime){
+                Vector2 vel = getBody().getLinearVelocity();
+                float angularVelocity = getBody().getAngularVelocity();
+                int keycode = i.getKeycode();
+               // System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " timestamp: " + i.getTimeStamp() + " elapsedTime: " + elapsedTime);
+                //inputList.remove(0);
+                nextInput++;
+                if(i.getType() == GameInput.InputType.KEYPRESSED){
+                    if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = true;
+                    if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = true;
+                    if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = true;
+                    if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = true;
+                }else if(i.getType() == GameInput.InputType.KEYRELEASED){
+                    if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = false;
+                    if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = false;
+                    if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = false;
+                    if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = false;
+                }
 
+            }
         }
+
     }
 }
