@@ -26,7 +26,7 @@ import input.InputManager;
 /**
  * Created by Isaac Assegai on 8/13/2015.
  */
-public class GameWorld  implements InputProcessor {
+public class GameWorld{
     public MyGdxGame parent;  /* Parent */
 
     // Rendering Related Fields
