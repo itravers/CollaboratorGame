@@ -16,9 +16,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
 import java.util.ArrayList;
 
+import input.GameInput;
 import input.InputManager;
 
 /**
@@ -54,19 +56,21 @@ public class GameWorld{
     // Player Related Fields
     private Player player;
     private String playerName;
+    public Vector2 originalPlayerPosition;
 
     // Ghost Related Fields
-    private ArrayList<Player> ghosts;
+    private ArrayList<Ghost> ghosts;
 
     //Input Related Fields
     private InputManager inputManager;
-    public float inputTime = 0;
 
     // Planet Related Fields
     private ArrayList <Planet> planets;
 
     // Constant Fields
     public final float PIXELS_TO_METERS = 10f;
+    public final short CATEGORY_PLAYER = -1;
+    public final short CATEGORY_PLANET = -2;
 
     /**
      * Creates a new game world. Sets up all needed pieces.
@@ -86,7 +90,7 @@ public class GameWorld{
      * Setup players ghosts
      */
     private void setupGhosts(){
-        //setup ghosts here
+        ghosts = new ArrayList<Ghost>();
     }
 
     /**
@@ -102,9 +106,10 @@ public class GameWorld{
      * Setup the player
      */
     private void setupPlayer(){
+        originalPlayerPosition = new Vector2(0, 0);
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         player = new Player(atlas, world, this);
-        player.setPosition(0, 0);
+        player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
     }
 
     /**
@@ -167,7 +172,7 @@ public class GameWorld{
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-        inputTime = elapsedTime; /* Gives InputManager access to elapsedTime. */
+        //System.out.println("elaspedTime: " + elapsedTime);
         if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
             renderPreGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
@@ -289,7 +294,9 @@ public class GameWorld{
      * @param elapsedTime The time passed
      */
     private void updateGhosts(float elapsedTime){
-        //Update Ghosts here.
+        for(int i = 0; i < ghosts.size(); i++){
+            ghosts.get(i).update(elapsedTime);
+        }
     }
 
     /**
@@ -316,7 +323,9 @@ public class GameWorld{
      * @param batch The SpriteBatch we render with
      */
     private void renderGhosts(float elapsedTime, SpriteBatch batch){
-        //Render Ghosts here.
+        for(int i = 0; i < ghosts.size(); i++){
+            ghosts.get(i).render(elapsedTime, batch);
+        }
     }
 
     /**
@@ -337,7 +346,7 @@ public class GameWorld{
         Gdx.input.setInputProcessor(inputManager);
         playerName = name;
         nameLabel.setText(playerName);
-        elapsedTimeLabel.setPosition(Gdx.graphics.getWidth()-elapsedTimeLabel.getWidth(), nameLabel.getY());
+        elapsedTimeLabel.setPosition(Gdx.graphics.getWidth() - elapsedTimeLabel.getWidth(), nameLabel.getY());
     }
 
     /**
@@ -372,5 +381,46 @@ public class GameWorld{
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    /**
+     * Sets us up for the next level.
+     * Copies player to a ghost.
+     * Resets world pieces to origin.
+     */
+    public void nextLevel(){
+        addGhost(player);
+        resetWorld();
+    }
+
+    /**
+     * Creates a ghost based on a player.
+     * @param player The player we are basing the ghost on.
+     */
+    private void addGhost(Player player){
+        TextureAtlas textureAtlas = player.getTextureAtlas();
+        ArrayList<GameInput>inputList = player.inputList;
+        Ghost g = new Ghost(textureAtlas, world, this, inputList);
+        g.setupPhysics(world);
+        ghosts.add(g);
+    }
+
+    private void resetWorld(){
+        parent.elapsedTime = 0;
+        //player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+        //player.setupPhysics(world);
+        setupPhysics();
+        setupPlayer();
+        setupPlanets();
+    }
+
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
 
 }

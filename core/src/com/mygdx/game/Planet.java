@@ -58,16 +58,12 @@ public class Planet extends Sprite {
         bodyDef.position.set((this.getX() + this.getWidth()  / 2) / parent.PIXELS_TO_METERS,
                              (this.getY() + this.getHeight() / 2) / parent.PIXELS_TO_METERS);
         body = world.createBody(bodyDef);
-       // MassData massData = new MassData();
-       // massData.center.set(body.getPosition());
-       // massData.I = 1f;
-       // massData.mass = 100000f;
-        //body.setMassData(massData);
 
         shape = new CircleShape();
         shape.setRadius((getHeight() / 2) / parent.PIXELS_TO_METERS);
         fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.filter.groupIndex = parent.CATEGORY_PLANET;
         fixtureDef.density = 10f;
         fixtureDef.friction = .5f;
         fixture = body.createFixture(fixtureDef);

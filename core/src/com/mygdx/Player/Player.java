@@ -28,6 +28,7 @@ public class Player extends Sprite {
 	GameWorld parent;
 	// Rendering Oriented Fields
 	private TextureRegion[] moveForwardFrames;
+
 	private TextureAtlas textureAtlas;
 	private Animation animation;
 	private Animation moveForwardAnimation;
@@ -47,6 +48,7 @@ public class Player extends Sprite {
 	public float MAX_VELOCITY = 80f;
 	public float MAX_ANGULAR_VELOCITY = 20f;
 
+
 	//Inputs
 	public boolean forwardPressed;
 	public boolean backwardPressed;
@@ -65,6 +67,9 @@ public class Player extends Sprite {
 		setupInputs();
 		setupRendering(textureAtlas);
 		setupPhysics(world);
+	}
+
+	public Player() {
 	}
 
 	private void setupInputs(){
@@ -90,7 +95,7 @@ public class Player extends Sprite {
 	 * Initialize players physics.
 	 * @param world The physics world the player exists in.
 	 */
-	private void setupPhysics(World world){
+	public void setupPhysics(World world){
 		this.world = world;
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -103,6 +108,7 @@ public class Player extends Sprite {
 		shape.setAsBox((getWidth()  / 2) / parent.PIXELS_TO_METERS,
 				       (getHeight() / 2) / parent.PIXELS_TO_METERS);
 		fixtureDef  = new FixtureDef();
+		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
 		fixtureDef.friction = .5f;
@@ -217,4 +223,13 @@ public class Player extends Sprite {
 	public Body getBody(){
 		return body;
 	}
+
+	public TextureAtlas getTextureAtlas() {
+		return textureAtlas;
+	}
+
+	public void setTextureAtlas(TextureAtlas textureAtlas) {
+		this.textureAtlas = textureAtlas;
+	}
+
 }

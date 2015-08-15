@@ -12,7 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	/* Used to keep track of the game world. */
 	GameWorld gameWorld;
 	private GAME_STATE state = GAME_STATE.PREGAME;
-	private float elapsedTime = 0;
+	public float elapsedTime = 0;
 
 	@Override
 	public void create () {

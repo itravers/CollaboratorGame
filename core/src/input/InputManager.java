@@ -33,21 +33,20 @@ public class InputManager implements InputProcessor {
         if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
         if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME) parent.drawSprite = ! parent.drawSprite;
-        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
-            //reset game code here later
-
+        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
+            parent.nextLevel();
             parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
             parent.midGameMsgLbl.setVisible(false);
             parent.nameLabel.setVisible(true);
             parent.elapsedTimeLabel.setVisible(true);
         }
-        if(keycode == Input.Keys.ESCAPE){
+        if(keycode == Input.Keys.ESCAPE){ // transition from ingame -> midgame
             parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
             parent.midGameMsgLbl.setVisible(true);
             parent.nameLabel.setVisible(false);
             parent.elapsedTimeLabel.setVisible(false);
         }
-        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.inputTime));
+        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.elapsedTime));
         return true;
     }
 
@@ -62,7 +61,7 @@ public class InputManager implements InputProcessor {
         if(keycode == com.badlogic.gdx.Input.Keys.S) player.backwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.Q) player.rotateRightPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.E) player.rotateLeftPressed  = false;
-        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode, parent.inputTime));
+        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.elapsedTime));
         return true;
     }
 

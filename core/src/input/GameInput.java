@@ -5,7 +5,7 @@ package input;
  */
 public class GameInput {
 
-    enum InputType{KEYPRESSED, KEYRELEASED}
+    public enum InputType{KEYPRESSED, KEYRELEASED}
     private InputType type;
     private int keycode;
     private float timeStamp;
