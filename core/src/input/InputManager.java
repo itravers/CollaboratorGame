@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.Player.Player;
 import com.mygdx.game.GameWorld;
+import com.mygdx.game.MyGdxGame;
 
 import java.util.ArrayList;
 
@@ -27,11 +28,17 @@ public class InputManager implements InputProcessor {
     public boolean keyDown(int keycode) {
         Vector2 vel = player.getBody().getLinearVelocity();
         float angularVelocity = player.getBody().getAngularVelocity();
-        if(keycode == com.badlogic.gdx.Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY)player.forwardPressed  = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY)player.backwardPressed = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.ESCAPE) parent.drawSprite = ! parent.drawSprite;
+        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY)player.forwardPressed  = true;
+        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY)player.backwardPressed = true;
+        if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
+        if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
+        if(keycode == Input.Keys.SPACE) parent.drawSprite = ! parent.drawSprite;
+        if(keycode == Input.Keys.ESCAPE){
+            parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
+            parent.midGameMsgLbl.setVisible(true);
+            parent.nameLabel.setVisible(false);
+            parent.elapsedTimeLabel.setVisible(false);
+        }
         player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.inputTime));
         return true;
     }

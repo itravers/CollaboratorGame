@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 public class MyGdxGame extends ApplicationAdapter {
 	/*  Used to keep track of the current state of the game. */
 	public enum GAME_STATE {
-		PREGAME, INGAME, POSTGAME;
+		PREGAME, INGAME, MIDGAME, POSTGAME;
 	}
 
 	/* Used to keep track of the game world. */

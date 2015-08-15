@@ -42,8 +42,10 @@ public class GameWorld{
 
     //UI Related Fields
     private Skin skin;
-    private Label nameLabel;
-    private Label elapsedTimeLabel;
+    public Label nameLabel;
+    public Label elapsedTimeLabel;
+    public Label midGameMsgLbl;
+
     private Stage stage; //for drawing ui
     private BitmapFont font;
     private GlyphLayout layout; /* Used to get bounds of fonts. */
@@ -152,6 +154,14 @@ public class GameWorld{
         stage = new Stage();
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
+
+        //MidGameMsgSEtup
+        midGameMsgLbl = new Label("You have died. Press Space to Continue", skin, "default");
+        midGameMsgLbl.setColor(Color.RED);
+        midGameMsgLbl.setPosition(0, Gdx.graphics.getHeight()/2 - 20);
+        midGameMsgLbl.setVisible(false);
+        stage.addActor(midGameMsgLbl);
+
     }
 
     /**
@@ -166,6 +176,8 @@ public class GameWorld{
             renderInGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.POSTGAME){
             renderPostGame(elapsedTime);
+        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
+            renderMidGame(elapsedTime);
         }
     }
 
@@ -175,6 +187,27 @@ public class GameWorld{
      */
     private void renderPreGame(float elapsedTime){
         menu.render(elapsedTime);
+    }
+
+    private void renderMidGame(float elapsedTime){
+        camera.position.set(player.getX(), player.getY(), 0);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        backgroundCamera.position.set(player.getX(), player.getY(), 0);
+        backgroundCamera.update();
+        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
+        world.step(1f / 60f, 6, 2);
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
+        renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
+        batch.begin();
+       // midGameMsgLbl = new Label("You Have Died. Press Space To Continue.");
+        stage.draw();
+        batch.end();
+        //renderUI(elapsedTime, batch); /* this needs to be after batch.end */
+        //debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
     }
 
     /**
@@ -332,4 +365,14 @@ public class GameWorld{
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
 }
