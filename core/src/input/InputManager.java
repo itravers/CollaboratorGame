@@ -32,7 +32,15 @@ public class InputManager implements InputProcessor {
         if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY)player.backwardPressed = true;
         if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
         if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
-        if(keycode == Input.Keys.SPACE) parent.drawSprite = ! parent.drawSprite;
+        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME) parent.drawSprite = ! parent.drawSprite;
+        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
+            //reset game code here later
+
+            parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
+            parent.midGameMsgLbl.setVisible(false);
+            parent.nameLabel.setVisible(true);
+            parent.elapsedTimeLabel.setVisible(true);
+        }
         if(keycode == Input.Keys.ESCAPE){
             parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
             parent.midGameMsgLbl.setVisible(true);
