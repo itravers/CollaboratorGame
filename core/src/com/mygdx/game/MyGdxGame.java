@@ -31,6 +31,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public void setGameState(GAME_STATE s){
 		state = s;
+		elapsedTime = 0;
 	}
 
 

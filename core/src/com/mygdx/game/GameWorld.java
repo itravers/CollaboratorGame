@@ -302,6 +302,7 @@ public class GameWorld{
      * @param elapsedTime The time passed
      */
     private void updateGhosts(float elapsedTime){
+        System.out.println("numGhosts: " + ghosts.size());
         for(int i = 0; i < ghosts.size(); i++){
             ghosts.get(i).update(elapsedTime);
         }
@@ -396,8 +397,25 @@ public class GameWorld{
      * Resets world pieces to origin.
      */
     public void nextLevel(){
+        resetGhosts();
         addGhost(player);
         resetWorld();
+    }
+
+    /**
+     * Creates a set of new ghosts from the set of old ones.
+     */
+    private void resetGhosts(){
+        for(int i = 0; i < ghosts.size(); i++){
+            Ghost g = ghosts.get(i);
+            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            ArrayList<GameInput>inputList = (ArrayList<GameInput>) g.inputList.clone();
+            world.destroyBody(g.getBody());
+
+            Ghost newGhost = new Ghost(textureAtlas, world, this, inputList, i);
+            newGhost.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+            ghosts.set(i, newGhost);
+        }
     }
 
     /**
@@ -407,20 +425,17 @@ public class GameWorld{
     private void addGhost(Player player){
         TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();
-
-        Ghost g = new Ghost(textureAtlas, world, this, inputList);
+        int index = ghosts.size();
+        Ghost g = new Ghost(textureAtlas, world, this, inputList, index);
         g.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         ghosts.add(g);
     }
 
     private void resetWorld(){
         parent.elapsedTime = 0;
-        //player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
-        //player.setupPhysics(world);
-        //setupPhysics();
-        resetPhysics();
+        world.destroyBody(player.getBody());
         setupPlayer();
-        setupPlanets();
+        inputManager.reset();
     }
 
 

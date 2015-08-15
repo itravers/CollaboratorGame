@@ -66,6 +66,13 @@ public class InputManager implements InputProcessor {
     }
 
     /**
+     * Loads new info when level is reset.
+     */
+    public void reset(){
+        this.player = parent.getPlayer();
+    }
+
+    /**
      * Listens for key typing, should probably use keyDown and keyUp instead.
      * @param character
      * @return

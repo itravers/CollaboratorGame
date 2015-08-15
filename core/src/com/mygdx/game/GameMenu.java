@@ -89,7 +89,8 @@ public class GameMenu {
         portraitButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("Setting Portrait Mode");
-
+                setName();
+                parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
             }
         });
 

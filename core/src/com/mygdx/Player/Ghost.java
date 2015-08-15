@@ -15,6 +15,7 @@ import input.GameInput;
  * Created by slack on 8/14/2015.
  */
 public class Ghost extends Player {
+    int index;
     /**
      * Ghost Constructor
      *
@@ -22,8 +23,9 @@ public class Ghost extends Player {
      * @param world        The physics world the player exists in.
      * @param parent
      */
-    public Ghost(TextureAtlas textureAtlas, World world, GameWorld parent, ArrayList<GameInput>inputList) {
+    public Ghost(TextureAtlas textureAtlas, World world, GameWorld parent, ArrayList<GameInput>inputList, int index) {
         super(textureAtlas, world, parent);
+        this.index = index;
         this.inputList = new ArrayList<GameInput>(inputList);
     }
 
