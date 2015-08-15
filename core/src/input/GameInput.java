@@ -3,13 +3,13 @@ package input;
 /**
  * Created by Isaac Assegai on 8/14/2015.
  */
-public class Input {
+public class GameInput {
 
     enum InputType{KEYPRESSED, KEYRELEASED}
     private InputType type;
     private int keycode;
     private float timeStamp;
-    public Input(InputType type, int keycode, float timeStamp){
+    public GameInput(InputType type, int keycode, float timeStamp){
         this.type = type;
         this.keycode = keycode;
         this.timeStamp = timeStamp;

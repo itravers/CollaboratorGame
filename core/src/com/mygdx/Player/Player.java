@@ -19,6 +19,8 @@ import com.mygdx.game.Planet;
 
 import java.util.ArrayList;
 
+import input.GameInput;
+
 /**
  * The Player Sprites
  */
@@ -50,7 +52,7 @@ public class Player extends Sprite {
 	public boolean backwardPressed;
 	public boolean rotateRightPressed;
 	public boolean rotateLeftPressed;
-	public ArrayList<Input>inputList;
+	public ArrayList<GameInput>inputList;
 
 	/**
 	 * Player Constructor
@@ -70,7 +72,7 @@ public class Player extends Sprite {
 		backwardPressed = false;
 		rotateLeftPressed = false;
 		rotateRightPressed = false;
-		inputList = new ArrayList<Input>();
+		inputList = new ArrayList<GameInput>();
 	}
 
 	/**

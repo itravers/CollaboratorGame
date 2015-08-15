@@ -36,7 +36,6 @@ public class GameWorld{
     private OrthographicCamera camera; //drawing game pieces
     private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
-    private Matrix4 originalProjectionMatrix;
     public Box2DDebugRenderer debugRenderer;
     public boolean drawSprite = true;
     private TextureRegion[] backgroundLayers; //Parallax background
@@ -61,6 +60,7 @@ public class GameWorld{
 
     //Input Related Fields
     private InputManager inputManager;
+    public float inputTime = 0;
 
     // Planet Related Fields
     private ArrayList <Planet> planets;
@@ -159,6 +159,7 @@ public class GameWorld{
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
+        inputTime = elapsedTime; /* Gives InputManager access to elapsedTime. */
         if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
             renderPreGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){

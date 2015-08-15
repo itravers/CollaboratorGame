@@ -14,8 +14,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private GAME_STATE state = GAME_STATE.PREGAME;
 	private float elapsedTime = 0;
 
-
-
 	@Override
 	public void create () {
 		gameWorld = new GameWorld(this); // Initialize the GameWorld

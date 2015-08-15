@@ -1,9 +1,12 @@
 package input;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.Player.Player;
 import com.mygdx.game.GameWorld;
+
+import java.util.ArrayList;
 
 /**
  * Created by slack on 8/14/2015.
@@ -24,11 +27,12 @@ public class InputManager implements InputProcessor {
     public boolean keyDown(int keycode) {
         Vector2 vel = player.getBody().getLinearVelocity();
         float angularVelocity = player.getBody().getAngularVelocity();
-        if(keycode == com.badlogic.gdx.Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY) player.forwardPressed  = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY) player.backwardPressed = true;
+        if(keycode == com.badlogic.gdx.Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY)player.forwardPressed  = true;
+        if(keycode == com.badlogic.gdx.Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY)player.backwardPressed = true;
         if(keycode == com.badlogic.gdx.Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
-        if(keycode == com.badlogic.gdx.Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateLeftPressed  = true;
+        if(keycode == com.badlogic.gdx.Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
         if(keycode == com.badlogic.gdx.Input.Keys.ESCAPE) parent.drawSprite = ! parent.drawSprite;
+        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.inputTime));
         return true;
     }
 
@@ -43,6 +47,7 @@ public class InputManager implements InputProcessor {
         if(keycode == com.badlogic.gdx.Input.Keys.S) player.backwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.Q) player.rotateRightPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.E) player.rotateLeftPressed  = false;
+        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode, parent.inputTime));
         return true;
     }
 
