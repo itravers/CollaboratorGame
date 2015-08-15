@@ -119,6 +119,14 @@ public class GameWorld{
         world = new World(new Vector2(0, 0), false);
     }
 
+    private void resetPhysics(){
+        world = new World(new Vector2(0, 0), false);
+        player.setWorld(world);
+        for(int i = 0; i < ghosts.size(); i++){
+            ghosts.get(i).setWorld(world);
+        }
+    }
+
     /**
      * Prepare objects for rendering.
      */
@@ -397,10 +405,11 @@ public class GameWorld{
      * @param player The player we are basing the ghost on.
      */
     private void addGhost(Player player){
-        TextureAtlas textureAtlas = player.getTextureAtlas();
-        ArrayList<GameInput>inputList = player.inputList;
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+        ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();
+
         Ghost g = new Ghost(textureAtlas, world, this, inputList);
-        g.setupPhysics(world);
+        g.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         ghosts.add(g);
     }
 
@@ -408,7 +417,8 @@ public class GameWorld{
         parent.elapsedTime = 0;
         //player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         //player.setupPhysics(world);
-        setupPhysics();
+        //setupPhysics();
+        resetPhysics();
         setupPlayer();
         setupPlanets();
     }

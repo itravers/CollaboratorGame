@@ -91,6 +91,10 @@ public class Player extends Sprite {
 				this.getScaleX(), this.getScaleY(), this.getRotation());
 	}
 
+	public void setWorld(World world){
+		setupPhysics(world);
+	}
+
 	/**
 	 * Initialize players physics.
 	 * @param world The physics world the player exists in.
