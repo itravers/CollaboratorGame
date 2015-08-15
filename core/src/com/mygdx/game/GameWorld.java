@@ -103,12 +103,16 @@ public class GameWorld{
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         TextureAtlas planetAtlas2 = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+        TextureAtlas planetAtlas3 = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         Vector2 pPos = new Vector2(0,0);
         Vector2 p2Pos = new Vector2(0, 1000);
+        Vector2 p3Pos = new Vector2(0, -1000);
         Planet p = new Planet(pPos, planetAtlas, world, 100000f, this);
         Planet p2 = new Planet(p2Pos, planetAtlas2, world, 100000f, this);
+        Planet p3 = new Planet(p3Pos, planetAtlas3, world, 100000f, this);
         planets.add(p);
         planets.add(p2);
+        planets.add(p3);
 
     }
 
