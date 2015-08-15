@@ -61,9 +61,10 @@ public class Player extends Sprite {
 	 * @param textureAtlas The spritesheet, etc
 	 * @param world The physics world the player exists in.
 	 */
-	public Player(TextureAtlas textureAtlas, World world, GameWorld parent){
+	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
 		this.parent = parent;
+		this.setPosition(pos.x, pos.y);
 		setupInputs();
 		setupRendering(textureAtlas);
 		setupPhysics(world);

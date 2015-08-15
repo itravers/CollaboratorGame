@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import input.GameInput;
@@ -80,9 +82,10 @@ public class GameWorld{
         parent = p;
         setupRendering();
         setupPhysics();
+        setupPlanets(); // before setupPlayer
         setupPlayer();
         setupGhosts();
-        setupPlanets();
+
         inputManager = new InputManager(this);
     }
 
@@ -106,9 +109,9 @@ public class GameWorld{
      * Setup the player
      */
     private void setupPlayer(){
-        originalPlayerPosition = new Vector2(0, 0);
+        originalPlayerPosition = new Vector2((planets.get(0).getWidth()/2)-12, 100);
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        player = new Player(atlas, world, this);
+        player = new Player(originalPlayerPosition, atlas, world, this);
         player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
     }
 
@@ -302,7 +305,7 @@ public class GameWorld{
      * @param elapsedTime The time passed
      */
     private void updateGhosts(float elapsedTime){
-        System.out.println("numGhosts: " + ghosts.size());
+        //System.out.println("numGhosts: " + ghosts.size());
         for(int i = 0; i < ghosts.size(); i++){
             ghosts.get(i).update(elapsedTime);
         }
@@ -397,8 +400,9 @@ public class GameWorld{
      * Resets world pieces to origin.
      */
     public void nextLevel(){
-        resetGhosts();
+
         addGhost(player);
+        resetGhosts();
         resetWorld();
     }
 
@@ -406,13 +410,16 @@ public class GameWorld{
      * Creates a set of new ghosts from the set of old ones.
      */
     private void resetGhosts(){
+
         for(int i = 0; i < ghosts.size(); i++){
             Ghost g = ghosts.get(i);
             TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-            ArrayList<GameInput>inputList = (ArrayList<GameInput>) g.inputList.clone();
+
+            ArrayList<GameInput>inputList = new ArrayList<GameInput>();
+            inputList.addAll(g.inputList);
             world.destroyBody(g.getBody());
 
-            Ghost newGhost = new Ghost(textureAtlas, world, this, inputList, i);
+            Ghost newGhost = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, i);
             newGhost.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
             ghosts.set(i, newGhost);
         }
@@ -424,9 +431,11 @@ public class GameWorld{
      */
     private void addGhost(Player player){
         TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();
+        //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
+        ArrayList<GameInput>inputList = new ArrayList<GameInput>();
+        inputList.addAll(player.inputList);
         int index = ghosts.size();
-        Ghost g = new Ghost(textureAtlas, world, this, inputList, index);
+        Ghost g = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, index);
         g.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         ghosts.add(g);
     }

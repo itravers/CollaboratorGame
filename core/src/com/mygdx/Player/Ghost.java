@@ -1,6 +1,9 @@
 package com.mygdx.Player;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -15,6 +18,7 @@ import input.GameInput;
  * Created by slack on 8/14/2015.
  */
 public class Ghost extends Player {
+    private BitmapFont indexFont;
     int index;
     /**
      * Ghost Constructor
@@ -23,10 +27,26 @@ public class Ghost extends Player {
      * @param world        The physics world the player exists in.
      * @param parent
      */
-    public Ghost(TextureAtlas textureAtlas, World world, GameWorld parent, ArrayList<GameInput>inputList, int index) {
-        super(textureAtlas, world, parent);
+    public Ghost(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent, ArrayList<GameInput>inputList, int index) {
+        super(pos, textureAtlas, world, parent);
         this.index = index;
-        this.inputList = new ArrayList<GameInput>(inputList);
+        indexFont = new BitmapFont();
+        indexFont.setColor(Color.RED);
+        super.inputList = inputList;
+    }
+
+    public void render(float elapsedTime, SpriteBatch batch){
+        super.render(elapsedTime, batch);
+        drawIndex(batch);
+    }
+
+    private void drawIndex(SpriteBatch batch){
+        indexFont.draw(batch, Integer.toString(index), getX()+getWidth()/2, getY()+getHeight()/2);
+        indexFont.draw(batch, "LIST# " + inputList.size(), getX()+getWidth()/2, getY()+getHeight()/2+20);
+    }
+
+    public void dispose(){
+        indexFont.dispose();
     }
 
 
@@ -48,7 +68,7 @@ public class Ghost extends Player {
             Vector2 vel = getBody().getLinearVelocity();
             float angularVelocity = getBody().getAngularVelocity();
             int keycode = i.getKeycode();
-            System.out.println("processing key: " + keycode + " type: " + i.getType() + " timestamp: " + i.getTimeStamp() + " elapsedTime: " + elapsedTime);
+            System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " timestamp: " + i.getTimeStamp() + " elapsedTime: " + elapsedTime);
             inputList.remove(0);
             if(i.getType() == GameInput.InputType.KEYPRESSED){
                 if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = true;
