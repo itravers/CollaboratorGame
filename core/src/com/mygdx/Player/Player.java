@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -41,6 +42,7 @@ public class Player extends Sprite {
 	private TextureRegion[] explosionFrames;
 	private Animation explosionAnimation;
 	public enum STATE {ALIVE, EXPLOADING, DEAD}
+	AnimationController animationController;
 
 	private STATE currentState;
 
@@ -102,12 +104,14 @@ public class Player extends Sprite {
 					this.getScaleX(), this.getScaleY(), this.getRotation());
 		}else if(getCurrentState() == STATE.EXPLOADING){
 			if(explosionAnimation.isAnimationFinished(elapsedTime)){
-				//explosion animation is finished, change state
-				setCurrentState(STATE.ALIVE);
-			}else{
-				batch.draw(explosionAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+				setCurrentState(STATE.DEAD);
+				System.out.println("DEAD!");
+			} else {
+				System.out.println("EXPLOADING");
+				batch.draw(explosionAnimation.getKeyFrame(elapsedTime, false), getX(), getY(),
 						this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 						this.getScaleX(), this.getScaleY(), this.getRotation());
+				//
 			}
 
 		}
@@ -200,12 +204,19 @@ public class Player extends Sprite {
 	}
 
 	public void update(float elapsedTime){
-		applyInput(elapsedTime);
-		applyGravity(elapsedTime);
-		body.applyTorque(torque, true);
-		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
-				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
-		setRotation((float)Math.toDegrees(body.getAngle()));
+		if(getCurrentState() == STATE.DEAD){
+			//we have died.
+			//explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+		}else{
+			//we are not dead, we want to update
+			applyInput(elapsedTime);
+			applyGravity(elapsedTime);
+			body.applyTorque(torque, true);
+			this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
+					body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
+			setRotation((float)Math.toDegrees(body.getAngle()));
+		}
+
 	}
 
 	/**
