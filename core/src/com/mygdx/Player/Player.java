@@ -98,11 +98,15 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		if(getCurrentState() == STATE.ALIVE){
+		/* Change state from exploading to dead if the exploading animation is done. */
+		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(elapsedTime)){
+			setCurrentState(STATE.DEAD);
+		}
+		//if(getCurrentState() == STATE.ALIVE){
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX(), this.getScaleY(), this.getRotation());
-		}else if(getCurrentState() == STATE.EXPLOADING){
+		/*}else if(getCurrentState() == STATE.EXPLOADING){
 			if(explosionAnimation.isAnimationFinished(elapsedTime)){
 				setCurrentState(STATE.DEAD);
 				System.out.println("DEAD!");
@@ -114,7 +118,7 @@ public class Player extends Sprite {
 				//
 			}
 
-		}
+		}*/
 
 
 		/* Create a new GameInput to record Player states. We do this every time the player
@@ -205,17 +209,18 @@ public class Player extends Sprite {
 
 	public void update(float elapsedTime){
 		if(getCurrentState() == STATE.DEAD){
-			//we have died.
-			//explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+			//we have died, we don't want to update like normal.
 		}else{
 			//we are not dead, we want to update
+			//i think we'll let the explosion state fall through here too
 			applyInput(elapsedTime);
 			applyGravity(elapsedTime);
 			body.applyTorque(torque, true);
-			this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
-					body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
-			setRotation((float)Math.toDegrees(body.getAngle()));
+			setRotation((float) Math.toDegrees(body.getAngle()));
 		}
+		/* We want the position to be set reguardless of the STATE. */
+		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
+				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
 
 	}
 
@@ -253,12 +258,8 @@ public class Player extends Sprite {
 	private void applyInput(float elapsedTime){
 		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
 		Vector2 pos = body.getPosition();
+		chooseAnimation();
 
-		if(forwardPressed || backwardPressed){
-			currentAnimation = moveForwardAnimation;
-		}else{
-			currentAnimation = noMovementAnimation;
-		}
 		if(forwardPressed) body.applyLinearImpulse(impulse, pos, true);
 		if(backwardPressed){
 			impulse = impulse.rotate(180f);
@@ -266,6 +267,24 @@ public class Player extends Sprite {
 		}
 		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
 		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
+	}
+
+	/**
+	 * Choose animation based on current input as well as current state
+	 */
+	private void chooseAnimation(){
+		if(getCurrentState() == STATE.ALIVE){
+			if(forwardPressed || backwardPressed){
+				currentAnimation = moveForwardAnimation;
+			}else{
+				currentAnimation = noMovementAnimation;
+			}
+		}else if(getCurrentState() == STATE.EXPLOADING){
+			currentAnimation = explosionAnimation;
+		}else if(getCurrentState() == STATE.DEAD){
+			//currentAnimation = deadAnimation;
+		}
+
 	}
 
 	public void setBody(Body b){
@@ -289,7 +308,15 @@ public class Player extends Sprite {
 		return currentState;
 	}
 
+	/**
+	 * Set the current state. Change animation sometimes
+	 * @param currentState
+	 */
 	public void setCurrentState(STATE currentState) {
+		System.out.println("Setting State to: " + currentState);
+		if(currentState == STATE.EXPLOADING){
+			currentAnimation = explosionAnimation;
+		}
 		this.currentState = currentState;
 	}
 
