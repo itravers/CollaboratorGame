@@ -42,7 +42,7 @@ public class Planet extends Sprite {
     }
 
     public void render(float elapsedTime, SpriteBatch batch){
-        System.out.println("Planet: " + getX() + " " + getY() + " Body: " + body.getPosition().x + " " + body.getPosition().y);
+       // System.out.println("Planet: " + getX() + " " + getY() + " Body: " + body.getPosition().x + " " + body.getPosition().y);
        // batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), 0, 0);
         batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
                 this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),

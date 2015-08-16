@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.GameWorld;
-import com.mygdx.Player.Player;
 
 import java.util.ArrayList;
 
@@ -67,11 +66,14 @@ public class Ghost extends Player {
     private void checkInputList(float elapsedTime){
         if(nextInput < inputList.size()){
             GameInput i = inputList.get(nextInput);
-            if(i.getTimeStamp() <= elapsedTime){
+            //if(i.getTimeStamp() <= elapsedTime){
+
+            if(i.getFrameNum() <= parent.parent.getFrameNum()){
+                System.out.print("EXECUTING INPUT for ");
                 Vector2 vel = getBody().getLinearVelocity();
                 float angularVelocity = getBody().getAngularVelocity();
                 int keycode = i.getKeycode();
-               // System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " timestamp: " + i.getTimeStamp() + " elapsedTime: " + elapsedTime);
+                //System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " Ghostframe: " + i.getFrameNum() + " gameFrame: " + parent.parent.getFrameNum());
                 //inputList.remove(0);
                 nextInput++;
                 if(i.getType() == GameInput.InputType.KEYPRESSED){
@@ -87,6 +89,7 @@ public class Ghost extends Player {
                 }
 
             }
+            System.out.println("frame check: " + i.getFrameNum() + " vs " + parent.parent.getFrameNum());
         }
 
     }

@@ -13,6 +13,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	GameWorld gameWorld;
 	private GAME_STATE state = GAME_STATE.PREGAME;
 	public float elapsedTime = 0;
+	private int frameNum = 0;
 
 	@Override
 	public void create () {
@@ -23,6 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render (){
 		elapsedTime += Gdx.graphics.getDeltaTime();
 		gameWorld.render(elapsedTime);
+		frameNum++;
 	}
 
 	public GAME_STATE getGameState(){
@@ -32,6 +34,23 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void setGameState(GAME_STATE s){
 		state = s;
 		elapsedTime = 0;
+	}
+
+
+	public int getFrameNum() {
+		return frameNum;
+	}
+
+	public void setFrameNum(int frameNum) {
+		this.frameNum = frameNum;
+	}
+
+	public void resetFrameNum(){
+		this.frameNum = 0;
+	}
+
+	public void incrementFrameNum(){
+		this.frameNum++;
 	}
 
 

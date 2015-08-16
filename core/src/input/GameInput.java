@@ -8,11 +8,13 @@ public class GameInput {
     public enum InputType{KEYPRESSED, KEYRELEASED}
     private InputType type;
     private int keycode;
+    private int frameNum; //The frame this event happened on
     private float timeStamp;
-    public GameInput(InputType type, int keycode, float timeStamp){
+    public GameInput(InputType type, int keycode, int frameNum, float timeStamp){
         this.type = type;
         this.keycode = keycode;
         this.timeStamp = timeStamp;
+        this.frameNum = frameNum;
     }
 
     public InputType getType() {
@@ -37,5 +39,13 @@ public class GameInput {
 
     public void setTimeStamp(float timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public int getFrameNum() {
+        return frameNum;
+    }
+
+    public void setFrameNum(int frameNum) {
+        this.frameNum = frameNum;
     }
 }

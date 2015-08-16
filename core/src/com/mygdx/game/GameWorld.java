@@ -194,7 +194,8 @@ public class GameWorld{
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-        //System.out.println("elaspedTime: " + elapsedTime);
+        int frameNum = parent.getFrameNum();
+
         if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
             renderPreGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
@@ -466,13 +467,12 @@ public class GameWorld{
 
     private void resetWorld(){
         parent.elapsedTime = 0;
-        //world.destroyBody(player.getBody());
+        parent.resetFrameNum(); //reset frame counter for accurate replays
         resetPlanets();
         resetGhosts();
         setupPlayer();
         inputManager.reset();
     }
-
 
     public World getWorld() {
         return world;
@@ -481,6 +481,4 @@ public class GameWorld{
     public void setWorld(World world) {
         this.world = world;
     }
-
-
 }

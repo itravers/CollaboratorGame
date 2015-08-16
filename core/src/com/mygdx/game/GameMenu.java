@@ -64,6 +64,7 @@ public class GameMenu {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("Starting Game");
                 setName();
+                parent.parent.setFrameNum(0);
                 parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
             }
         });

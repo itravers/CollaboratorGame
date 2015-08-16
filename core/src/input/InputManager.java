@@ -26,6 +26,7 @@ public class InputManager implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+
         Vector2 vel = player.getBody().getLinearVelocity();
         float angularVelocity = player.getBody().getAngularVelocity();
         if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY)player.forwardPressed  = true;
@@ -46,7 +47,8 @@ public class InputManager implements InputProcessor {
             parent.nameLabel.setVisible(false);
             parent.elapsedTimeLabel.setVisible(false);
         }
-        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.elapsedTime));
+        System.out.println("pressed at" + parent.parent.getFrameNum());
+        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(), parent.parent.elapsedTime));
         return true;
     }
 
@@ -61,7 +63,8 @@ public class InputManager implements InputProcessor {
         if(keycode == com.badlogic.gdx.Input.Keys.S) player.backwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.Q) player.rotateRightPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.E) player.rotateLeftPressed  = false;
-        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.elapsedTime));
+        System.out.println("pressed at" + parent.parent.getFrameNum());
+        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.getFrameNum(), parent.parent.elapsedTime));
         return true;
     }
 
