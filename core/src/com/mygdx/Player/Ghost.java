@@ -66,15 +66,11 @@ public class Ghost extends Player {
     private void checkInputList(float elapsedTime){
         if(nextInput < inputList.size()){
             GameInput i = inputList.get(nextInput);
-            //if(i.getTimeStamp() <= elapsedTime){
-
             if(i.getFrameNum() <= parent.parent.getFrameNum()){
                 System.out.print("EXECUTING INPUT for ");
                 Vector2 vel = getBody().getLinearVelocity();
                 float angularVelocity = getBody().getAngularVelocity();
                 int keycode = i.getKeycode();
-                //System.out.println("index:" + index + " processing key: " + keycode + " type: " + i.getType() + " Ghostframe: " + i.getFrameNum() + " gameFrame: " + parent.parent.getFrameNum());
-                //inputList.remove(0);
                 nextInput++;
                 if(i.getType() == GameInput.InputType.KEYPRESSED){
                     if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = true;
@@ -87,6 +83,11 @@ public class Ghost extends Player {
                     if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = false;
                     if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = false;
                 }
+
+                //this.setPosition(i.getLoc().x, i.getLoc().y); //set position
+                this.getBody().setTransform(i.getLoc(), i.getAngle());
+                this.getBody().setLinearVelocity(i.getLinearVelocity()); //set linear velocity
+                this.getBody().setAngularVelocity(i.getAngularVelocity()); //set angular velocity
 
             }
             System.out.println("frame check: " + i.getFrameNum() + " vs " + parent.parent.getFrameNum());

@@ -23,14 +23,17 @@ public class GameInput {
     private float angle;
 
     public GameInput(InputType type, int keycode, int frameNum, float timeStamp, Player player){
+
         this.type = type;
         this.keycode = keycode;
         this.timeStamp = timeStamp;
         this.frameNum = frameNum;
-        this.loc = player.getBody().getPosition();
-        this.linearVelocity = player.getBody().getLinearVelocity();
+        this.loc = player.getBody().getPosition().cpy();
+        //this.loc = new Vector2(player.getX(), player.getY());
+        this.linearVelocity = player.getBody().getLinearVelocity().cpy();
         this.angularVelocity = player.getBody().getAngularVelocity();
         this.angle = player.getBody().getAngle();
+        //System.out.println("adding input for loc: " + loc.x + " " + loc.y);
     }
 
     public InputType getType() {

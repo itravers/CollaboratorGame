@@ -133,7 +133,7 @@ public class GameWorld{
     }
 
     private void resetPhysics(){
-        world.destroyBody(player.getBody());
+        //world.destroyBody(player.getBody());
         world = new World(new Vector2(0, 0), false);
        // player.setWorld(world);
        // for(int i = 0; i < ghosts.size(); i++){
