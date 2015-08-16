@@ -43,9 +43,6 @@ public class Player extends Sprite {
 	private TextureAtlas explosionAtlas;
 	private TextureRegion[] explosionFrames;
 	private Animation explosionAnimation;
-	private TextureAtlas deadAtlas;
-	private TextureRegion[] deadFrames;
-	private Animation deadAnimation;
 	public enum STATE {ALIVE, EXPLOADING, DEAD}
 	AnimationController animationController;
 
@@ -87,6 +84,11 @@ public class Player extends Sprite {
 	}
 
 	public Player() {
+	}
+
+	public void dispose(){
+		shape.dispose();
+		//deadAtlas.dispose();
 	}
 
 	private void setupInputs(){
@@ -182,22 +184,7 @@ public class Player extends Sprite {
 		setupMoveForwardAnimation();
 		setupNoMovementAnimation();
 		setupExplosionAnimation();
-		setupDeadAnimation();
 		currentAnimation = noMovementAnimation;
-	}
-
-	private void setupDeadAnimation(){
-		deadAtlas = new TextureAtlas(Gdx.files.internal("data/coin.txt"));
-		deadFrames = new TextureRegion[27];
-		for(int i = 0; i < 27; i++){/* 27 frames in the rotate and flip animation. */
-			if(i < 10){
-				deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation00"+i+"0"));
-			}else{
-				deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation0"+i+"0"));
-			}
-
-		}
-		deadAnimation = new Animation(1/8f, deadFrames);
 	}
 
 	private void setupExplosionAnimation(){
@@ -302,7 +289,7 @@ public class Player extends Sprite {
 		}else if(getCurrentState() == STATE.EXPLOADING){
 			currentAnimation = explosionAnimation;
 		}else if(getCurrentState() == STATE.DEAD){
-			currentAnimation = deadAnimation;
+			currentAnimation = parent.deadAnimation;
 		}
 
 	}
@@ -333,11 +320,11 @@ public class Player extends Sprite {
 	 * @param currentState
 	 */
 	public void setCurrentState(STATE currentState) {
-		System.out.println("Setting State to: " + currentState);
+		//System.out.println("Setting State to: " + currentState);
 		if(currentState == STATE.EXPLOADING){
 			currentAnimation = explosionAnimation;
 		}else if(currentState == STATE.DEAD){
-			currentAnimation = deadAnimation;
+			currentAnimation = parent.deadAnimation;
 		}
 		this.currentState = currentState;
 	}

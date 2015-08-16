@@ -83,6 +83,11 @@ public class Planet extends Sprite {
     }
 
 
+    public void dispose(){
+        shape.dispose();
+        textureAtlas.dispose();
+    }
+
     public Body getBody() {
         return body;
     }

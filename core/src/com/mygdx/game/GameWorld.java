@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -73,6 +74,11 @@ public class GameWorld{
     public final short CATEGORY_PLAYER = -1;
     public final short CATEGORY_PLANET = -2;
 
+    //Animation Related Fields
+    private TextureAtlas deadAtlas;
+    private TextureRegion[] deadFrames;
+    public Animation deadAnimation;
+
     /**
      * Creates a new game world. Sets up all needed pieces.
      * @param p The Parent wrapper of the game world.
@@ -101,17 +107,16 @@ public class GameWorld{
     private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        TextureAtlas planetAtlas2 = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        TextureAtlas planetAtlas3 = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        Vector2 pPos = new Vector2(0,0);
-        Vector2 p2Pos = new Vector2(0, 1000);
-        Vector2 p3Pos = new Vector2(0, -1000);
-        Planet p = new Planet(pPos, planetAtlas, world, 100000f, this);
-        Planet p2 = new Planet(p2Pos, planetAtlas2, world, 100000f, this);
-        Planet p3 = new Planet(p3Pos, planetAtlas3, world, 100000f, this);
+        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
+        Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
+        Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
         planets.add(p);
         planets.add(p2);
         planets.add(p3);
+        planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
+        planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
+
+        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
 
     }
 
@@ -147,6 +152,7 @@ public class GameWorld{
     private void setupRendering(){
         setupUI();
         setupBackground();
+        setupAnimations();
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
         menu = new GameMenu(this, batch);
@@ -156,6 +162,10 @@ public class GameWorld{
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
+    }
+
+    private void setupAnimations(){
+        setupDeadAnimation();
     }
 
     private void setupBackground(){
@@ -256,8 +266,8 @@ public class GameWorld{
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
             renderPlanets(elapsedTime, batch);
-            renderPlayer(elapsedTime, batch);
             renderGhosts(elapsedTime, batch);
+            renderPlayer(elapsedTime, batch);
         }
         batch.end();
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
@@ -439,6 +449,7 @@ public class GameWorld{
             Ghost newGhost = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, i);
             newGhost.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
             ghosts.set(i, newGhost);
+           // g.dispose();
         }
     }
 
@@ -447,6 +458,7 @@ public class GameWorld{
             Planet p = planets.get(i);
             Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()), p.getTextureAtlas(), world, p.getMass(), this);
             planets.set(i, newPlanet);
+            //p.dispose();
         }
     }
 
@@ -472,6 +484,20 @@ public class GameWorld{
         resetGhosts();
         setupPlayer();
         inputManager.reset();
+    }
+
+    private void setupDeadAnimation(){
+        deadAtlas = new TextureAtlas(Gdx.files.internal("data/coin.txt"));
+        deadFrames = new TextureRegion[27];
+        for(int i = 0; i < 27; i++){/* 27 frames in the rotate and flip animation. */
+            if(i < 10){
+                deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation00"+i+"0"));
+            }else{
+                deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation0"+i+"0"));
+            }
+
+        }
+        deadAnimation = new Animation(1/8f, deadFrames);
     }
 
     public World getWorld() {

@@ -43,10 +43,11 @@ public class Ghost extends Player {
 
     private void drawIndex(SpriteBatch batch){
         indexFont.draw(batch, Integer.toString(index), getX()+getWidth()/2, getY()+getHeight()/2);
-        indexFont.draw(batch, "LIST# " + inputList.size(), getX()+getWidth()/2, getY()+getHeight()/2+20);
+        //indexFont.draw(batch, "LIST# " + inputList.size(), getX()+getWidth()/2, getY()+getHeight()/2+20);
     }
 
     public void dispose(){
+        super.dispose();
         indexFont.dispose();
     }
 
@@ -67,7 +68,7 @@ public class Ghost extends Player {
         if(nextInput < inputList.size()){
             GameInput i = inputList.get(nextInput);
             if(i.getFrameNum() <= parent.parent.getFrameNum()){
-                System.out.print("EXECUTING INPUT for ");
+                //System.out.print("EXECUTING INPUT for ");
                 Vector2 vel = getBody().getLinearVelocity();
                 float angularVelocity = getBody().getAngularVelocity();
                 int keycode = i.getKeycode();
@@ -90,7 +91,7 @@ public class Ghost extends Player {
                 this.getBody().setAngularVelocity(i.getAngularVelocity()); //set angular velocity
 
             }
-            System.out.println("frame check: " + i.getFrameNum() + " vs " + parent.parent.getFrameNum());
+           // System.out.println("frame check: " + i.getFrameNum() + " vs " + parent.parent.getFrameNum());
         }
 
     }
