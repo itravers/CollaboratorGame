@@ -31,23 +31,12 @@ import input.GameInput;
 public class Player extends Sprite {
 	GameWorld parent;
 	// Rendering Oriented Fields
-	private TextureRegion[] moveForwardFrames;
-
-	private TextureAtlas textureAtlas;
-	private Animation animation;
-	private Animation moveForwardAnimation;
-	private Animation noMovementAnimation;
-	private TextureRegion[] noMovementAnimationFrames;
 	private Animation currentAnimation;
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
-	private TextureAtlas explosionAtlas;
-	private TextureRegion[] explosionFrames;
-	private Animation explosionAnimation;
+
+	// State Tracking Fields
 	public enum STATE {ALIVE, EXPLOADING, DEAD}
-	AnimationController animationController;
-
 	private STATE currentState;
-
 
 	// Physics Oriented Fields
 	private BodyDef bodyDef;
@@ -79,7 +68,7 @@ public class Player extends Sprite {
 		setCurrentState(STATE.ALIVE);
 		this.setPosition(pos.x, pos.y);
 		setupInputs();
-		setupRendering(textureAtlas);
+		setupRendering();
 		setupPhysics(world);
 	}
 
@@ -168,11 +157,9 @@ public class Player extends Sprite {
 
 	/**
 	 * Initialze player rendering.
-	 * @param textureAtlas The spritesheet for the player.
 	 */
-	private void setupRendering(TextureAtlas textureAtlas){
+	private void setupRendering(){
 		parent.debugRenderer = new Box2DDebugRenderer();
-		this.textureAtlas = textureAtlas;
 		setupAnimations();
 	}
 
@@ -180,39 +167,9 @@ public class Player extends Sprite {
 	 * Initializes player animations.
 	 */
 	private void setupAnimations(){
-		animation = new Animation(1/15f, textureAtlas.getRegions());
-		setupMoveForwardAnimation();
-		setupNoMovementAnimation();
-		setupExplosionAnimation();
-		currentAnimation = noMovementAnimation;
+		currentAnimation = parent.noMovementAnimation;
 	}
 
-	private void setupExplosionAnimation(){
-		explosionAtlas = new TextureAtlas(Gdx.files.internal("data/explosionC.txt"));
-		explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
-	}
-
-	/**
-	 * Gets our forward animation from the sprite sheet.
-	 */
-	private void setupMoveForwardAnimation(){
-		moveForwardFrames = new TextureRegion[7];
-		moveForwardFrames[0] = (textureAtlas.findRegion("0005"));
-		moveForwardFrames[1] = (textureAtlas.findRegion("0006"));
-		moveForwardFrames[2] = (textureAtlas.findRegion("0007"));
-		moveForwardFrames[3] = (textureAtlas.findRegion("0008"));
-		moveForwardFrames[4] = (textureAtlas.findRegion("0007"));
-		moveForwardFrames[5] = (textureAtlas.findRegion("0006"));
-		moveForwardFrames[6] = (textureAtlas.findRegion("0005"));
-		moveForwardAnimation = new Animation(1/15f, moveForwardFrames);
-	}
-
-	private void setupNoMovementAnimation(){
-		noMovementAnimationFrames = new TextureRegion[2];
-		noMovementAnimationFrames[0] = (textureAtlas.findRegion("0005"));
-		noMovementAnimationFrames[1] = (textureAtlas.findRegion("0005"));
-		noMovementAnimation = new Animation(1/2f, noMovementAnimationFrames);
-	}
 
 	public void update(float elapsedTime){
 		if(getCurrentState() == STATE.DEAD){
@@ -282,12 +239,12 @@ public class Player extends Sprite {
 	private void chooseAnimation(){
 		if(getCurrentState() == STATE.ALIVE){
 			if(forwardPressed || backwardPressed){
-				currentAnimation = moveForwardAnimation;
+				currentAnimation = parent.moveForwardAnimation;
 			}else{
-				currentAnimation = noMovementAnimation;
+				currentAnimation = parent.noMovementAnimation;
 			}
 		}else if(getCurrentState() == STATE.EXPLOADING){
-			currentAnimation = explosionAnimation;
+			currentAnimation = parent.explosionAnimation;
 		}else if(getCurrentState() == STATE.DEAD){
 			currentAnimation = parent.deadAnimation;
 		}
@@ -302,15 +259,6 @@ public class Player extends Sprite {
 		return body;
 	}
 
-	public TextureAtlas getTextureAtlas() {
-		return textureAtlas;
-	}
-
-	public void setTextureAtlas(TextureAtlas textureAtlas) {
-		this.textureAtlas = textureAtlas;
-	}
-
-
 	public STATE getCurrentState() {
 		return currentState;
 	}
@@ -322,7 +270,7 @@ public class Player extends Sprite {
 	public void setCurrentState(STATE currentState) {
 		//System.out.println("Setting State to: " + currentState);
 		if(currentState == STATE.EXPLOADING){
-			currentAnimation = explosionAnimation;
+			currentAnimation = parent.explosionAnimation;
 		}else if(currentState == STATE.DEAD){
 			currentAnimation = parent.deadAnimation;
 		}

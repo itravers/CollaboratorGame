@@ -75,9 +75,19 @@ public class GameWorld{
     public final short CATEGORY_PLANET = -2;
 
     //Animation Related Fields
+    private TextureAtlas shipAtlas;
     private TextureAtlas deadAtlas;
+    private TextureAtlas explosionAtlas;
+
     private TextureRegion[] deadFrames;
+    private TextureRegion[] moveForwardFrames;
+    private TextureRegion[] noMovementAnimationFrames;
+
     public Animation deadAnimation;
+    public Animation moveForwardAnimation;
+    public Animation noMovementAnimation;
+    public Animation explosionAnimation;
+
 
     /**
      * Creates a new game world. Sets up all needed pieces.
@@ -165,7 +175,38 @@ public class GameWorld{
     }
 
     private void setupAnimations(){
+        setupMoveForwardAnimation();
+        setupNoMovementAnimation();
+        setupExplosionAnimation();
         setupDeadAnimation();
+    }
+
+    /**
+     * Gets our forward animation from the sprite sheet.
+     */
+    private void setupMoveForwardAnimation(){
+        shipAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+        moveForwardFrames = new TextureRegion[7];
+        moveForwardFrames[0] = (shipAtlas.findRegion("0005"));
+        moveForwardFrames[1] = (shipAtlas.findRegion("0006"));
+        moveForwardFrames[2] = (shipAtlas.findRegion("0007"));
+        moveForwardFrames[3] = (shipAtlas.findRegion("0008"));
+        moveForwardFrames[4] = (shipAtlas.findRegion("0007"));
+        moveForwardFrames[5] = (shipAtlas.findRegion("0006"));
+        moveForwardFrames[6] = (shipAtlas.findRegion("0005"));
+        moveForwardAnimation = new Animation(1/15f, moveForwardFrames);
+    }
+
+    private void setupNoMovementAnimation(){
+        noMovementAnimationFrames = new TextureRegion[2];
+        noMovementAnimationFrames[0] = (shipAtlas.findRegion("0005"));
+        noMovementAnimationFrames[1] = (shipAtlas.findRegion("0005"));
+        noMovementAnimation = new Animation(1/2f, noMovementAnimationFrames);
+    }
+
+    private void setupExplosionAnimation(){
+        explosionAtlas = new TextureAtlas(Gdx.files.internal("data/explosionC.txt"));
+        explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
     }
 
     private void setupBackground(){
