@@ -261,7 +261,7 @@ public class GameWorld{
         }
         batch.end();
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
-        debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
+        if(!drawSprite) debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
 
         //Update after rendering, this will be rendered next frame
         updatePlayer(elapsedTime);
