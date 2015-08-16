@@ -1,5 +1,6 @@
 package com.mygdx.Player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +37,13 @@ public class Player extends Sprite {
 	private TextureRegion[] noMovementAnimationFrames;
 	private Animation currentAnimation;
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
+	private TextureAtlas explosionAtlas;
+	private TextureRegion[] explosionFrames;
+	private Animation explosionAnimation;
+	public enum STATE {ALIVE, EXPLOADING, DEAD}
+
+	private STATE currentState;
+
 
 	// Physics Oriented Fields
 	private BodyDef bodyDef;
@@ -64,6 +72,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
 		this.parent = parent;
+		setCurrentState(STATE.ALIVE);
 		this.setPosition(pos.x, pos.y);
 		setupInputs();
 		setupRendering(textureAtlas);
@@ -87,13 +96,26 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
-				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-				this.getScaleX(), this.getScaleY(), this.getRotation());
+		if(getCurrentState() == STATE.ALIVE){
+			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX(), this.getScaleY(), this.getRotation());
+		}else if(getCurrentState() == STATE.EXPLOADING){
+			if(explosionAnimation.isAnimationFinished(elapsedTime)){
+				//explosion animation is finished, change state
+				setCurrentState(STATE.ALIVE);
+			}else{
+				batch.draw(explosionAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+						this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+						this.getScaleX(), this.getScaleY(), this.getRotation());
+			}
+
+		}
+
 
 		/* Create a new GameInput to record Player states. We do this every time the player
 			has input, but we also do it here, maybe twice a second? We */
-		if(!(this instanceof Ghost) && parent.parent.getFrameNum() % 30 == 0){
+		if (!(this instanceof Ghost) && parent.parent.getFrameNum() % 30 == 0){
 			GameInput gInput = new GameInput(GameInput.InputType.TIMER, 0, parent.parent.getFrameNum(), parent.parent.elapsedTime, this);
 			inputList.add(gInput);
 		}
@@ -146,7 +168,13 @@ public class Player extends Sprite {
 		animation = new Animation(1/15f, textureAtlas.getRegions());
 		setupMoveForwardAnimation();
 		setupNoMovementAnimation();
+		setupExplosionAnimation();
 		currentAnimation = noMovementAnimation;
+	}
+
+	private void setupExplosionAnimation(){
+		explosionAtlas = new TextureAtlas(Gdx.files.internal("data/explosionC.txt"));
+		explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
 	}
 
 	/**
@@ -243,6 +271,15 @@ public class Player extends Sprite {
 
 	public void setTextureAtlas(TextureAtlas textureAtlas) {
 		this.textureAtlas = textureAtlas;
+	}
+
+
+	public STATE getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(STATE currentState) {
+		this.currentState = currentState;
 	}
 
 }
