@@ -10,7 +10,7 @@ import com.mygdx.Player.Player;
  * different.
  */
 public class GameInput {
-    public enum InputType{KEYPRESSED, KEYRELEASED}
+    public enum InputType{KEYPRESSED, KEYRELEASED, TIMER}
     private InputType type;
     private int keycode;
     private int frameNum; //The frame this event happened on

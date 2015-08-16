@@ -90,6 +90,14 @@ public class Player extends Sprite {
 		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 				this.getScaleX(), this.getScaleY(), this.getRotation());
+
+		/* Create a new GameInput to record Player states. We do this every time the player
+			has input, but we also do it here, maybe twice a second? We */
+		if(!(this instanceof Ghost) && parent.parent.getFrameNum() % 30 == 0){
+			GameInput gInput = new GameInput(GameInput.InputType.TIMER, 0, parent.parent.getFrameNum(), parent.parent.elapsedTime, this);
+			inputList.add(gInput);
+		}
+
 	}
 
 	public void setWorld(World world){
