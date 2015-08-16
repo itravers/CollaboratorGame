@@ -48,7 +48,7 @@ public class InputManager implements InputProcessor {
             parent.elapsedTimeLabel.setVisible(false);
         }
         System.out.println("pressed at" + parent.parent.getFrameNum());
-        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(), parent.parent.elapsedTime));
+        player.inputList.add(new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(), parent.parent.elapsedTime, player));
         return true;
     }
 
@@ -64,7 +64,7 @@ public class InputManager implements InputProcessor {
         if(keycode == com.badlogic.gdx.Input.Keys.Q) player.rotateRightPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.E) player.rotateLeftPressed  = false;
         System.out.println("pressed at" + parent.parent.getFrameNum());
-        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.getFrameNum(), parent.parent.elapsedTime));
+        player.inputList.add(new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.getFrameNum(), parent.parent.elapsedTime, player));
         return true;
     }
 
