@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,8 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import input.GameInput;
@@ -130,15 +129,16 @@ public class GameWorld{
      * Setup the worlds physics.
      */
     private void setupPhysics(){
-        world = new World(new Vector2(0, 0), false);
+        world = new World(new Vector2(0, 0),true);
     }
 
     private void resetPhysics(){
+        world.destroyBody(player.getBody());
         world = new World(new Vector2(0, 0), false);
-        player.setWorld(world);
-        for(int i = 0; i < ghosts.size(); i++){
-            ghosts.get(i).setWorld(world);
-        }
+       // player.setWorld(world);
+       // for(int i = 0; i < ghosts.size(); i++){
+       //     ghosts.get(i).setWorld(world);
+       // }
     }
 
     /**
@@ -413,9 +413,8 @@ public class GameWorld{
      * Resets world pieces to origin.
      */
     public void nextLevel(){
-
+        resetPhysics();
         addGhost(player);
-        resetGhosts();
         resetWorld();
     }
 
@@ -430,11 +429,23 @@ public class GameWorld{
 
             ArrayList<GameInput>inputList = new ArrayList<GameInput>();
             inputList.addAll(g.inputList);
-            world.destroyBody(g.getBody());
+            com.badlogic.gdx.utils.Array<Body> bodies = new com.badlogic.gdx.utils.Array<Body>();
+            world.getBodies(bodies);
+            if(bodies.contains(g.getBody(), true)){
+                world.destroyBody(g.getBody());
+            }
 
             Ghost newGhost = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, i);
             newGhost.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
             ghosts.set(i, newGhost);
+        }
+    }
+
+    private void resetPlanets(){
+        for(int i = 0; i < planets.size(); i++){
+            Planet p = planets.get(i);
+            Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()), p.getTextureAtlas(), world, p.getMass(), this);
+            planets.set(i, newPlanet);
         }
     }
 
@@ -455,7 +466,9 @@ public class GameWorld{
 
     private void resetWorld(){
         parent.elapsedTime = 0;
-        world.destroyBody(player.getBody());
+        //world.destroyBody(player.getBody());
+        resetPlanets();
+        resetGhosts();
         setupPlayer();
         inputManager.reset();
     }

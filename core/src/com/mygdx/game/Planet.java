@@ -98,4 +98,12 @@ public class Planet extends Sprite {
     public void setMass(float mass) {
         this.mass = mass;
     }
+
+    public TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
+    public void setTextureAtlas(TextureAtlas textureAtlas) {
+        this.textureAtlas = textureAtlas;
+    }
 }
