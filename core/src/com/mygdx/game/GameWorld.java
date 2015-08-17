@@ -53,6 +53,7 @@ public class GameWorld implements ContactListener{
     public Label elapsedTimeLabel;
     public Label midGameMsgLbl;
     public Label playerStateLabel;
+    public Label playerSpeedLabel;
 
     private Stage stage; //for drawing ui
     private BitmapFont font;
@@ -229,13 +230,17 @@ public class GameWorld implements ContactListener{
         elapsedTimeLabel.setPosition(nameLabel.getWidth() + 2, Gdx.graphics.getHeight() - 20);
         playerStateLabel = new Label("STATE", skin, "default");
         playerStateLabel.setPosition(0, 20);
+        playerSpeedLabel = new Label("SPEED", skin, "default");
+        playerSpeedLabel.setPosition(playerStateLabel.getWidth() + 10, 20);
         nameLabel.setColor(Color.GREEN);
         elapsedTimeLabel.setColor(Color.RED);
         playerStateLabel.setColor(Color.RED);
+        playerSpeedLabel.setColor(Color.RED);
         stage = new Stage();
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
         stage.addActor(playerStateLabel);
+        stage.addActor(playerSpeedLabel);
 
         //MidGameMsgSEtup
         midGameMsgLbl = new Label("You have died. Press Space to Continue", skin, "default");
@@ -419,6 +424,7 @@ public class GameWorld implements ContactListener{
     private void renderUI(float elapsedTime, SpriteBatch batch){
         elapsedTimeLabel.setText(new Float(elapsedTime).toString());
         playerStateLabel.setText(player.getCurrentState().toString());
+        playerSpeedLabel.setText(new Float(player.getBody().getLinearVelocity().len()).toString());
         stage.draw();
     }
 
@@ -609,20 +615,26 @@ public class GameWorld implements ContactListener{
     private boolean didPlayerCrashIntoPlanet(Player s, Planet p){
         boolean returnVal = false;
         Vector2 v_planetToPlayer = s.getBody().getPosition().sub(p.getBody().getPosition());
-        //Vector2 playerDir = new Vector2(MathUtils.cos(s.getBody().getAngle()), MathUtils.sin(s.getBody().getAngle()));
-       // boolean sameDir = playerToPlanet.hasSameDirection(playerDir);
         float f_planetToPlayer = v_planetToPlayer.angle();
-       // f_planetToPlayer = (float)Math.toRadians(f_planetToPlayer);
         float f_playerDir = (float)Math.toDegrees(s.getBody().getAngle());
-        float angleDif = Math.abs(Math.abs(f_planetToPlayer) - Math.abs(f_playerDir));
+        f_planetToPlayer = f_planetToPlayer % 360; //limit to 360 degrees
+        f_playerDir = f_playerDir % 360; //limit to 360 degrees.
+        float angleDif = Math.abs(f_planetToPlayer - f_playerDir);
+        angleDif = angleDif % 360;
 
         System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
-        if(angleDif < 45){
+
+        if(45 >= angleDif || 135 <= angleDif){
             //the player hit the planet while facing the planet, it crashed
             s.setCurrentState(Player.STATE.EXPLOADING);
         }else{
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
+            float speed = player.getBody().getLinearVelocity().len();
+            System.out.println("speed: " +speed);
+            if(speed > player.MAX_VELOCITY){
+
+            }
 
         }
 
