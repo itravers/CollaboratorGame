@@ -1,5 +1,6 @@
 package com.mygdx.Player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -49,6 +50,7 @@ public class Player extends Sprite {
 	public boolean rotateRightPressed;
 	public boolean rotateLeftPressed;
 	public ArrayList<GameInput>inputList;
+	public float stateTime;
 
 	/**
 	 * Player Constructor
@@ -70,7 +72,6 @@ public class Player extends Sprite {
 
 	public void dispose(){
 		shape.dispose();
-		//deadAtlas.dispose();
 	}
 
 	private void setupInputs(){
@@ -88,7 +89,7 @@ public class Player extends Sprite {
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
 		/* Change state from exploading to dead if the exploading animation is done. */
-		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(elapsedTime)){
+		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(stateTime)){
 			setCurrentState(STATE.DEAD);
 		}
 
@@ -97,10 +98,9 @@ public class Player extends Sprite {
 			setCurrentState(STATE.FLYING);
 		}
 
-			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
-					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-					this.getScaleX(), this.getScaleY(), this.getRotation());
-
+		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+				this.getScaleX(), this.getScaleY(), this.getRotation());
 
 		/* Create a new GameInput to record Player states. We do this every time the player
 			has input, but we also do it here, maybe twice a second? We */
@@ -117,15 +117,12 @@ public class Player extends Sprite {
 		for(int i = 0; i < planets.size(); i++){
 			Planet p = planets.get(i);
 			float radiusPlanet = p.getBody().getFixtureList().first().getShape().getRadius();
-			//float radiusShip = this.getWidth()/2;
 			float dist = p.getBody().getPosition().dst(body.getPosition());
 			dist -= radiusPlanet;
-			//dist -= radiusShip;
 			if(dist < distanceToClosestPlanet){
 				distanceToClosestPlanet = dist;
 			}
 		}
-		//System.out.println("distToClosestPlanet " + distanceToClosestPlanet);
 		return distanceToClosestPlanet;
 	}
 
@@ -176,6 +173,7 @@ public class Player extends Sprite {
 
 
 	public void update(float elapsedTime){
+		stateTime += Gdx.graphics.getDeltaTime();
 		if(getCurrentState() == STATE.DEAD){
 			//we have died, we don't want to update like normal.
 		}else{
@@ -278,7 +276,9 @@ public class Player extends Sprite {
 		}else if(currentState == STATE.DEAD){
 			currentAnimation = parent.deadAnimation;
 		}
+		System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;
+		stateTime = 0;
 	}
 
 

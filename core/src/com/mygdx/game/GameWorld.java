@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -622,25 +621,25 @@ public class GameWorld implements ContactListener{
         float angleDif = Math.abs(f_planetToPlayer - f_playerDir);
         angleDif = angleDif % 360;
 
-        System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
+        //System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
 
         if(45 >= angleDif || 135 <= angleDif){
-            System.out.print(" angle is bad ");
+           // System.out.print(" angle is bad ");
             //the player hit the planet while facing the planet, it crashed
             //s.setCurrentState(Player.STATE.EXPLOADING);
             returnVal = true;
         }else{
-            System.out.print(" angle is good ");
+            //System.out.print(" angle is good ");
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
             float speed = player.getBody().getLinearVelocity().len();
-            System.out.println("speed: " +speed);
+            //System.out.println("speed: " +speed);
             if(speed > player.MAX_VELOCITY/3){
-                System.out.print(" speed is bad ");
+                //System.out.print(" speed is bad ");
                 //s.setCurrentState(Player.STATE.EXPLOADING);
                 returnVal = true;
             }else{
-                System.out.print(" speed is good ");
+               // System.out.print(" speed is good ");
                 returnVal = false;
             }
 
