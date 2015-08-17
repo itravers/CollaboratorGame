@@ -22,6 +22,8 @@ public class GameInput {
     private float angularVelocity;
     private float angle;
 
+    private Player.STATE state;
+
     public GameInput(InputType type, int keycode, int frameNum, float timeStamp, Player player){
 
         this.type = type;
@@ -33,6 +35,7 @@ public class GameInput {
         this.linearVelocity = player.getBody().getLinearVelocity().cpy();
         this.angularVelocity = player.getBody().getAngularVelocity();
         this.angle = player.getBody().getAngle();
+        this.state = player.getCurrentState();
         //System.out.println("adding input for loc: " + loc.x + " " + loc.y);
     }
 
@@ -99,4 +102,13 @@ public class GameInput {
     public void setAngle(float angle) {
         this.angle = angle;
     }
+
+    public Player.STATE getState() {
+        return state;
+    }
+
+    public void setState(Player.STATE state) {
+        this.state = state;
+    }
+
 }

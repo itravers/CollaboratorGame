@@ -89,6 +89,7 @@ public class Ghost extends Player {
                 this.getBody().setTransform(i.getLoc(), i.getAngle());
                 this.getBody().setLinearVelocity(i.getLinearVelocity()); //set linear velocity
                 this.getBody().setAngularVelocity(i.getAngularVelocity()); //set angular velocity
+                this.setCurrentState(i.getState());
 
             }
            // System.out.println("frame check: " + i.getFrameNum() + " vs " + parent.parent.getFrameNum());

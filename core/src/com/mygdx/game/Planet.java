@@ -36,8 +36,11 @@ public class Planet extends Sprite {
         super(textureAtlas.getRegions().first());
         this.parent = parent;
         this.mass = mass;
+        float radius = getRadiusFromMass(mass);
+        this.setSize(radius, radius);
         this.setPosition(pos.x, pos.y);
         setupRendering(textureAtlas);
+        System.out.println("Width: " + this.getWidth() + " height: " + this.getHeight());
         setupPhysics(world);
     }
 
@@ -52,6 +55,17 @@ public class Planet extends Sprite {
     private void setupRendering(TextureAtlas textureAtlas){
         this.textureAtlas = textureAtlas;
         setupAnimations();
+    }
+
+    private float getRadiusFromMass(float m){
+        float radius = 0;
+        float sM = 10000f;
+        float bM = 400000f;
+        float sP = 50f;
+        float bP = 850f;
+        radius = (((m - sM) * (bP - sP)) / (bM - sM))+sP;
+
+        return radius;
     }
 
     private void setupPhysics(World world){

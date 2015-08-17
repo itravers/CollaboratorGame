@@ -60,7 +60,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
 		this.parent = parent;
-		setCurrentState(STATE.FLYING);
+		setCurrentState(STATE.LANDED);
 		this.setPosition(pos.x, pos.y);
 		setupInputs();
 		setupRendering();
@@ -104,7 +104,7 @@ public class Player extends Sprite {
 
 		/* Create a new GameInput to record Player states. We do this every time the player
 			has input, but we also do it here, maybe twice a second? We */
-		if (!(this instanceof Ghost) && parent.parent.getFrameNum() % 30 == 0){
+		if (!(this instanceof Ghost) && parent.parent.getFrameNum() % 60 == 0){
 			GameInput gInput = new GameInput(GameInput.InputType.TIMER, 0, parent.parent.getFrameNum(), parent.parent.elapsedTime, this);
 			inputList.add(gInput);
 		}
@@ -240,7 +240,7 @@ public class Player extends Sprite {
 	 * Choose animation based on current input as well as current state
 	 */
 	private void chooseAnimation(){
-		if(getCurrentState() == STATE.FLYING){
+		if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
 				currentAnimation = parent.moveForwardAnimation;
 			}else{

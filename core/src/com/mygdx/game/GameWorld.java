@@ -123,16 +123,16 @@ public class GameWorld implements ContactListener{
     private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
-        Planet p2 = new Planet(new Vector2(0, 300), planetAtlas, world, 100000f, this);
-        Planet p3 = new Planet(new Vector2(0, -300), planetAtlas, world, 100000f, this);
+        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 400000f, this);
+       // Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
+       // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
         planets.add(p);
-        planets.add(p2);
-        planets.add(p3);
-        planets.add(new Planet(new Vector2(300, 0), planetAtlas, world, 100000f, this));
-        planets.add(new Planet(new Vector2(-300, 0), planetAtlas, world, 100000f, this));
+        //planets.add(p2);
+        //planets.add(p3);
+        //planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
+       // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
 
-        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
+        planets.add(new Planet(new Vector2(0, 5000), planetAtlas, world, 400000f, this));
 
     }
 
@@ -140,7 +140,7 @@ public class GameWorld implements ContactListener{
      * Setup the player
      */
     private void setupPlayer(){
-        originalPlayerPosition = new Vector2((planets.get(0).getWidth()/2)-12, 100);
+        originalPlayerPosition = new Vector2((planets.get(0).getWidth()/2)-12, planets.get(0).getHeight());
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         player = new Player(originalPlayerPosition, atlas, world, this);
         player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
