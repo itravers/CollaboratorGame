@@ -123,7 +123,7 @@ public class GameWorld implements ContactListener{
     private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
+        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 10000f, this);
         //Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
        // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
         planets.add(p);
@@ -132,7 +132,7 @@ public class GameWorld implements ContactListener{
        // planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
        // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
 
-        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
+        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 10000f, this));
 
     }
 
@@ -608,9 +608,16 @@ public class GameWorld implements ContactListener{
      */
     private boolean didPlayerCrashIntoPlanet(Player s, Planet p){
         boolean returnVal = false;
-        Vector2 playerToPlanet = p.getBody().getPosition().sub(s.getBody().getPosition());
-        Vector2 playerDir = new Vector2(MathUtils.cos(s.getBody().getAngle()), MathUtils.sin(s.getBody().getAngle()));
-        if(playerToPlanet.hasSameDirection(playerDir)){
+        Vector2 v_planetToPlayer = s.getBody().getPosition().sub(p.getBody().getPosition());
+        //Vector2 playerDir = new Vector2(MathUtils.cos(s.getBody().getAngle()), MathUtils.sin(s.getBody().getAngle()));
+       // boolean sameDir = playerToPlanet.hasSameDirection(playerDir);
+        float f_planetToPlayer = v_planetToPlayer.angle();
+       // f_planetToPlayer = (float)Math.toRadians(f_planetToPlayer);
+        float f_playerDir = (float)Math.toDegrees(s.getBody().getAngle());
+        float angleDif = Math.abs(Math.abs(f_planetToPlayer) - Math.abs(f_playerDir));
+
+        System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
+        if(angleDif < 45){
             //the player hit the planet while facing the planet, it crashed
             s.setCurrentState(Player.STATE.EXPLOADING);
         }else{
@@ -627,7 +634,7 @@ public class GameWorld implements ContactListener{
         Object a = contact.getFixtureA().getBody().getUserData();
         Object b = contact.getFixtureB().getBody().getUserData();
         if((a instanceof Planet && b instanceof Player) || (b instanceof Planet && a instanceof Player)){
-            System.out.println("Ended collision with planet");
+            //System.out.println("Ended collision with planet");
             //First assign player to s
             Player s; //s for ship
             if(a instanceof Player){

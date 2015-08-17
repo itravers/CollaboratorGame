@@ -93,10 +93,9 @@ public class Player extends Sprite {
 		}
 
 		/* Change state from landed to flying if we are a certain distance from the nearest planets surface. */
-		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 15){
+		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 3.5){
 			setCurrentState(STATE.FLYING);
 		}
-
 
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
@@ -113,9 +112,20 @@ public class Player extends Sprite {
 	}
 
 	private float getDistanceFromClosestPlanet(){
-		float distanceToClosestPlanet = -1; //can't find a distance -1
-		
-
+		float distanceToClosestPlanet = 1010101f;
+		ArrayList<Planet>planets = parent.getPlanets();
+		for(int i = 0; i < planets.size(); i++){
+			Planet p = planets.get(i);
+			float radiusPlanet = p.getBody().getFixtureList().first().getShape().getRadius();
+			//float radiusShip = this.getWidth()/2;
+			float dist = p.getBody().getPosition().dst(body.getPosition());
+			dist -= radiusPlanet;
+			//dist -= radiusShip;
+			if(dist < distanceToClosestPlanet){
+				distanceToClosestPlanet = dist;
+			}
+		}
+		//System.out.println("distToClosestPlanet " + distanceToClosestPlanet);
 		return distanceToClosestPlanet;
 	}
 
