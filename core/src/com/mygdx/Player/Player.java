@@ -40,7 +40,7 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 	private float torque = 0.0f;
-	public float MAX_VELOCITY = 80f;
+	public float MAX_VELOCITY = 25f;
 	public float MAX_ANGULAR_VELOCITY = 20f;
 
 	//Inputs

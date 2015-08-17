@@ -124,7 +124,7 @@ public class GameWorld implements ContactListener{
     private void setupPlanets(){
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 10000f, this);
+        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
         //Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
        // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
         planets.add(p);
@@ -133,7 +133,7 @@ public class GameWorld implements ContactListener{
        // planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
        // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
 
-        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 10000f, this));
+        planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
 
     }
 
@@ -625,15 +625,23 @@ public class GameWorld implements ContactListener{
         System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
 
         if(45 >= angleDif || 135 <= angleDif){
+            System.out.print(" angle is bad ");
             //the player hit the planet while facing the planet, it crashed
-            s.setCurrentState(Player.STATE.EXPLOADING);
+            //s.setCurrentState(Player.STATE.EXPLOADING);
+            returnVal = true;
         }else{
+            System.out.print(" angle is good ");
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
             float speed = player.getBody().getLinearVelocity().len();
             System.out.println("speed: " +speed);
-            if(speed > player.MAX_VELOCITY){
-
+            if(speed > player.MAX_VELOCITY/3){
+                System.out.print(" speed is bad ");
+                //s.setCurrentState(Player.STATE.EXPLOADING);
+                returnVal = true;
+            }else{
+                System.out.print(" speed is good ");
+                returnVal = false;
             }
 
         }
