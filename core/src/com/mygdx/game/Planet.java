@@ -70,6 +70,7 @@ public class Planet extends Sprite {
         fixtureDef.density = 10f;
         fixtureDef.friction = .5f;
         fixture = body.createFixture(fixtureDef);
+        body.setUserData(this); //used by body to tell who it's parent is... basically
         shape.dispose();
     }
 

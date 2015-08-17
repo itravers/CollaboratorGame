@@ -1,12 +1,8 @@
 package com.mygdx.Player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,8 +17,6 @@ import com.mygdx.game.Planet;
 
 import java.util.ArrayList;
 
-import javax.xml.soap.Text;
-
 import input.GameInput;
 
 /**
@@ -35,7 +29,7 @@ public class Player extends Sprite {
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
 
 	// State Tracking Fields
-	public enum STATE {ALIVE, EXPLOADING, DEAD}
+	public enum STATE {FLYING, LANDED, EXPLOADING, DEAD}
 	private STATE currentState;
 
 	// Physics Oriented Fields
@@ -48,7 +42,6 @@ public class Player extends Sprite {
 	private float torque = 0.0f;
 	public float MAX_VELOCITY = 80f;
 	public float MAX_ANGULAR_VELOCITY = 20f;
-
 
 	//Inputs
 	public boolean forwardPressed;
@@ -65,7 +58,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first());
 		this.parent = parent;
-		setCurrentState(STATE.ALIVE);
+		setCurrentState(STATE.FLYING);
 		this.setPosition(pos.x, pos.y);
 		setupInputs();
 		setupRendering();
@@ -98,23 +91,9 @@ public class Player extends Sprite {
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(elapsedTime)){
 			setCurrentState(STATE.DEAD);
 		}
-		//if(getCurrentState() == STATE.ALIVE){
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX(), this.getScaleY(), this.getRotation());
-		/*}else if(getCurrentState() == STATE.EXPLOADING){
-			if(explosionAnimation.isAnimationFinished(elapsedTime)){
-				setCurrentState(STATE.DEAD);
-				System.out.println("DEAD!");
-			} else {
-				System.out.println("EXPLOADING");
-				batch.draw(explosionAnimation.getKeyFrame(elapsedTime, false), getX(), getY(),
-						this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-						this.getScaleX(), this.getScaleY(), this.getRotation());
-				//
-			}
-
-		}*/
 
 
 		/* Create a new GameInput to record Player states. We do this every time the player
@@ -152,6 +131,7 @@ public class Player extends Sprite {
 		fixtureDef.density = 1.25f;
 		fixtureDef.friction = .5f;
 		fixture = body.createFixture(fixtureDef);
+		body.setUserData(this);
 		shape.dispose();
 	}
 
@@ -237,7 +217,7 @@ public class Player extends Sprite {
 	 * Choose animation based on current input as well as current state
 	 */
 	private void chooseAnimation(){
-		if(getCurrentState() == STATE.ALIVE){
+		if(getCurrentState() == STATE.FLYING){
 			if(forwardPressed || backwardPressed){
 				currentAnimation = parent.moveForwardAnimation;
 			}else{
@@ -276,5 +256,6 @@ public class Player extends Sprite {
 		}
 		this.currentState = currentState;
 	}
+
 
 }

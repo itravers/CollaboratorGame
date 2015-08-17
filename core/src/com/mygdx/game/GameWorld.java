@@ -14,6 +14,10 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -28,7 +32,7 @@ import input.InputManager;
 /**
  * Created by Isaac Assegai on 8/13/2015.
  */
-public class GameWorld{
+public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
 
     // Rendering Related Fields
@@ -47,6 +51,7 @@ public class GameWorld{
     public Label nameLabel;
     public Label elapsedTimeLabel;
     public Label midGameMsgLbl;
+    public Label playerStateLabel;
 
     private Stage stage; //for drawing ui
     private BitmapFont font;
@@ -118,13 +123,13 @@ public class GameWorld{
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
-        Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
-        Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
+        //Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
+       // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
         planets.add(p);
-        planets.add(p2);
-        planets.add(p3);
-        planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
-        planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
+       // planets.add(p2);
+       // planets.add(p3);
+       // planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
+       // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
 
         planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
 
@@ -145,15 +150,11 @@ public class GameWorld{
      */
     private void setupPhysics(){
         world = new World(new Vector2(0, 0),true);
+        world.setContactListener(this);
     }
 
     private void resetPhysics(){
-        //world.destroyBody(player.getBody());
-        world = new World(new Vector2(0, 0), false);
-       // player.setWorld(world);
-       // for(int i = 0; i < ghosts.size(); i++){
-       //     ghosts.get(i).setWorld(world);
-       // }
+       setupPhysics();
     }
 
     /**
@@ -225,11 +226,15 @@ public class GameWorld{
         nameLabel.setPosition(0, Gdx.graphics.getHeight() - 20);
         elapsedTimeLabel = new Label("ELAPSEDTIME", skin, "default");
         elapsedTimeLabel.setPosition(nameLabel.getWidth() + 2, Gdx.graphics.getHeight() - 20);
+        playerStateLabel = new Label("STATE", skin, "default");
+        playerStateLabel.setPosition(0, 20);
         nameLabel.setColor(Color.GREEN);
         elapsedTimeLabel.setColor(Color.RED);
+        playerStateLabel.setColor(Color.RED);
         stage = new Stage();
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
+        stage.addActor(playerStateLabel);
 
         //MidGameMsgSEtup
         midGameMsgLbl = new Label("You have died. Press Space to Continue", skin, "default");
@@ -412,6 +417,7 @@ public class GameWorld{
      */
     private void renderUI(float elapsedTime, SpriteBatch batch){
         elapsedTimeLabel.setText(new Float(elapsedTime).toString());
+        playerStateLabel.setText(player.getCurrentState().toString());
         stage.draw();
     }
 
@@ -547,5 +553,33 @@ public class GameWorld{
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Object a = contact.getFixtureA().getBody().getUserData();
+        Object b = contact.getFixtureB().getBody().getUserData();
+        if((a instanceof Planet && b instanceof Player) || (b instanceof Planet && a instanceof Player)){
+            System.out.println("collided with planet");
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+        Object a = contact.getFixtureA().getBody().getUserData();
+        Object b = contact.getFixtureB().getBody().getUserData();
+        if((a instanceof Planet && b instanceof Player) || (b instanceof Planet && a instanceof Player)){
+            System.out.println("Ended collision with planet");
+        }
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }
