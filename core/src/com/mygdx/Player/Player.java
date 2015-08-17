@@ -171,11 +171,12 @@ public class Player extends Sprite {
 		currentAnimation = parent.noMovementAnimation;
 	}
 
-
 	public void update(float elapsedTime){
 		stateTime += Gdx.graphics.getDeltaTime();
-		if(getCurrentState() == STATE.DEAD){
+		if(getCurrentState() == STATE.DEAD || getCurrentState() == STATE.EXPLOADING){
 			//we have died, we don't want to update like normal.
+			body.setLinearVelocity(0,0); // stay where we die at.
+			body.setAngularVelocity(0);
 		}else{
 			//we are not dead, we want to update
 			//i think we'll let the explosion state fall through here too

@@ -36,7 +36,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		elapsedTime = 0;
 	}
 
-
 	public int getFrameNum() {
 		return frameNum;
 	}

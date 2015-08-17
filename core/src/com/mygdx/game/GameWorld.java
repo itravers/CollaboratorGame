@@ -124,13 +124,13 @@ public class GameWorld implements ContactListener{
         planets = new ArrayList<Planet>();
         TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
         Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this);
-        //Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
-       // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
+        Planet p2 = new Planet(new Vector2(0, 300), planetAtlas, world, 100000f, this);
+        Planet p3 = new Planet(new Vector2(0, -300), planetAtlas, world, 100000f, this);
         planets.add(p);
-       // planets.add(p2);
-       // planets.add(p3);
-       // planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
-       // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
+        planets.add(p2);
+        planets.add(p3);
+        planets.add(new Planet(new Vector2(300, 0), planetAtlas, world, 100000f, this));
+        planets.add(new Planet(new Vector2(-300, 0), planetAtlas, world, 100000f, this));
 
         planets.add(new Planet(new Vector2(0, 1500), planetAtlas, world, 100000f, this));
 
