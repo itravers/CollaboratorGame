@@ -91,6 +91,13 @@ public class Player extends Sprite {
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(elapsedTime)){
 			setCurrentState(STATE.DEAD);
 		}
+
+		/* Change state from landed to flying if we are a certain distance from the nearest planets surface. */
+		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 15){
+			setCurrentState(STATE.FLYING);
+		}
+
+
 			batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX(), this.getScaleY(), this.getRotation());
@@ -103,6 +110,13 @@ public class Player extends Sprite {
 			inputList.add(gInput);
 		}
 
+	}
+
+	private float getDistanceFromClosestPlanet(){
+		float distanceToClosestPlanet = -1; //can't find a distance -1
+		
+
+		return distanceToClosestPlanet;
 	}
 
 	public void setWorld(World world){

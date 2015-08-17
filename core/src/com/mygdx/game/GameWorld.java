@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -560,8 +561,65 @@ public class GameWorld implements ContactListener{
         Object a = contact.getFixtureA().getBody().getUserData();
         Object b = contact.getFixtureB().getBody().getUserData();
         if((a instanceof Planet && b instanceof Player) || (b instanceof Planet && a instanceof Player)){
-            System.out.println("collided with planet");
+            //First assign player to s
+            Player s; //s for ship
+            if(a instanceof Player){
+                s = (Player)a;
+            }else{
+                s = (Player)b;
+            }
+
+            //Then assign the planet to p
+            Planet p; //p for planet
+            if(a instanceof Planet){
+                p = (Planet)a;
+            }else{
+                p = (Planet)b;
+            }
+
+            //then decide what to do based on the Players state.
+            /* We were flying, now we've hit a planet, so we are either landing or crashing.
+             * In order to land the player must be faced generally away from the planet
+             * and we must stay under a certain speed*/
+            if(s.getCurrentState() == Player.STATE.FLYING){
+                if(didPlayerCrashIntoPlanet(s, p)){
+                    s.setCurrentState(Player.STATE.EXPLOADING);
+                }else{
+                    s.setCurrentState(Player.STATE.LANDED);
+                }
+            }else if(s.getCurrentState() == Player.STATE.LANDED){
+
+            }else if(s.getCurrentState() == Player.STATE.EXPLOADING){
+                //we don't need to do anything here, we transition elsewhere
+            }else if(s.getCurrentState() == Player.STATE.DEAD){
+                //we don't need to do anything here, we transition elsewhere
+            }
         }
+    }
+
+    /**
+     * Checks to see if the given player - s crashed into the given
+     * planet - p during the collision that called this function.
+     * If s is facing the opposite direction as p and s' velocity
+     * is slow enough
+     * @param s The Player that we are checking
+     * @param p The Planet that we are checking
+     * @return True if the player crashed, false if not.
+     */
+    private boolean didPlayerCrashIntoPlanet(Player s, Planet p){
+        boolean returnVal = false;
+        Vector2 playerToPlanet = p.getBody().getPosition().sub(s.getBody().getPosition());
+        Vector2 playerDir = new Vector2(MathUtils.cos(s.getBody().getAngle()), MathUtils.sin(s.getBody().getAngle()));
+        if(playerToPlanet.hasSameDirection(playerDir)){
+            //the player hit the planet while facing the planet, it crashed
+            s.setCurrentState(Player.STATE.EXPLOADING);
+        }else{
+            /*the player hit the planet while facing the opposite direction.
+              We now need to check if the player was going slow enough */
+
+        }
+
+        return returnVal;
     }
 
     @Override
@@ -570,6 +628,24 @@ public class GameWorld implements ContactListener{
         Object b = contact.getFixtureB().getBody().getUserData();
         if((a instanceof Planet && b instanceof Player) || (b instanceof Planet && a instanceof Player)){
             System.out.println("Ended collision with planet");
+            //First assign player to s
+            Player s; //s for ship
+            if(a instanceof Player){
+                s = (Player)a;
+            }else{
+                s = (Player)b;
+            }
+
+            //Then assign the planet to p
+            Planet p; //p for planet
+            if(a instanceof Planet){
+                p = (Planet)a;
+            }else{
+                p = (Planet)b;
+            }
+
+            //we could transition states here from landed to flying, but we want to
+            // that in the player.render itself.
         }
     }
 
