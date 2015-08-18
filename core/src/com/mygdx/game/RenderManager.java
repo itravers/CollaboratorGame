@@ -1,13 +1,18 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.Player.Player;
 
 /**
  * This class is resposible for all rendering calls, and fields
@@ -20,6 +25,7 @@ public class RenderManager {
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
     private OrthographicCamera camera; //drawing game pieces
+    private ShapeRenderer shapeRenderer;
 
     private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
@@ -44,6 +50,7 @@ public class RenderManager {
      */
     private void setupRendering(){
         setupUI();
+
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
        // parent.getLevelManager().setupBackground();
@@ -53,6 +60,13 @@ public class RenderManager {
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
+
+        shapeRenderer = new ShapeRenderer();
+        //Matrix4 mat = camera.combined.cpy();
+        //mat.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+       // shapeRenderer.setProjectionMatrix(camera.combined);
+       // shapeRenderer.setTransformMatrix(camera.combined);
+
     }
 
     /**
@@ -101,11 +115,16 @@ public class RenderManager {
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
+
             renderPlanets(elapsedTime, batch);
+
             renderGhosts(elapsedTime, batch);
             renderPlayer(elapsedTime, batch);
+
+
         }
         batch.end();
+        renderGoal(elapsedTime, batch);
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         if(!drawSprite) debugRenderer.render(parent.getLevelManager().getWorld(), debugMatrix); /* Render box2d physics items */
 
@@ -113,6 +132,36 @@ public class RenderManager {
         parent.updatePlayer(elapsedTime);
         parent.updatePlanets(elapsedTime);
         parent.updateGhosts(elapsedTime);
+    }
+
+    private void renderGoal(float elapsedTime, SpriteBatch batch){
+        Sprite g = parent.getLevelManager().getGoal(); /* This object is our goal. */
+        if(g instanceof Planet){
+            Planet goal = (Planet)g;
+            Vector2 goalPos = new Vector2(goal.getX(), goal.getY());
+            float goalRadius = goal.getRadiusFromMass(goal.getMass());
+
+
+            if(g != null){ /* The goal can be null, make sure it isn't here. */
+
+                //shapeRenderer.setProjectionMatrix(camera.combined);
+                shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+                shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+                shapeRenderer.setColor(Color.GREEN);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                //shapeRenderer.circle((goalPos.x+goalRadius/4), (goalPos.y+goalRadius/4), goalRadius/2);
+                shapeRenderer.circle((goalPos.x+goalRadius/2), (goalPos.y+goalRadius/2), goalRadius/2);
+                //shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
+               // shapeRenderer.circle((goalPos.x+goalRadius/2)-12, (goalPos.y+goalRadius/2)-12, goalRadius/2);
+                //shapeRenderer.circle(goalPos.x + goal.getRadiusFromMass(goal.getMass())  / 2) / parent.PIXELS_TO_METERS,
+                        //(getY() + getRadiusFromMass(mass) / 2) / parent.PIXELS_TO_METERS, goalRadius/2);
+                //shapeRenderer.circle((goalPos.x + goal.getRadiusFromMass(goal.getMass()) / 2) / parent.PIXELS_TO_METERS,
+                //        (goalPos.y + goal.getRadiusFromMass(goal.getMass()) / 2) / parent.PIXELS_TO_METERS, (goalRadius/2));
+                //shapeRenderer.
+                shapeRenderer.end();
+            }
+        }
+
     }
 
 

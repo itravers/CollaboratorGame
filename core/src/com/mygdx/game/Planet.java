@@ -57,7 +57,7 @@ public class Planet extends Sprite {
         setupAnimations();
     }
 
-    private float getRadiusFromMass(float m){
+    public float getRadiusFromMass(float m){
         float radius = 0;
         float sM = 10000f;
         float bM = 400000f;
@@ -72,8 +72,8 @@ public class Planet extends Sprite {
         this.world = world;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody; //Planets are not moving
-        bodyDef.position.set((getX() + getWidth()  / 2) / parent.PIXELS_TO_METERS,
-                             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
+        bodyDef.position.set((getX() + getRadiusFromMass(mass)  / 2) / parent.PIXELS_TO_METERS,
+                             (getY() + getRadiusFromMass(mass) / 2) / parent.PIXELS_TO_METERS);
         body = world.createBody(bodyDef);
 
         shape = new CircleShape();

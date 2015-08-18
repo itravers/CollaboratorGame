@@ -89,7 +89,21 @@ public class LevelManager {
         setupPlanets(); // before setupPlayer
         setupPlayer();
         setupGhosts();
+        setupGoal();
         System.out.println("levelManager.setLevel(" + currentLevel + ")");
+    }
+
+    private void setupGoal(){
+        int level = getLevel();
+        if(level == 0){
+            goal = null;
+        }else if(level == 1){
+            Planet p = planets.get(1); //last planet in first level is the goal
+            goal = p;
+        }else{
+            Planet p = planets.get(0); //last planet in first level is the goal
+            goal = p;
+        }
     }
 
     /**
@@ -174,9 +188,9 @@ public class LevelManager {
         if(level == 1){
             planets = new ArrayList<Planet>();
             TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-            Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 400000f, this.parent);
+            Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this.parent);
             planets.add(p);
-            planets.add(new Planet(new Vector2(0, 5000), planetAtlas, world, 400000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 300), planetAtlas, world, 50000f, this.parent));
         }else if(level == 2){
             planets = new ArrayList<Planet>();
             TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
@@ -411,4 +425,14 @@ public class LevelManager {
     public void setGhosts(ArrayList<Ghost> ghosts) {
         this.ghosts = ghosts;
     }
+
+
+    public Sprite getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Sprite goal) {
+        this.goal = goal;
+    }
+
 }
