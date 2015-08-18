@@ -40,15 +40,15 @@ public class InputManager implements InputProcessor {
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
             parent.nextLevel();
             parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
-            parent.midGameMsgLbl.setVisible(false);
-            parent.nameLabel.setVisible(true);
-            parent.elapsedTimeLabel.setVisible(true);
+            parent.getLevelManager().getMidGameMsgLbl().setVisible(false);
+            parent.getLevelManager().getNameLabel().setVisible(true);
+            parent.getLevelManager().getElapsedTimeLabel().setVisible(true);
         }
         if(keycode == Input.Keys.ESCAPE){ // transition from ingame -> midgame
             parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
-            parent.midGameMsgLbl.setVisible(true);
-            parent.nameLabel.setVisible(false);
-            parent.elapsedTimeLabel.setVisible(false);
+            parent.getLevelManager().getMidGameMsgLbl().setVisible(true);
+            parent.getLevelManager().getNameLabel().setVisible(false);
+            parent.getLevelManager().getElapsedTimeLabel().setVisible(false);
         }
 
         GameInput gInput = new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(), parent.parent.elapsedTime, player);

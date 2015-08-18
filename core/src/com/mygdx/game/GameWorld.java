@@ -49,11 +49,8 @@ public class GameWorld implements ContactListener{
 
     //UI Related Fields
     private Skin skin;
-    public Label nameLabel;
-    public Label elapsedTimeLabel;
-    public Label midGameMsgLbl;
-    public Label playerStateLabel;
-    public Label playerSpeedLabel;
+
+
 
     private Stage stage; //for drawing ui
     private BitmapFont font;
@@ -224,30 +221,10 @@ public class GameWorld implements ContactListener{
     private void setupUI(){
        // layout.setText(font, playerName);
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        nameLabel = new Label("NAME", skin, "default");
-        nameLabel.setPosition(0, Gdx.graphics.getHeight() - 20);
-        elapsedTimeLabel = new Label("ELAPSEDTIME", skin, "default");
-        elapsedTimeLabel.setPosition(nameLabel.getWidth() + 2, Gdx.graphics.getHeight() - 20);
-        playerStateLabel = new Label("STATE", skin, "default");
-        playerStateLabel.setPosition(0, 20);
-        playerSpeedLabel = new Label("SPEED", skin, "default");
-        playerSpeedLabel.setPosition(playerStateLabel.getWidth() + 10, 20);
-        nameLabel.setColor(Color.GREEN);
-        elapsedTimeLabel.setColor(Color.RED);
-        playerStateLabel.setColor(Color.RED);
-        playerSpeedLabel.setColor(Color.RED);
-        stage = new Stage();
-        stage.addActor(nameLabel);
-        stage.addActor(elapsedTimeLabel);
-        stage.addActor(playerStateLabel);
-        stage.addActor(playerSpeedLabel);
 
-        //MidGameMsgSEtup
-        midGameMsgLbl = new Label("You have died. Press Space to Continue", skin, "default");
-        midGameMsgLbl.setColor(Color.RED);
-        midGameMsgLbl.setPosition(0, Gdx.graphics.getHeight()/2 - 20);
-        midGameMsgLbl.setVisible(false);
-        stage.addActor(midGameMsgLbl);
+        stage = new Stage();
+        levelManager.setupUI(skin, stage);
+
 
     }
 
@@ -423,9 +400,9 @@ public class GameWorld implements ContactListener{
      * @param batch The SpriteBatch we render with.
      */
     private void renderUI(float elapsedTime, SpriteBatch batch){
-        elapsedTimeLabel.setText(new Float(elapsedTime).toString());
-        playerStateLabel.setText(player.getCurrentState().toString());
-        playerSpeedLabel.setText(new Float(player.getBody().getLinearVelocity().len()).toString());
+        levelManager.getElapsedTimeLabel().setText(new Float(elapsedTime).toString());
+        levelManager.getPlayerStateLabel().setText(player.getCurrentState().toString());
+        levelManager.getPlayerSpeedLabel().setText(new Float(player.getBody().getLinearVelocity().len()).toString());
         stage.draw();
     }
 
@@ -436,8 +413,10 @@ public class GameWorld implements ContactListener{
     public void setPlayerName(String name){
         Gdx.input.setInputProcessor(inputManager);
         playerName = name;
-        nameLabel.setText(playerName);
-        elapsedTimeLabel.setPosition(Gdx.graphics.getWidth() - elapsedTimeLabel.getWidth(), nameLabel.getY());
+        levelManager.getNameLabel().setText(playerName);
+        levelManager.getElapsedTimeLabel().setPosition(
+                Gdx.graphics.getWidth() - levelManager.getElapsedTimeLabel().getWidth(),
+                levelManager.getNameLabel().getY());
     }
 
     /**
