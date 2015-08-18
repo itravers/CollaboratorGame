@@ -27,7 +27,7 @@ import input.GameInput;
  * Created by Isaac Assegai on 8/17/2015.
  */
 public class LevelManager {
-    public static final int NUM_LEVELS = 2;
+    public static final int NUM_LEVELS = 3;
 
     private GameWorld parent; /* The Main Game Class. */
     private GameMenu menu; /* The Main Menu. */
@@ -86,14 +86,19 @@ public class LevelManager {
         setupPlanets(); // before setupPlayer
         setupPlayer();
         setupGhosts();
-        System.out.println("levelManager.setLevel("+currentLevel+")");
+        System.out.println("levelManager.setLevel(" + currentLevel + ")");
     }
 
     /**
      * This will set level to the next level,
      */
     public void nextLevel(){
-        setLevel(getLevel() + 1);
+        int level = getLevel();
+        level++;
+        if(level >= NUM_LEVELS){ //reset to first level.
+            level = 1;
+        }
+        setLevel(level);
     }
 
     /**
@@ -136,8 +141,7 @@ public class LevelManager {
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
             backgrounds[0] = new Background(this, backgroundLayers);
-        }
-        if(level == 1) {
+        }else if(level == 1) {
             /* Level 1 Background. */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
             Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
@@ -146,6 +150,15 @@ public class LevelManager {
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
             backgrounds[1] = new Background(this, backgroundLayers);
+        }else if(level == 2){
+            /* Level 2 Background. */
+            Texture background = new Texture(Gdx.files.internal("data/background.png"));
+            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
+            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
+            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgrounds[2] = new Background(this, backgroundLayers);
         }
     }
 
@@ -161,6 +174,12 @@ public class LevelManager {
             Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 400000f, this.parent);
             planets.add(p);
             planets.add(new Planet(new Vector2(0, 5000), planetAtlas, world, 400000f, this.parent));
+        }else if(level == 2){
+            planets = new ArrayList<Planet>();
+            TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 10000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 2000), planetAtlas, world, 100000f, this.parent));
         }
     }
 
@@ -171,6 +190,12 @@ public class LevelManager {
         int level  = getLevel();
         System.out.println("levelManager.setupPlayer lvl: " + level);
         if(level == 1){
+            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
+                    getPlanets().get(0).getHeight());
+            TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
+            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+        }else if(level == 2){
             originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
                     getPlanets().get(0).getHeight());
             TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));

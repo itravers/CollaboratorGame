@@ -42,10 +42,8 @@ public class InputManager implements InputProcessor {
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
             parent.getRenderManager().setDrawSprite(!parent.getRenderManager().isDrawSprite());
         }
-        if(keycode == Input.Keys.ENTER &&
-                parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME &&
-                parent.getLevelManager().getPlayer().getCurrentState() == Player.STATE.FLYING){
-            parent.getLevelManager().getPlayer().setCurrentState(Player.STATE.EXPLOADING);
+        if(keycode == Input.Keys.ENTER && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+            parent.getLevelManager().nextLevel();
         }
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
             parent.getLevelManager().resetLevel();//nextLevel();
