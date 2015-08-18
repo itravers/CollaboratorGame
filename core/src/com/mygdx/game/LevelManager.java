@@ -4,10 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.Player.Player;
+
+import java.util.ArrayList;
 
 /**
  * Manages the level progression.
@@ -19,10 +25,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class LevelManager {
     public static final int NUM_LEVELS = 2;
 
-    private GameWorld parent;
-    private GameMenu menu;
-    private Background[] backgrounds;
-    private int level;
+    private GameWorld parent; /* The Main Game Class. */
+    private GameMenu menu; /* The Main Menu. */
+    private Background[] backgrounds; /* Array of level backgrounds. */
+    private int level; /* Current Level */
 
     /* Labels Used by the UI. */
     private Label nameLabel;
@@ -31,10 +37,24 @@ public class LevelManager {
     private Label playerStateLabel;
     private Label playerSpeedLabel;
 
+    //Physics related fields
+    private World world;
+
+    // Planet Related Fields
+    private ArrayList<Planet> planets;
+
+    // Player related Fields
+    private Player player;
+    private Vector2 originalPlayerPosition;
+
     public LevelManager(GameWorld parent){
         this.parent = parent;
         backgrounds = new Background[NUM_LEVELS];
+        //setupPhysics();
+        //setupPlanets(); // before setupPlayer
+        //wwwwwsetupPlayer();
         setLevel(0);
+
     }
     public GameWorld getParent() {
         return parent;
@@ -56,8 +76,12 @@ public class LevelManager {
      * @param currentLevel The level to set to.
      */
     public void setLevel(int currentLevel) {
-        System.out.println("levelManager.setLevel("+currentLevel+")");
         this.level = currentLevel;
+        setupPhysics();
+        setupPlanets(); // before setupPlayer
+        setupPlayer();
+        System.out.println("levelManager.setLevel("+currentLevel+")");
+
     }
 
     /**
@@ -67,8 +91,35 @@ public class LevelManager {
         setLevel(getLevel()+1);
     }
 
-    public void resetLevel(){
 
+    /**
+     * Sets us up to reset this level.
+     * Copies player to a ghost.
+     * Resets world pieces to origin.
+     */
+    public void resetLevel(){
+        resetPhysics();
+        parent.addGhost(getPlayer());
+        resetWorld();
+    }
+
+    private void resetWorld(){
+        parent.parent.elapsedTime = 0;
+        parent.parent.resetFrameNum(); //reset frame counter for accurate replays
+        resetPlanets();
+        parent.resetGhosts();
+        setupPlayer();
+        //parent.getInputManager().reset();
+    }
+
+    private void resetPlanets(){
+        for(int i = 0; i < getPlanets().size(); i++){
+            Planet p = getPlanets().get(i);
+            Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()),
+                    p.getTextureAtlas(), getWorld(), p.getMass(), this.parent);
+            getPlanets().set(i, newPlanet);
+            //p.dispose();
+        }
     }
 
     public void setupBackground(){
@@ -94,6 +145,38 @@ public class LevelManager {
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
             backgrounds[1] = new Background(this, backgroundLayers);
         }
+    }
+
+
+    /**
+     * Setup planets in the world
+     */
+    private void setupPlanets(){
+        int level = getLevel();
+        System.out.println("levelManager.setupPlanets lvl: " + level);
+        if(level == 1){
+            planets = new ArrayList<Planet>();
+            TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+            Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 400000f, this.parent);
+            planets.add(p);
+            planets.add(new Planet(new Vector2(0, 5000), planetAtlas, world, 400000f, this.parent));
+        }
+    }
+
+    /**
+     * Setup the player
+     */
+    private void setupPlayer(){
+        int level  = getLevel();
+        System.out.println("levelManager.setupPlayer lvl: " + level);
+        if(level == 1){
+            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
+                    getPlanets().get(0).getHeight());
+            TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
+            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+        }
+
     }
 
     public void setupMenu(GameWorld w, SpriteBatch b){
@@ -126,6 +209,19 @@ public class LevelManager {
         stage.addActor(midGameMsgLbl);
     }
 
+
+    /**
+     * Setup the worlds physics.
+     */
+    public void setupPhysics(){
+        world = new World(new Vector2(0, 0),true);
+        world.setContactListener(this.parent);
+    }
+
+    public void resetPhysics(){
+        setupPhysics();
+    }
+
     public Background getBackground(){
         return getBackground(level);
     }
@@ -150,7 +246,6 @@ public class LevelManager {
         }
         return background;
     }
-
 
     public GameMenu getMenu() {
         return menu;
@@ -200,6 +295,43 @@ public class LevelManager {
     public void setPlayerSpeedLabel(Label playerSpeedLabel) {
         this.playerSpeedLabel = playerSpeedLabel;
     }
+
+
+    public ArrayList<Planet> getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(ArrayList<Planet> planets) {
+        this.planets = planets;
+    }
+
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Vector2 getOriginalPlayerPosition() {
+        return originalPlayerPosition;
+    }
+
+    public void setOriginalPlayerPosition(Vector2 originalPlayerPosition) {
+        this.originalPlayerPosition = originalPlayerPosition;
+    }
+
+
 
 
 }

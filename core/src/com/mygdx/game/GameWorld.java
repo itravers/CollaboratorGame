@@ -1,9 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -20,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
@@ -49,29 +46,19 @@ public class GameWorld implements ContactListener{
 
     //UI Related Fields
     private Skin skin;
-
-
-
     private Stage stage; //for drawing ui
     private BitmapFont font;
     private GlyphLayout layout; /* Used to get bounds of fonts. */
 
-    // Physics Related Fields
-    private World world; /* box2d physics world. */
-
     // Player Related Fields
-    private Player player;
+
     private String playerName;
-    public Vector2 originalPlayerPosition;
 
     // Ghost Related Fields
     private ArrayList<Ghost> ghosts;
 
     //Input Related Fields
     private InputManager inputManager;
-
-    // Planet Related Fields
-    private ArrayList <Planet> planets;
 
     // Constant Fields
     public final float PIXELS_TO_METERS = 10f;
@@ -101,11 +88,7 @@ public class GameWorld implements ContactListener{
         parent = p;
         levelManager = new LevelManager(this);
         setupRendering();
-        setupPhysics();
-        setupPlanets(); // before setupPlayer
-        setupPlayer();
         setupGhosts();
-
         inputManager = new InputManager(this);
     }
 
@@ -114,47 +97,6 @@ public class GameWorld implements ContactListener{
      */
     private void setupGhosts(){
         ghosts = new ArrayList<Ghost>();
-    }
-
-    /**
-     * Setup planets in the world
-     */
-    private void setupPlanets(){
-        planets = new ArrayList<Planet>();
-        TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 400000f, this);
-       // Planet p2 = new Planet(new Vector2(0, 400), planetAtlas, world, 100000f, this);
-       // Planet p3 = new Planet(new Vector2(0, -400), planetAtlas, world, 100000f, this);
-        planets.add(p);
-        //planets.add(p2);
-        //planets.add(p3);
-        //planets.add(new Planet(new Vector2(400, 0), planetAtlas, world, 100000f, this));
-       // planets.add(new Planet(new Vector2(-400, 0), planetAtlas, world, 100000f, this));
-
-        planets.add(new Planet(new Vector2(0, 5000), planetAtlas, world, 400000f, this));
-
-    }
-
-    /**
-     * Setup the player
-     */
-    private void setupPlayer(){
-        originalPlayerPosition = new Vector2((planets.get(0).getWidth()/2)-12, planets.get(0).getHeight());
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        player = new Player(originalPlayerPosition, atlas, world, this);
-        player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
-    }
-
-    /**
-     * Setup the worlds physics.
-     */
-    private void setupPhysics(){
-        world = new World(new Vector2(0, 0),true);
-        world.setContactListener(this);
-    }
-
-    private void resetPhysics(){
-       setupPhysics();
     }
 
     /**
@@ -269,13 +211,13 @@ public class GameWorld implements ContactListener{
     }
 
     private void renderMidGame(float elapsedTime){
-        camera.position.set(player.getX(), player.getY(), 0);
+        camera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(player.getX(), player.getY(), 0);
+        backgroundCamera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
         backgroundCamera.update();
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-        world.step(1f / 60f, 6, 2);
+        levelManager.getWorld().step(1f / 60f, 6, 2);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -298,13 +240,13 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed
      */
     private void renderInGame(float elapsedTime) {
-        camera.position.set(player.getX(), player.getY(), 0);
+        camera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(player.getX(), player.getY(), 0);
+        backgroundCamera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
         backgroundCamera.update();
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-        world.step(1f / 60f, 6, 2);
+        levelManager.getWorld().step(1f / 60f, 6, 2);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -318,7 +260,7 @@ public class GameWorld implements ContactListener{
         }
         batch.end();
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
-        if(!drawSprite) debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
+        if(!drawSprite) debugRenderer.render(levelManager.getWorld(), debugMatrix); /* Render box2d physics items */
 
         //Update after rendering, this will be rendered next frame
         updatePlayer(elapsedTime);
@@ -341,7 +283,7 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed
      */
     private void updatePlayer(float elapsedTime) {
-        player.update(elapsedTime);
+        levelManager.getPlayer().update(elapsedTime);
     }
 
     /**
@@ -349,8 +291,8 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed
      */
     private void updatePlanets(float elapsedTime){
-        for(int i = 0; i < planets.size(); i++){
-            planets.get(i).update(elapsedTime);
+        for(int i = 0; i < levelManager.getPlanets().size(); i++){
+            levelManager.getPlanets().get(i).update(elapsedTime);
         }
     }
 
@@ -371,7 +313,7 @@ public class GameWorld implements ContactListener{
      * @param batch The SpriteBatch we render with.
      */
     private void renderPlayer(float elapsedTime, SpriteBatch batch){
-        player.render(elapsedTime, batch);
+        levelManager.getPlayer().render(elapsedTime, batch);
     }
 
     /**
@@ -380,7 +322,9 @@ public class GameWorld implements ContactListener{
      * @param batch The SpriteBatch we render with
      */
     private void renderPlanets(float elapsedTime, SpriteBatch batch){
-        for(int i = 0; i < planets.size(); i++) planets.get(i).render(elapsedTime, batch);
+        for(int i = 0; i < levelManager.getPlanets().size(); i++) {
+            levelManager.getPlanets().get(i).render(elapsedTime, batch);
+        }
     }
 
     /**
@@ -401,8 +345,8 @@ public class GameWorld implements ContactListener{
      */
     private void renderUI(float elapsedTime, SpriteBatch batch){
         levelManager.getElapsedTimeLabel().setText(new Float(elapsedTime).toString());
-        levelManager.getPlayerStateLabel().setText(player.getCurrentState().toString());
-        levelManager.getPlayerSpeedLabel().setText(new Float(player.getBody().getLinearVelocity().len()).toString());
+        levelManager.getPlayerStateLabel().setText(levelManager.getPlayer().getCurrentState().toString());
+        levelManager.getPlayerSpeedLabel().setText(new Float(levelManager.getPlayer().getBody().getLinearVelocity().len()).toString());
         stage.draw();
     }
 
@@ -427,23 +371,6 @@ public class GameWorld implements ContactListener{
         return playerName;
     }
 
-    public ArrayList<Planet> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(ArrayList<Planet> planets) {
-        this.planets = planets;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-
     public Stage getStage() {
         return stage;
     }
@@ -453,20 +380,9 @@ public class GameWorld implements ContactListener{
     }
 
     /**
-     * Sets us up for the next level.
-     * Copies player to a ghost.
-     * Resets world pieces to origin.
-     */
-    public void nextLevel(){
-        resetPhysics();
-        addGhost(player);
-        resetWorld();
-    }
-
-    /**
      * Creates a set of new ghosts from the set of old ones.
      */
-    private void resetGhosts(){
+    public void resetGhosts(){
 
         for(int i = 0; i < ghosts.size(); i++){
             Ghost g = ghosts.get(i);
@@ -475,24 +391,16 @@ public class GameWorld implements ContactListener{
             ArrayList<GameInput>inputList = new ArrayList<GameInput>();
             inputList.addAll(g.inputList);
             com.badlogic.gdx.utils.Array<Body> bodies = new com.badlogic.gdx.utils.Array<Body>();
-            world.getBodies(bodies);
+            levelManager.getWorld().getBodies(bodies);
             if(bodies.contains(g.getBody(), true)){
-                world.destroyBody(g.getBody());
+                levelManager.getWorld().destroyBody(g.getBody());
             }
 
-            Ghost newGhost = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, i);
-            newGhost.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+            Ghost newGhost = new Ghost(levelManager.getOriginalPlayerPosition(), textureAtlas,
+                    levelManager.getWorld(), this, inputList, i);
+            newGhost.setPosition(levelManager.getOriginalPlayerPosition().x, levelManager.getOriginalPlayerPosition().y);
             ghosts.set(i, newGhost);
            // g.dispose();
-        }
-    }
-
-    private void resetPlanets(){
-        for(int i = 0; i < planets.size(); i++){
-            Planet p = planets.get(i);
-            Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()), p.getTextureAtlas(), world, p.getMass(), this);
-            planets.set(i, newPlanet);
-            //p.dispose();
         }
     }
 
@@ -500,25 +408,18 @@ public class GameWorld implements ContactListener{
      * Creates a ghost based on a player.
      * @param player The player we are basing the ghost on.
      */
-    private void addGhost(Player player){
+    public void addGhost(Player player){
         TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
         ArrayList<GameInput>inputList = new ArrayList<GameInput>();
         inputList.addAll(player.inputList);
         int index = ghosts.size();
-        Ghost g = new Ghost(originalPlayerPosition, textureAtlas, world, this, inputList, index);
-        g.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+        Ghost g = new Ghost(levelManager.getOriginalPlayerPosition(), textureAtlas, levelManager.getWorld(), this, inputList, index);
+        g.setPosition(levelManager.getOriginalPlayerPosition().x, levelManager.getOriginalPlayerPosition().y);
         ghosts.add(g);
     }
 
-    private void resetWorld(){
-        parent.elapsedTime = 0;
-        parent.resetFrameNum(); //reset frame counter for accurate replays
-        resetPlanets();
-        resetGhosts();
-        setupPlayer();
-        inputManager.reset();
-    }
+
 
     private void setupDeadAnimation(){
         deadAtlas = new TextureAtlas(Gdx.files.internal("data/coin.txt"));
@@ -532,14 +433,6 @@ public class GameWorld implements ContactListener{
 
         }
         deadAnimation = new Animation(1/8f, deadFrames);
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
     }
 
     @Override
@@ -613,9 +506,9 @@ public class GameWorld implements ContactListener{
             //System.out.print(" angle is good ");
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
-            float speed = player.getBody().getLinearVelocity().len();
+            float speed = levelManager.getPlayer().getBody().getLinearVelocity().len();
             //System.out.println("speed: " +speed);
-            if(speed > player.MAX_VELOCITY/3){
+            if(speed > levelManager.getPlayer().MAX_VELOCITY/3){
                 //System.out.print(" speed is bad ");
                 //s.setCurrentState(Player.STATE.EXPLOADING);
                 returnVal = true;
@@ -674,5 +567,15 @@ public class GameWorld implements ContactListener{
     public void setLevelManager(LevelManager levelManager) {
         this.levelManager = levelManager;
     }
+
+
+    public InputManager getInputManager() {
+        return inputManager;
+    }
+
+    public void setInputManager(InputManager inputManager) {
+        this.inputManager = inputManager;
+    }
+
 
 }

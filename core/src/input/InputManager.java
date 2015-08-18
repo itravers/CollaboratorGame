@@ -14,10 +14,8 @@ import java.util.ArrayList;
  */
 public class InputManager implements InputProcessor {
     GameWorld parent;
-    Player player;
     public InputManager(GameWorld parent){
         this.parent = parent;
-        player = parent.getPlayer();
     }
     /**
      * Listens for key presses.
@@ -27,18 +25,30 @@ public class InputManager implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        Vector2 vel = player.getBody().getLinearVelocity();
-        float angularVelocity = player.getBody().getAngularVelocity();
-        if(keycode == Input.Keys.W && vel.dst2(vel) <= player.MAX_VELOCITY)player.forwardPressed  = true;
-        if(keycode == Input.Keys.S && vel.dst2(vel) <= player.MAX_VELOCITY)player.backwardPressed = true;
-        if(keycode == Input.Keys.Q && angularVelocity <= player.MAX_ANGULAR_VELOCITY) player.rotateRightPressed = true;
-        if(keycode == Input.Keys.E && angularVelocity <= player.MAX_ANGULAR_VELOCITY)  player.rotateLeftPressed  = true;
-        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME) parent.drawSprite = ! parent.drawSprite;
-        if(keycode == Input.Keys.ENTER && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME && player.getCurrentState() == Player.STATE.FLYING){
-            player.setCurrentState(Player.STATE.EXPLOADING);
+        Vector2 vel = parent.getLevelManager().getPlayer().getBody().getLinearVelocity();
+        float angularVelocity = parent.getLevelManager().getPlayer().getBody().getAngularVelocity();
+        if(keycode == Input.Keys.W && vel.dst2(vel) <= parent.getLevelManager().getPlayer().MAX_VELOCITY){
+            parent.getLevelManager().getPlayer().forwardPressed  = true;
+        }
+        if(keycode == Input.Keys.S && vel.dst2(vel) <= parent.getLevelManager().getPlayer().MAX_VELOCITY){
+            parent.getLevelManager().getPlayer().backwardPressed = true;
+        }
+        if(keycode == Input.Keys.Q && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
+            parent.getLevelManager().getPlayer().rotateRightPressed = true;
+        }
+        if(keycode == Input.Keys.E && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
+            parent.getLevelManager().getPlayer().rotateLeftPressed  = true;
+        }
+        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+            parent.drawSprite = ! parent.drawSprite;
+        }
+        if(keycode == Input.Keys.ENTER &&
+                parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME &&
+                parent.getLevelManager().getPlayer().getCurrentState() == Player.STATE.FLYING){
+            parent.getLevelManager().getPlayer().setCurrentState(Player.STATE.EXPLOADING);
         }
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
-            parent.nextLevel();
+            parent.getLevelManager().resetLevel();//nextLevel();
             parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
             parent.getLevelManager().getMidGameMsgLbl().setVisible(false);
             parent.getLevelManager().getNameLabel().setVisible(true);
@@ -51,8 +61,9 @@ public class InputManager implements InputProcessor {
             parent.getLevelManager().getElapsedTimeLabel().setVisible(false);
         }
 
-        GameInput gInput = new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(), parent.parent.elapsedTime, player);
-        player.inputList.add(gInput);
+        GameInput gInput = new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(),
+                parent.parent.elapsedTime, parent.getLevelManager().getPlayer());
+        parent.getLevelManager().getPlayer().inputList.add(gInput);
         return true;
     }
 
@@ -63,21 +74,15 @@ public class InputManager implements InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == com.badlogic.gdx.Input.Keys.W) player.forwardPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.S) player.backwardPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.Q) player.rotateRightPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.E) player.rotateLeftPressed  = false;
+        if(keycode == com.badlogic.gdx.Input.Keys.W) parent.getLevelManager().getPlayer().forwardPressed = false;
+        if(keycode == com.badlogic.gdx.Input.Keys.S) parent.getLevelManager().getPlayer().backwardPressed = false;
+        if(keycode == com.badlogic.gdx.Input.Keys.Q) parent.getLevelManager().getPlayer().rotateRightPressed = false;
+        if(keycode == com.badlogic.gdx.Input.Keys.E) parent.getLevelManager().getPlayer().rotateLeftPressed  = false;
         //System.out.println("pressed at" + parent.parent.getFrameNum());
-        GameInput gInput = new GameInput(GameInput.InputType.KEYRELEASED, keycode,  parent.parent.getFrameNum(), parent.parent.elapsedTime, player);
-        player.inputList.add(gInput);
+        GameInput gInput = new GameInput(GameInput.InputType.KEYRELEASED, keycode,
+                parent.parent.getFrameNum(), parent.parent.elapsedTime, parent.getLevelManager().getPlayer());
+        parent.getLevelManager().getPlayer().inputList.add(gInput);
         return true;
-    }
-
-    /**
-     * Loads new info when level is reset.
-     */
-    public void reset(){
-        this.player = parent.getPlayer();
     }
 
     /**

@@ -113,7 +113,7 @@ public class Player extends Sprite {
 
 	private float getDistanceFromClosestPlanet(){
 		float distanceToClosestPlanet = 1010101f;
-		ArrayList<Planet>planets = parent.getPlanets();
+		ArrayList<Planet>planets = parent.getLevelManager().getPlanets();
 		for(int i = 0; i < planets.size(); i++){
 			Planet p = planets.get(i);
 			float radiusPlanet = p.getBody().getFixtureList().first().getShape().getRadius();
@@ -195,7 +195,7 @@ public class Player extends Sprite {
 	 * We will apply orbital gravity, we will need to loop through all planets to add gravity.
 	 */
 	private void applyGravity(float elapsedTime){
-		ArrayList<Planet> planets = parent.getPlanets();
+		ArrayList<Planet> planets = parent.getLevelManager().getPlanets();
 		Vector2 force = new Vector2(0, 0);
 		Vector2 preForce = new Vector2(0, 0);
 		for(int i = 0; i < planets.size(); i++){
