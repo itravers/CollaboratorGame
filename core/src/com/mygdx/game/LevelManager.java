@@ -7,13 +7,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
 
 import java.util.ArrayList;
+
+import input.GameInput;
 
 /**
  * Manages the level progression.
@@ -46,6 +50,9 @@ public class LevelManager {
     // Player related Fields
     private Player player;
     private Vector2 originalPlayerPosition;
+
+    // Ghost Related Fields
+    private ArrayList<Ghost> ghosts;
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
@@ -80,6 +87,7 @@ public class LevelManager {
         setupPhysics();
         setupPlanets(); // before setupPlayer
         setupPlayer();
+        setupGhosts();
         System.out.println("levelManager.setLevel("+currentLevel+")");
 
     }
@@ -88,7 +96,7 @@ public class LevelManager {
      * This will set level to the next level,
      */
     public void nextLevel(){
-        setLevel(getLevel()+1);
+        setLevel(getLevel() + 1);
     }
 
 
@@ -99,7 +107,7 @@ public class LevelManager {
      */
     public void resetLevel(){
         resetPhysics();
-        parent.addGhost(getPlayer());
+        addGhost(getPlayer());
         resetWorld();
     }
 
@@ -107,7 +115,7 @@ public class LevelManager {
         parent.parent.elapsedTime = 0;
         parent.parent.resetFrameNum(); //reset frame counter for accurate replays
         resetPlanets();
-        parent.resetGhosts();
+        resetGhosts();
         setupPlayer();
         //parent.getInputManager().reset();
     }
@@ -177,6 +185,53 @@ public class LevelManager {
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }
 
+    }
+
+    /**
+     * Setup players ghosts, should only be used if a level is reset.
+     */
+    private void setupGhosts(){
+        ghosts = new ArrayList<Ghost>();
+    }
+
+    /**
+     * Creates a set of new ghosts from the set of old ones.
+     */
+    public void resetGhosts(){
+
+        for(int i = 0; i < ghosts.size(); i++){
+            Ghost g = ghosts.get(i);
+            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+
+            ArrayList<GameInput>inputList = new ArrayList<GameInput>();
+            inputList.addAll(g.inputList);
+            com.badlogic.gdx.utils.Array<Body> bodies = new com.badlogic.gdx.utils.Array<Body>();
+            getWorld().getBodies(bodies);
+            if(bodies.contains(g.getBody(), true)){
+                getWorld().destroyBody(g.getBody());
+            }
+
+            Ghost newGhost = new Ghost(getOriginalPlayerPosition(), textureAtlas,
+                    getWorld(), this.parent, inputList, i);
+            newGhost.setPosition(getOriginalPlayerPosition().x, getOriginalPlayerPosition().y);
+            ghosts.set(i, newGhost);
+            // g.dispose();
+        }
+    }
+
+    /**
+     * Creates a ghost based on a player.
+     * @param player The player we are basing the ghost on.
+     */
+    public void addGhost(Player player){
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+        //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
+        ArrayList<GameInput>inputList = new ArrayList<GameInput>();
+        inputList.addAll(player.inputList);
+        int index = ghosts.size();
+        Ghost g = new Ghost(getOriginalPlayerPosition(), textureAtlas, getWorld(), this.parent, inputList, index);
+        g.setPosition(getOriginalPlayerPosition().x, getOriginalPlayerPosition().y);
+        ghosts.add(g);
     }
 
     public void setupMenu(GameWorld w, SpriteBatch b){
@@ -330,6 +385,16 @@ public class LevelManager {
     public void setOriginalPlayerPosition(Vector2 originalPlayerPosition) {
         this.originalPlayerPosition = originalPlayerPosition;
     }
+
+
+    public ArrayList<Ghost> getGhosts() {
+        return ghosts;
+    }
+
+    public void setGhosts(ArrayList<Ghost> ghosts) {
+        this.ghosts = ghosts;
+    }
+
 
 
 

@@ -54,8 +54,6 @@ public class GameWorld implements ContactListener{
 
     private String playerName;
 
-    // Ghost Related Fields
-    private ArrayList<Ghost> ghosts;
 
     //Input Related Fields
     private InputManager inputManager;
@@ -88,15 +86,7 @@ public class GameWorld implements ContactListener{
         parent = p;
         levelManager = new LevelManager(this);
         setupRendering();
-        setupGhosts();
         inputManager = new InputManager(this);
-    }
-
-    /**
-     * Setup players ghosts
-     */
-    private void setupGhosts(){
-        ghosts = new ArrayList<Ghost>();
     }
 
     /**
@@ -302,8 +292,8 @@ public class GameWorld implements ContactListener{
      */
     private void updateGhosts(float elapsedTime){
         //System.out.println("numGhosts: " + ghosts.size());
-        for(int i = 0; i < ghosts.size(); i++){
-            ghosts.get(i).update(elapsedTime);
+        for(int i = 0; i < levelManager.getGhosts().size(); i++){
+            levelManager.getGhosts().get(i).update(elapsedTime);
         }
     }
 
@@ -333,8 +323,8 @@ public class GameWorld implements ContactListener{
      * @param batch The SpriteBatch we render with
      */
     private void renderGhosts(float elapsedTime, SpriteBatch batch){
-        for(int i = 0; i < ghosts.size(); i++){
-            ghosts.get(i).render(elapsedTime, batch);
+        for(int i = 0; i < levelManager.getGhosts().size(); i++){
+            levelManager.getGhosts().get(i).render(elapsedTime, batch);
         }
     }
 
@@ -378,47 +368,6 @@ public class GameWorld implements ContactListener{
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
-    /**
-     * Creates a set of new ghosts from the set of old ones.
-     */
-    public void resetGhosts(){
-
-        for(int i = 0; i < ghosts.size(); i++){
-            Ghost g = ghosts.get(i);
-            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-
-            ArrayList<GameInput>inputList = new ArrayList<GameInput>();
-            inputList.addAll(g.inputList);
-            com.badlogic.gdx.utils.Array<Body> bodies = new com.badlogic.gdx.utils.Array<Body>();
-            levelManager.getWorld().getBodies(bodies);
-            if(bodies.contains(g.getBody(), true)){
-                levelManager.getWorld().destroyBody(g.getBody());
-            }
-
-            Ghost newGhost = new Ghost(levelManager.getOriginalPlayerPosition(), textureAtlas,
-                    levelManager.getWorld(), this, inputList, i);
-            newGhost.setPosition(levelManager.getOriginalPlayerPosition().x, levelManager.getOriginalPlayerPosition().y);
-            ghosts.set(i, newGhost);
-           // g.dispose();
-        }
-    }
-
-    /**
-     * Creates a ghost based on a player.
-     * @param player The player we are basing the ghost on.
-     */
-    public void addGhost(Player player){
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
-        ArrayList<GameInput>inputList = new ArrayList<GameInput>();
-        inputList.addAll(player.inputList);
-        int index = ghosts.size();
-        Ghost g = new Ghost(levelManager.getOriginalPlayerPosition(), textureAtlas, levelManager.getWorld(), this, inputList, index);
-        g.setPosition(levelManager.getOriginalPlayerPosition().x, levelManager.getOriginalPlayerPosition().y);
-        ghosts.add(g);
-    }
-
 
 
     private void setupDeadAnimation(){
