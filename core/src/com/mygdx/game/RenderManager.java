@@ -60,13 +60,7 @@ public class RenderManager {
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-
         shapeRenderer = new ShapeRenderer();
-        //Matrix4 mat = camera.combined.cpy();
-        //mat.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-       // shapeRenderer.setProjectionMatrix(camera.combined);
-       // shapeRenderer.setTransformMatrix(camera.combined);
-
     }
 
     /**
@@ -136,28 +130,22 @@ public class RenderManager {
 
     private void renderGoal(float elapsedTime, SpriteBatch batch){
         Sprite g = parent.getLevelManager().getGoal(); /* This object is our goal. */
+        Player p = parent.getLevelManager().getPlayer();
         if(g instanceof Planet){
             Planet goal = (Planet)g;
-            Vector2 goalPos = new Vector2(goal.getX(), goal.getY());
             float goalRadius = goal.getRadiusFromMass(goal.getMass());
-
+            Vector2 goalPos = new Vector2(goal.getX()+goalRadius/2, goal.getY()+goalRadius/2);
+            Vector2 playerPos = new Vector2(p.getX()+p.getWidth()/2,
+                    p.getY()+p.getHeight()/2);
 
             if(g != null){ /* The goal can be null, make sure it isn't here. */
-
                 //shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
                 shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                //shapeRenderer.circle((goalPos.x+goalRadius/4), (goalPos.y+goalRadius/4), goalRadius/2);
-                shapeRenderer.circle((goalPos.x+goalRadius/2), (goalPos.y+goalRadius/2), goalRadius/2);
-                //shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
-               // shapeRenderer.circle((goalPos.x+goalRadius/2)-12, (goalPos.y+goalRadius/2)-12, goalRadius/2);
-                //shapeRenderer.circle(goalPos.x + goal.getRadiusFromMass(goal.getMass())  / 2) / parent.PIXELS_TO_METERS,
-                        //(getY() + getRadiusFromMass(mass) / 2) / parent.PIXELS_TO_METERS, goalRadius/2);
-                //shapeRenderer.circle((goalPos.x + goal.getRadiusFromMass(goal.getMass()) / 2) / parent.PIXELS_TO_METERS,
-                //        (goalPos.y + goal.getRadiusFromMass(goal.getMass()) / 2) / parent.PIXELS_TO_METERS, (goalRadius/2));
-                //shapeRenderer.
+                shapeRenderer.line(playerPos, goalPos);
+                shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
                 shapeRenderer.end();
             }
         }
