@@ -75,7 +75,6 @@ public class LevelManager {
         return level;
     }
 
-
     /**
      * Sets the level to the designated level.
      * it will unload all resources used for the previous level
@@ -98,8 +97,7 @@ public class LevelManager {
     public void nextLevel(){
         setLevel(getLevel() + 1);
     }
-
-
+    
     /**
      * Sets us up to reset this level.
      * Copies player to a ghost.

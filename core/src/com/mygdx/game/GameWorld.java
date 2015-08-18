@@ -3,27 +3,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
-import java.util.ArrayList;
-
-import input.GameInput;
 import input.InputManager;
 
 /**
@@ -35,7 +27,6 @@ public class GameWorld implements ContactListener{
     private LevelManager levelManager; /* Manages Level Changes. */
 
     // Rendering Related Fields
-
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
     private OrthographicCamera camera; //drawing game pieces
@@ -47,11 +38,8 @@ public class GameWorld implements ContactListener{
     //UI Related Fields
     private Skin skin;
     private Stage stage; //for drawing ui
-    private BitmapFont font;
-    private GlyphLayout layout; /* Used to get bounds of fonts. */
 
     // Player Related Fields
-
     private String playerName;
 
 
@@ -77,7 +65,6 @@ public class GameWorld implements ContactListener{
     public Animation noMovementAnimation;
     public Animation explosionAnimation;
 
-
     /**
      * Creates a new game world. Sets up all needed pieces.
      * @param p The Parent wrapper of the game world.
@@ -96,14 +83,9 @@ public class GameWorld implements ContactListener{
         setupUI();
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
-
         levelManager.setupBackground();
         levelManager.setupMenu(this, batch);
         setupAnimations();
-
-
-
-        layout = new GlyphLayout();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
@@ -145,19 +127,14 @@ public class GameWorld implements ContactListener{
         explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
     }
 
-
-
     /**
      * Creates the UI Overlay HUD. This doesn't change per level
      */
     private void setupUI(){
        // layout.setText(font, playerName);
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-
         stage = new Stage();
         levelManager.setupUI(skin, stage);
-
-
     }
 
     /**
@@ -165,16 +142,6 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-
-        /*if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
-            renderPreGame(elapsedTime);
-        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
-            renderInGame(elapsedTime);
-        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.POSTGAME){
-            renderPostGame(elapsedTime);
-        }else if(parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
-            renderMidGame(elapsedTime);
-        }*/
         int level = levelManager.getLevel();
         switch (level){
             case 0: //Pregame menu
@@ -188,8 +155,6 @@ public class GameWorld implements ContactListener{
                 }
                 break;
         }
-
-
     }
 
     /**
@@ -208,17 +173,13 @@ public class GameWorld implements ContactListener{
         backgroundCamera.update();
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         levelManager.getWorld().step(1f / 60f, 6, 2);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
         batch.begin();
-       // midGameMsgLbl = new Label("You Have Died. Press Space To Continue.");
         stage.draw();
         batch.end();
-        //renderUI(elapsedTime, batch); /* this needs to be after batch.end */
-        //debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
     }
 
     private void renderBackground(float elapsedTime, SpriteBatch b){
@@ -257,8 +218,6 @@ public class GameWorld implements ContactListener{
         updatePlanets(elapsedTime);
         updateGhosts(elapsedTime);
     }
-
-
 
     /**
      * Renders the score sheet, etc.
@@ -508,7 +467,6 @@ public class GameWorld implements ContactListener{
 
     }
 
-
     public LevelManager getLevelManager() {
         return levelManager;
     }
@@ -525,6 +483,4 @@ public class GameWorld implements ContactListener{
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
-
-
 }
