@@ -134,9 +134,21 @@ public class RenderManager {
         if(g instanceof Planet){
             Planet goal = (Planet)g;
             float goalRadius = goal.getRadiusFromMass(goal.getMass());
+            Vector2 startPos = new Vector2(p.getX()+p.getWidth()/2, p.getY()+p.getHeight()/2);
             Vector2 goalPos = new Vector2(goal.getX()+goalRadius/2, goal.getY()+goalRadius/2);
-            Vector2 playerPos = new Vector2(p.getX()+p.getWidth()/2,
-                    p.getY()+p.getHeight()/2);
+            Vector2 endLine = goalPos.cpy().sub(startPos); //get difference vector
+            Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
+            Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
+
+
+            endLine.setLength(30f); // set length of distance vector
+            perpLine1.setLength(10f); //set length of perpLineVector
+            perpLine2.setLength(10f); //set length of perpLineVector
+
+            endLine = startPos.cpy().add(endLine); //convert back to point
+            perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
+            perpLine2 = endLine.cpy().add(perpLine2); // convert back to point
+
 
             if(g != null){ /* The goal can be null, make sure it isn't here. */
                 //shapeRenderer.setProjectionMatrix(camera.combined);
@@ -144,7 +156,10 @@ public class RenderManager {
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
                 shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.line(playerPos, goalPos);
+                shapeRenderer.line(startPos, endLine);
+                shapeRenderer.line(endLine, perpLine1);
+                shapeRenderer.line(endLine, perpLine2);
+               // shapeRenderer.li
                 shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
                 shapeRenderer.end();
             }

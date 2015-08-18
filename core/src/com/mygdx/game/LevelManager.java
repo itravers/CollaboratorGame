@@ -101,7 +101,7 @@ public class LevelManager {
             Planet p = planets.get(1); //last planet in first level is the goal
             goal = p;
         }else{
-            Planet p = planets.get(0); //last planet in first level is the goal
+            Planet p = planets.get(2); //last planet in first level is the goal
             goal = p;
         }
     }
