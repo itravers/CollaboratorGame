@@ -34,6 +34,7 @@ import input.InputManager;
  */
 public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
+    private LevelManager levelManager; /* Manages Level Changes. */
 
     // Rendering Related Fields
     private GameMenu menu;
@@ -101,6 +102,7 @@ public class GameWorld implements ContactListener{
      */
     public GameWorld(MyGdxGame p){
         parent = p;
+        levelManager = new LevelManager(this);
         setupRendering();
         setupPhysics();
         setupPlanets(); // before setupPlayer
@@ -163,7 +165,7 @@ public class GameWorld implements ContactListener{
      */
     private void setupRendering(){
         setupUI();
-        setupBackground();
+        levelManager.setupBackground();
         setupAnimations();
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
@@ -211,15 +213,11 @@ public class GameWorld implements ContactListener{
         explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
     }
 
-    private void setupBackground(){
-        Texture background = new Texture(Gdx.files.internal("data/background.png"));
-        Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-        background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        backgroundLayers = new TextureRegion[3];
-        backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-        backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
-        //backgroundLayers[1].
-    }
+
+
+    /**
+     * Creates the UI Overlay HUD. This doesn't change per level
+     */
     private void setupUI(){
        // layout.setText(font, playerName);
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
@@ -335,7 +333,7 @@ public class GameWorld implements ContactListener{
         backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.1f, .1f));
         backGroundBatch.disableBlending();
         backGroundBatch.begin();
-        backGroundBatch.draw(backgroundLayers[0], -(int) (backgroundLayers[0].getRegionWidth() / 2),
+        backGroundBatch.draw([0], -(int) (backgroundLayers[0].getRegionWidth() / 2),
                 -(int) (backgroundLayers[0].getRegionHeight() / 2));
         backGroundBatch.end();
         backGroundBatch.enableBlending();
