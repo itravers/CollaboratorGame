@@ -43,7 +43,7 @@ public class Planet extends Sprite {
         this.setSize(radius, radius);
         this.setPosition(pos.x, pos.y);
         setupRendering(textureAtlas);
-        System.out.println("Width: " + this.getWidth() + " height: " + this.getHeight());
+       // System.out.println("Width: " + this.getWidth() + " height: " + this.getHeight());
         setupPhysics(world);
     }
 
@@ -134,7 +134,7 @@ public class Planet extends Sprite {
 
 
     public float getRadius() {
-        System.out.println("radius: " + radius);
+       // System.out.println("radius: " + radius);
         return radius;
     }
 

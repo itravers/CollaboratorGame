@@ -158,7 +158,7 @@ public class Player extends Sprite {
 		bodyDef.position.set((getX() + getWidth()  / 2) / parent.PIXELS_TO_METERS,
 				             (getY() + getHeight() / 2) / parent.PIXELS_TO_METERS);
 		body = world.createBody(bodyDef);
-		body.setLinearDamping(.5f);
+		body.setLinearDamping(.4f);
 		body.setAngularDamping(.5f);
 		shape = new PolygonShape();
 		shape.setAsBox((getWidth()  / 2) / parent.PIXELS_TO_METERS,
@@ -167,7 +167,7 @@ public class Player extends Sprite {
 		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
-		fixtureDef.friction = .5f;
+		fixtureDef.friction = .4f;
 		fixture = body.createFixture(fixtureDef);
 		body.setUserData(this);
 		shape.dispose();
@@ -294,7 +294,7 @@ public class Player extends Sprite {
 		}else if(currentState == STATE.DEAD){
 			currentAnimation = parent.getAnimationManager().getDeadAnimation();
 		}
-		System.out.println("STATECHANGE: + " + currentState);
+		//System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;
 		stateTime = 0;
 	}

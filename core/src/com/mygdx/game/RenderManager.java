@@ -158,7 +158,7 @@ public class RenderManager {
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                shapeRenderer.line(startPos, endLine);
+               //shapeRenderer.line(startPos, endLine);
                 shapeRenderer.line(endLine, perpLine1);
                 shapeRenderer.line(endLine, perpLine2);
                 shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
