@@ -126,6 +126,23 @@ public class Player extends Sprite {
 		return distanceToClosestPlanet;
 	}
 
+	public Planet getClosestPlanet(){
+		float distanceToClosestPlanet = 1010101f;
+		ArrayList<Planet>planets = parent.getLevelManager().getPlanets();
+		Planet closest = planets.get(0);
+		for(int i = 0; i < planets.size(); i++){
+			Planet p = planets.get(i);
+			float radiusPlanet = p.getBody().getFixtureList().first().getShape().getRadius();
+			float dist = p.getBody().getPosition().dst(body.getPosition());
+			dist -= radiusPlanet;
+			if(dist < distanceToClosestPlanet){
+				distanceToClosestPlanet = dist;
+				closest = planets.get(i);
+			}
+		}
+		return closest;
+	}
+
 	public void setWorld(World world){
 		setupPhysics(world);
 	}

@@ -56,6 +56,7 @@ public class LevelManager {
     private ArrayList<Ghost> ghosts;
 
     private Sprite goal; /* Each level has a goal. */
+    private Boolean levelGoalCompleted;
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
@@ -95,6 +96,7 @@ public class LevelManager {
 
     private void setupGoal(){
         int level = getLevel();
+        levelGoalCompleted = false;
         if(level == 0){
             goal = null;
         }else if(level == 1){
@@ -104,6 +106,23 @@ public class LevelManager {
             Planet p = planets.get(2); //last planet in first level is the goal
             goal = p;
         }
+    }
+
+    /**
+     * Checks if we have completed the levels goal.
+     * We have completed the goal if we are landed, and the
+     * nearest planet is the goal planet.
+     */
+    public void checkGoal(){
+        if(!levelGoalCompleted){
+            Player p = parent.getLevelManager().getPlayer();
+            Planet closestPlanet = p.getClosestPlanet();
+            if(p.getCurrentState() == Player.STATE.LANDED && goal == closestPlanet){
+                levelGoalCompleted = true;
+                System.out.println("Completed Level Goal");
+            }
+        }
+
     }
 
     /**

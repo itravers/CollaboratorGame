@@ -107,6 +107,7 @@ public class RenderManager {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(parent.PIXELS_TO_METERS, parent.PIXELS_TO_METERS, 0);
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
+        renderGoal(elapsedTime, batch);
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
 
@@ -118,7 +119,7 @@ public class RenderManager {
 
         }
         batch.end();
-        renderGoal(elapsedTime, batch);
+
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         if(!drawSprite) debugRenderer.render(parent.getLevelManager().getWorld(), debugMatrix); /* Render box2d physics items */
 
@@ -141,7 +142,7 @@ public class RenderManager {
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
 
-            endLine.setLength(30f); // set length of distance vector
+            endLine.setLength(35f); // set length of distance vector
             perpLine1.setLength(10f); //set length of perpLineVector
             perpLine2.setLength(10f); //set length of perpLineVector
 
@@ -154,7 +155,7 @@ public class RenderManager {
                 //shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-                shapeRenderer.setColor(Color.GREEN);
+                shapeRenderer.setColor(Color.RED);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.line(startPos, endLine);
                 shapeRenderer.line(endLine, perpLine1);

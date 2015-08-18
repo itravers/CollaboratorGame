@@ -55,6 +55,7 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed
      */
     public void updatePlayer(float elapsedTime) {
+        levelManager.checkGoal();
         levelManager.getPlayer().update(elapsedTime);
     }
 
