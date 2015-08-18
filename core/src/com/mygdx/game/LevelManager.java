@@ -88,7 +88,6 @@ public class LevelManager {
         setupPlayer();
         setupGhosts();
         System.out.println("levelManager.setLevel("+currentLevel+")");
-
     }
 
     /**
@@ -97,7 +96,7 @@ public class LevelManager {
     public void nextLevel(){
         setLevel(getLevel() + 1);
     }
-    
+
     /**
      * Sets us up to reset this level.
      * Copies player to a ghost.

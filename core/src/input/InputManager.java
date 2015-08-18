@@ -40,7 +40,7 @@ public class InputManager implements InputProcessor {
             parent.getLevelManager().getPlayer().rotateLeftPressed  = true;
         }
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
-            parent.drawSprite = ! parent.drawSprite;
+            parent.getRenderManager().setDrawSprite(!parent.getRenderManager().isDrawSprite());
         }
         if(keycode == Input.Keys.ENTER &&
                 parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME &&

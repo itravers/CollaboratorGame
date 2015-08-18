@@ -160,7 +160,7 @@ public class Player extends Sprite {
 	 * Initialze player rendering.
 	 */
 	private void setupRendering(){
-		parent.debugRenderer = new Box2DDebugRenderer();
+		parent.getRenderManager().setDebugRenderer( new Box2DDebugRenderer());
 		setupAnimations();
 	}
 

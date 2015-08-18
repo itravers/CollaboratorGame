@@ -26,25 +26,13 @@ public class GameWorld implements ContactListener{
 
     private LevelManager levelManager; /* Manages Level Changes. */
 
-    // Rendering Related Fields
-    private SpriteBatch batch;
-    private SpriteBatch backGroundBatch;
-    private OrthographicCamera camera; //drawing game pieces
-    public ParallaxCamera backgroundCamera; //drawing sprites
-    private Matrix4 debugMatrix;
-    public Box2DDebugRenderer debugRenderer;
-    public boolean drawSprite = true;
+    //Input Related Fields
+    private InputManager inputManager;
 
-    //UI Related Fields
-    private Skin skin;
-    private Stage stage; //for drawing ui
+    private RenderManager renderManager;
 
     // Player Related Fields
     private String playerName;
-
-
-    //Input Related Fields
-    private InputManager inputManager;
 
     // Constant Fields
     public final float PIXELS_TO_METERS = 10f;
@@ -72,27 +60,11 @@ public class GameWorld implements ContactListener{
     public GameWorld(MyGdxGame p){
         parent = p;
         levelManager = new LevelManager(this);
-        setupRendering();
+        renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
     }
 
-    /**
-     * Prepare objects for rendering.
-     */
-    private void setupRendering(){
-        setupUI();
-        batch = new SpriteBatch();
-        backGroundBatch = new SpriteBatch();
-        levelManager.setupBackground();
-        levelManager.setupMenu(this, batch);
-        setupAnimations();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.setProjectionMatrix(camera.combined);
-        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-    }
-
-    private void setupAnimations(){
+    public void setupAnimations(){
         setupMoveForwardAnimation();
         setupNoMovementAnimation();
         setupExplosionAnimation();
@@ -128,110 +100,20 @@ public class GameWorld implements ContactListener{
     }
 
     /**
-     * Creates the UI Overlay HUD. This doesn't change per level
-     */
-    private void setupUI(){
-       // layout.setText(font, playerName);
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        stage = new Stage();
-        levelManager.setupUI(skin, stage);
-    }
-
-    /**
      * Depending on the game state this will render either the pregame, ingame or postgame
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-        int level = levelManager.getLevel();
-        switch (level){
-            case 0: //Pregame menu
-                renderPreGame(elapsedTime);
-                break;
-            case 1: //Level 1
-                if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
-                    renderInGame(elapsedTime);
-                }else if(parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
-                    renderMidGame(elapsedTime);
-                }
-                break;
-        }
+        renderManager.render(elapsedTime);
     }
 
-    /**
-     * Renders the menu's that allows the player to start the game.
-     * @param elapsedTime The time passed.
-     */
-    private void renderPreGame(float elapsedTime){
-        levelManager.getMenu().render(elapsedTime);
-    }
 
-    private void renderMidGame(float elapsedTime){
-        camera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
-        backgroundCamera.update();
-        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-        levelManager.getWorld().step(1f / 60f, 6, 2);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
-        renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
-        batch.begin();
-        stage.draw();
-        batch.end();
-    }
-
-    private void renderBackground(float elapsedTime, SpriteBatch b){
-        levelManager.getBackground().render(elapsedTime, b);
-    }
-
-    /**
-     * Renders the game itself
-     * @param elapsedTime The time passed
-     */
-    private void renderInGame(float elapsedTime) {
-        camera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
-        camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(levelManager.getPlayer().getX(), levelManager.getPlayer().getY(), 0);
-        backgroundCamera.update();
-        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
-        levelManager.getWorld().step(1f / 60f, 6, 2);
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
-        renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
-        batch.begin();
-        if(drawSprite){ /* Draw sprites if true */
-            renderPlanets(elapsedTime, batch);
-            renderGhosts(elapsedTime, batch);
-            renderPlayer(elapsedTime, batch);
-        }
-        batch.end();
-        renderUI(elapsedTime, batch); /* this needs to be after batch.end */
-        if(!drawSprite) debugRenderer.render(levelManager.getWorld(), debugMatrix); /* Render box2d physics items */
-
-        //Update after rendering, this will be rendered next frame
-        updatePlayer(elapsedTime);
-        updatePlanets(elapsedTime);
-        updateGhosts(elapsedTime);
-    }
-
-    /**
-     * Renders the score sheet, etc.
-     * @param elapsedTime The time elapsed
-     */
-    private void renderPostGame(float elapsedTime){
-
-    }
 
     /**
      * Updates the player
      * @param elapsedTime The time passed
      */
-    private void updatePlayer(float elapsedTime) {
+    public void updatePlayer(float elapsedTime) {
         levelManager.getPlayer().update(elapsedTime);
     }
 
@@ -239,7 +121,7 @@ public class GameWorld implements ContactListener{
      * Updates the planets
      * @param elapsedTime The time passed
      */
-    private void updatePlanets(float elapsedTime){
+    public void updatePlanets(float elapsedTime){
         for(int i = 0; i < levelManager.getPlanets().size(); i++){
             levelManager.getPlanets().get(i).update(elapsedTime);
         }
@@ -249,55 +131,14 @@ public class GameWorld implements ContactListener{
      * Update the ghosts
      * @param elapsedTime The time passed
      */
-    private void updateGhosts(float elapsedTime){
+    public void updateGhosts(float elapsedTime){
         //System.out.println("numGhosts: " + ghosts.size());
         for(int i = 0; i < levelManager.getGhosts().size(); i++){
             levelManager.getGhosts().get(i).update(elapsedTime);
         }
     }
 
-    /**
-     * Renders the player
-     * @param elapsedTime The time passed
-     * @param batch The SpriteBatch we render with.
-     */
-    private void renderPlayer(float elapsedTime, SpriteBatch batch){
-        levelManager.getPlayer().render(elapsedTime, batch);
-    }
 
-    /**
-     * Render the planets
-     * @param elapsedTime The time passed
-     * @param batch The SpriteBatch we render with
-     */
-    private void renderPlanets(float elapsedTime, SpriteBatch batch){
-        for(int i = 0; i < levelManager.getPlanets().size(); i++) {
-            levelManager.getPlanets().get(i).render(elapsedTime, batch);
-        }
-    }
-
-    /**
-     * Render the players ghosts
-     * @param elapsedTime The time passed
-     * @param batch The SpriteBatch we render with
-     */
-    private void renderGhosts(float elapsedTime, SpriteBatch batch){
-        for(int i = 0; i < levelManager.getGhosts().size(); i++){
-            levelManager.getGhosts().get(i).render(elapsedTime, batch);
-        }
-    }
-
-    /**
-     * Render the UI Overlay
-     * @param elapsedTime The time passed.
-     * @param batch The SpriteBatch we render with.
-     */
-    private void renderUI(float elapsedTime, SpriteBatch batch){
-        levelManager.getElapsedTimeLabel().setText(new Float(elapsedTime).toString());
-        levelManager.getPlayerStateLabel().setText(levelManager.getPlayer().getCurrentState().toString());
-        levelManager.getPlayerSpeedLabel().setText(new Float(levelManager.getPlayer().getBody().getLinearVelocity().len()).toString());
-        stage.draw();
-    }
 
     /**
      * Called by menu when game starts
@@ -318,14 +159,6 @@ public class GameWorld implements ContactListener{
      */
     public String getPlayerName(){
         return playerName;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
 
@@ -483,4 +316,14 @@ public class GameWorld implements ContactListener{
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
+
+
+    public RenderManager getRenderManager() {
+        return renderManager;
+    }
+
+    public void setRenderManager(RenderManager renderManager) {
+        this.renderManager = renderManager;
+    }
+
 }

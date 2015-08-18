@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 
-import java.util.ArrayList;
-
 /**
  * Represents a single levels background.
  * Created by Isaac Assegai on 8/17/2015.
@@ -19,7 +17,6 @@ public class Background {
         this.parent = parent;
         this.layers = layers;
     }
-
 
     /**
      * Returns the designated background layer.
@@ -44,9 +41,14 @@ public class Background {
         return layer;
     }
 
+    /**
+     * Renders this background.
+     * @param elapsedTime
+     * @param batch
+     */
     public void render(float elapsedTime, SpriteBatch batch){
         Matrix4 temp = batch.getProjectionMatrix();
-        batch.setProjectionMatrix(parent.getParent().backgroundCamera.calculateParallaxMatrix(.1f, .1f));
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.1f, .1f));
         batch.disableBlending();
         batch.begin();
         batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
@@ -54,7 +56,7 @@ public class Background {
         batch.end();
         batch.enableBlending();
 
-        batch.setProjectionMatrix(parent.getParent().backgroundCamera.calculateParallaxMatrix(.3f, .3f));
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.3f, .3f));
         batch.begin();
         batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / 2),
                 -(int) (layers[1].getRegionHeight() / 2));
