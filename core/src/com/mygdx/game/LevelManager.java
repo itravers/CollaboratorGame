@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -53,6 +54,8 @@ public class LevelManager {
 
     // Ghost Related Fields
     private ArrayList<Ghost> ghosts;
+
+    private Sprite goal; /* Each level has a goal. */
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
