@@ -30,13 +30,16 @@ public class Planet extends Sprite {
     private World world;
     private float mass; /* A Static body doesn't have a mass of it's own, so we need this. */
 
+    private float radius;
+
     private GameWorld parent;
 
-    public Planet(Vector2 pos, TextureAtlas textureAtlas, World world, float mass, GameWorld parent){
+    public Planet(Vector2 pos, TextureAtlas textureAtlas, World world, float radius, float mass, GameWorld parent){
         super(textureAtlas.getRegions().first());
         this.parent = parent;
         this.mass = mass;
-        float radius = getRadiusFromMass(mass);
+        this.radius = radius;
+        //float radius = getRadiusFromMass(mass);
         this.setSize(radius, radius);
         this.setPosition(pos.x, pos.y);
         setupRendering(textureAtlas);
@@ -57,7 +60,7 @@ public class Planet extends Sprite {
         setupAnimations();
     }
 
-    public float getRadiusFromMass(float m){
+   /* public float getRadiusFromMass(float m){
         float radius = 0;
         float sM = 10000f;
         float bM = 400000f;
@@ -66,14 +69,15 @@ public class Planet extends Sprite {
         radius = (((m - sM) * (bP - sP)) / (bM - sM))+sP;
 
         return radius;
-    }
+    }*/
+
 
     private void setupPhysics(World world){
         this.world = world;
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody; //Planets are not moving
-        bodyDef.position.set((getX() + getRadiusFromMass(mass)  / 2) / parent.PIXELS_TO_METERS,
-                             (getY() + getRadiusFromMass(mass) / 2) / parent.PIXELS_TO_METERS);
+        bodyDef.position.set((getX() + getRadius()  / 2) / parent.PIXELS_TO_METERS,
+                             (getY() + getRadius() / 2) / parent.PIXELS_TO_METERS);
         body = world.createBody(bodyDef);
 
         shape = new CircleShape();
@@ -127,4 +131,15 @@ public class Planet extends Sprite {
     public void setTextureAtlas(TextureAtlas textureAtlas) {
         this.textureAtlas = textureAtlas;
     }
+
+
+    public float getRadius() {
+        System.out.println("radius: " + radius);
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        this.radius = radius;
+    }
+
 }

@@ -134,7 +134,8 @@ public class RenderManager {
         Player p = parent.getLevelManager().getPlayer();
         if(g instanceof Planet){
             Planet goal = (Planet)g;
-            float goalRadius = goal.getRadiusFromMass(goal.getMass());
+           // float goalRadius = goal.getRadiusFromMass(goal.getMass());
+            float goalRadius = goal.getRadius();
             Vector2 startPos = new Vector2(p.getX()+p.getWidth()/2, p.getY()+p.getHeight()/2);
             Vector2 goalPos = new Vector2(goal.getX()+goalRadius/2, goal.getY()+goalRadius/2);
             Vector2 endLine = goalPos.cpy().sub(startPos); //get difference vector
@@ -160,7 +161,6 @@ public class RenderManager {
                 shapeRenderer.line(startPos, endLine);
                 shapeRenderer.line(endLine, perpLine1);
                 shapeRenderer.line(endLine, perpLine2);
-               // shapeRenderer.li
                 shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
                 shapeRenderer.end();
             }

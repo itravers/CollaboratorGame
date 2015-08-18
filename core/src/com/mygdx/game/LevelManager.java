@@ -100,7 +100,7 @@ public class LevelManager {
         if(level == 0){
             goal = null;
         }else if(level == 1){
-            Planet p = planets.get(1); //last planet in first level is the goal
+            Planet p = planets.get(0); //last planet in first level is the goal
             goal = p;
         }else{
             Planet p = planets.get(2); //last planet in first level is the goal
@@ -160,7 +160,7 @@ public class LevelManager {
         for(int i = 0; i < getPlanets().size(); i++){
             Planet p = getPlanets().get(i);
             Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()),
-                    p.getTextureAtlas(), getWorld(), p.getMass(), this.parent);
+                    p.getTextureAtlas(), getWorld(), p.getRadius(),  p.getMass(), this.parent);
             getPlanets().set(i, newPlanet);
         }
     }
@@ -204,19 +204,14 @@ public class LevelManager {
     private void setupPlanets(){
         int level = getLevel();
         TextureAtlas planetAtlas = parent.getAnimationManager().getPlanetAtlas();
-        //System.out.println("levelManager.setupPlanets lvl: " + level);
         if(level == 1){
             planets = new ArrayList<Planet>();
-           // TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-            Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this.parent);
-            planets.add(p);
-            planets.add(new Planet(new Vector2(0, 300), planetAtlas, world, 50000f, this.parent));
+            planets.add(new Planet(new Vector2(0, -500), planetAtlas, world, 100f, 50000f, this.parent));
         }else if(level == 2){
             planets = new ArrayList<Planet>();
-           // TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1000f, this.parent));
-            planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 10000f, this.parent));
-            planets.add(new Planet(new Vector2(0, 2000), planetAtlas, world, 100000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 300f, 1000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 300f, 10000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 2000), planetAtlas, world, 300f, 100000f, this.parent));
         }
     }
 
@@ -228,8 +223,7 @@ public class LevelManager {
         TextureAtlas shipAtlas = parent.getAnimationManager().getShipAtlas();
         System.out.println("levelManager.setupPlayer lvl: " + level);
         if(level == 1){
-            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
-                    getPlanets().get(0).getHeight());
+            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,0);
             //TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
             player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
