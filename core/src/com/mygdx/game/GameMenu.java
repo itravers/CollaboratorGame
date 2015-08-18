@@ -66,7 +66,8 @@ public class GameMenu {
                 setName();
                 parent.parent.setFrameNum(0);
                 parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
-                parent.getLevelManager().setLevel(1); //start the first level
+                //parent.getLevelManager().setLevel(1); //start the first level
+                parent.getLevelManager().nextLevel();
             }
         });
 

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -15,6 +16,7 @@ public class LevelManager {
     public static final int NUM_LEVELS = 2;
 
     private GameWorld parent;
+    private GameMenu menu;
     private Background[] backgrounds;
     private int level;
 
@@ -35,13 +37,23 @@ public class LevelManager {
         return level;
     }
 
+    /**
+     * Sets the level to the designated level.
+     * it will unload all resources used for the previous level
+     * and load all the resources used for the next level
+     * @param currentLevel The level to set to.
+     */
     public void setLevel(int currentLevel) {
         System.out.println("levelManager.setLevel("+currentLevel+")");
         this.level = currentLevel;
     }
 
+    /**
+     * THis will set level to the next level,
+     *
+     */
     public void nextLevel(){
-
+        setLevel(getLevel()+1);
     }
 
     public void resetLevel(){
@@ -73,6 +85,10 @@ public class LevelManager {
         }
     }
 
+    public void setupMenu(GameWorld w, SpriteBatch b){
+        menu = new GameMenu(w, b);
+    }
+
     public Background getBackground(){
         return getBackground(level);
     }
@@ -97,4 +113,14 @@ public class LevelManager {
         }
         return background;
     }
+
+
+    public GameMenu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(GameMenu menu) {
+        this.menu = menu;
+    }
+
 }

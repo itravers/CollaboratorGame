@@ -38,7 +38,7 @@ public class GameWorld implements ContactListener{
     private LevelManager levelManager; /* Manages Level Changes. */
 
     // Rendering Related Fields
-    private GameMenu menu;
+
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
     private OrthographicCamera camera; //drawing game pieces
@@ -165,11 +165,14 @@ public class GameWorld implements ContactListener{
      */
     private void setupRendering(){
         setupUI();
-        levelManager.setupBackground();
-        setupAnimations();
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
-        menu = new GameMenu(this, batch);
+
+        levelManager.setupBackground();
+        levelManager.setupMenu(this, batch);
+        setupAnimations();
+
+
 
         layout = new GlyphLayout();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -285,7 +288,7 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed.
      */
     private void renderPreGame(float elapsedTime){
-        menu.render(elapsedTime);
+        levelManager.getMenu().render(elapsedTime);
     }
 
     private void renderMidGame(float elapsedTime){
