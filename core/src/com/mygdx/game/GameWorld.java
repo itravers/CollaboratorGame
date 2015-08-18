@@ -14,13 +14,11 @@ import input.InputManager;
 public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
 
+    /* Game Manager Classes. */
     private AnimationManager animationManager; /* Tracks all animations. */
     private LevelManager levelManager; /* Manages Level Changes. */
-
-    //Input Related Fields
-    private InputManager inputManager;
-
-    private RenderManager renderManager;
+    private InputManager inputManager; /* Manages user input. */
+    private RenderManager renderManager; /* Manages all rendering options. */
 
     // Player Related Fields
     private String playerName;
@@ -234,7 +232,6 @@ public class GameWorld implements ContactListener{
         this.levelManager = levelManager;
     }
 
-
     public InputManager getInputManager() {
         return inputManager;
     }
@@ -242,7 +239,6 @@ public class GameWorld implements ContactListener{
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
-
 
     public RenderManager getRenderManager() {
         return renderManager;
@@ -252,7 +248,6 @@ public class GameWorld implements ContactListener{
         this.renderManager = renderManager;
     }
 
-
     public AnimationManager getAnimationManager() {
         return animationManager;
     }
@@ -260,6 +255,4 @@ public class GameWorld implements ContactListener{
     public void setAnimationManager(AnimationManager animationManager) {
         this.animationManager = animationManager;
     }
-
-
 }
