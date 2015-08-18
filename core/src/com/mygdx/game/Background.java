@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 
 import java.util.ArrayList;
 
@@ -10,7 +12,13 @@ import java.util.ArrayList;
  */
 public class Background {
     public static int NUM_LAYERS = 3;
+    private LevelManager parent;
     private TextureRegion[] layers;
+
+    public Background(LevelManager parent, TextureRegion[] layers){
+        this.parent = parent;
+        this.layers = layers;
+    }
 
 
     /**
@@ -20,7 +28,7 @@ public class Background {
      * @param layerNum The layer number we are seeking to find.
      * @return The layer itself.
      */
-    public TextureRegion getBackgroundLayer(int layerNum){
+    public TextureRegion getLayer(int layerNum){
         TextureRegion layer;
         //Check if layerNum doesn't fit specified parameters, and fix.
         if(layerNum >= NUM_LAYERS){
@@ -34,5 +42,24 @@ public class Background {
             layer = layers[0];
         }
         return layer;
+    }
+
+    public void render(float elapsedTime, SpriteBatch batch){
+        Matrix4 temp = batch.getProjectionMatrix();
+        batch.setProjectionMatrix(parent.getParent().backgroundCamera.calculateParallaxMatrix(.1f, .1f));
+        batch.disableBlending();
+        batch.begin();
+        batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
+                -(int) (layers[0].getRegionHeight() / 2));
+        batch.end();
+        batch.enableBlending();
+
+        batch.setProjectionMatrix(parent.getParent().backgroundCamera.calculateParallaxMatrix(.3f, .3f));
+        batch.begin();
+        batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / 2),
+                -(int) (layers[1].getRegionHeight() / 2));
+        batch.end();
+
+        batch.setProjectionMatrix(temp);
     }
 }

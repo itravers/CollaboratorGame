@@ -34,6 +34,7 @@ import input.InputManager;
  */
 public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
+
     private LevelManager levelManager; /* Manages Level Changes. */
 
     // Rendering Related Fields
@@ -41,11 +42,10 @@ public class GameWorld implements ContactListener{
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
     private OrthographicCamera camera; //drawing game pieces
-    private ParallaxCamera backgroundCamera; //drawing sprites
+    public ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
     public Box2DDebugRenderer debugRenderer;
     public boolean drawSprite = true;
-    private TextureRegion[] backgroundLayers; //Parallax background
 
     //UI Related Fields
     private Skin skin;
@@ -253,9 +253,8 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-        int frameNum = parent.getFrameNum();
 
-        if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
+        /*if(parent.getGameState() == MyGdxGame.GAME_STATE.PREGAME){
             renderPreGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
             renderInGame(elapsedTime);
@@ -263,7 +262,22 @@ public class GameWorld implements ContactListener{
             renderPostGame(elapsedTime);
         }else if(parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
             renderMidGame(elapsedTime);
+        }*/
+        int level = levelManager.getLevel();
+        switch (level){
+            case 0: //Pregame menu
+                renderPreGame(elapsedTime);
+                break;
+            case 1: //Level 1
+                if(parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+                    renderInGame(elapsedTime);
+                }else if(parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
+                    renderMidGame(elapsedTime);
+                }
+                break;
         }
+
+
     }
 
     /**
@@ -293,6 +307,10 @@ public class GameWorld implements ContactListener{
         batch.end();
         //renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         //debugRenderer.render(world, debugMatrix); /* Render box2d physics items */
+    }
+
+    private void renderBackground(float elapsedTime, SpriteBatch b){
+        levelManager.getBackground().render(elapsedTime, b);
     }
 
     /**
@@ -328,24 +346,7 @@ public class GameWorld implements ContactListener{
         updateGhosts(elapsedTime);
     }
 
-    private void renderBackground(float elapsedTime, SpriteBatch batch){
-        Matrix4 temp = batch.getProjectionMatrix();
-        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.1f, .1f));
-        backGroundBatch.disableBlending();
-        backGroundBatch.begin();
-        backGroundBatch.draw([0], -(int) (backgroundLayers[0].getRegionWidth() / 2),
-                -(int) (backgroundLayers[0].getRegionHeight() / 2));
-        backGroundBatch.end();
-        backGroundBatch.enableBlending();
 
-        backGroundBatch.setProjectionMatrix(backgroundCamera.calculateParallaxMatrix(.3f, .3f));
-        backGroundBatch.begin();
-        backGroundBatch.draw(backgroundLayers[1], -(int) (backgroundLayers[1].getRegionWidth() / 2),
-                -(int) (backgroundLayers[1].getRegionHeight() / 2));
-        backGroundBatch.end();
-
-        backGroundBatch.setProjectionMatrix(temp);
-    }
 
     /**
      * Renders the score sheet, etc.
@@ -682,4 +683,14 @@ public class GameWorld implements ContactListener{
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
+
+
+    public LevelManager getLevelManager() {
+        return levelManager;
+    }
+
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
+    }
+
 }

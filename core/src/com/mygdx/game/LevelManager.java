@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Manages the level progression.
@@ -11,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
  * Created by Isaac Assegai on 8/17/2015.
  */
 public class LevelManager {
-    public static final int NUM_LEVELS = 7;
+    public static final int NUM_LEVELS = 2;
 
     private GameWorld parent;
     private Background[] backgrounds;
@@ -35,6 +36,7 @@ public class LevelManager {
     }
 
     public void setLevel(int currentLevel) {
+        System.out.println("levelManager.setLevel("+currentLevel+")");
         this.level = currentLevel;
     }
 
@@ -47,15 +49,32 @@ public class LevelManager {
     }
 
     public void setupBackground(){
-        if(getLevel() == 1) {
+        int level = getLevel();
+        System.out.println("setupBackground lvl: " + level);
+        if(level == 0){
+             /* Level 0 Background. MAIN MENU */
+            Texture background = new Texture(Gdx.files.internal("data/background.png"));
+            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
+            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
+            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgrounds[1] = new Background(this, backgroundLayers);
+        }
+        if(level == 1) {
             /* Level 1 Background. */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
             Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
             background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            backgroundLayers = new TextureRegion[3];
+            TextureRegion[] backgroundLayers = new TextureRegion[3];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgrounds[1] = new Background(this, backgroundLayers);
         }
+    }
+
+    public Background getBackground(){
+        return getBackground(level);
     }
 
     /**
