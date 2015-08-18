@@ -46,7 +46,7 @@ public class RenderManager {
         setupUI();
         batch = new SpriteBatch();
         backGroundBatch = new SpriteBatch();
-        parent.getLevelManager().setupBackground();
+       // parent.getLevelManager().setupBackground();
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -141,7 +141,16 @@ public class RenderManager {
      * @param elapsedTime The time passed.
      */
     private void renderPreGame(float elapsedTime){
+        //camera.position.set(parent.getLevelManager().getPlayer().getX(), parent.getLevelManager().getPlayer().getY(), 0);
+        camera.position.set(0, 0, 0);
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        backgroundCamera.position.set(0, 0, 0);
+        backgroundCamera.update();
+        backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
+        renderBackground(elapsedTime, backGroundBatch);
         parent.getLevelManager().getMenu().render(elapsedTime);
+
     }
 
     private void renderBackground(float elapsedTime, SpriteBatch b){

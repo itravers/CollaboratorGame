@@ -57,9 +57,7 @@ public class LevelManager {
     public LevelManager(GameWorld parent){
         this.parent = parent;
         backgrounds = new Background[NUM_LEVELS];
-        //setupPhysics();
-        //setupPlanets(); // before setupPlayer
-        //wwwwwsetupPlayer();
+        setupBackground();
         setLevel(0);
 
     }
@@ -83,6 +81,7 @@ public class LevelManager {
      */
     public void setLevel(int currentLevel) {
         this.level = currentLevel;
+        setupBackground();
         setupPhysics();
         setupPlanets(); // before setupPlayer
         setupPlayer();
@@ -114,7 +113,6 @@ public class LevelManager {
         resetPlanets();
         resetGhosts();
         setupPlayer();
-        //parent.getInputManager().reset();
     }
 
     private void resetPlanets(){
@@ -123,7 +121,6 @@ public class LevelManager {
             Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()),
                     p.getTextureAtlas(), getWorld(), p.getMass(), this.parent);
             getPlanets().set(i, newPlanet);
-            //p.dispose();
         }
     }
 
@@ -138,7 +135,7 @@ public class LevelManager {
             TextureRegion[] backgroundLayers = new TextureRegion[3];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
-            backgrounds[1] = new Background(this, backgroundLayers);
+            backgrounds[0] = new Background(this, backgroundLayers);
         }
         if(level == 1) {
             /* Level 1 Background. */
@@ -151,7 +148,6 @@ public class LevelManager {
             backgrounds[1] = new Background(this, backgroundLayers);
         }
     }
-
 
     /**
      * Setup planets in the world
@@ -181,7 +177,6 @@ public class LevelManager {
             player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }
-
     }
 
     /**
@@ -195,7 +190,6 @@ public class LevelManager {
      * Creates a set of new ghosts from the set of old ones.
      */
     public void resetGhosts(){
-
         for(int i = 0; i < ghosts.size(); i++){
             Ghost g = ghosts.get(i);
             TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
@@ -261,7 +255,6 @@ public class LevelManager {
         stage.addActor(midGameMsgLbl);
     }
 
-
     /**
      * Setup the worlds physics.
      */
@@ -306,7 +299,6 @@ public class LevelManager {
     public void setMenu(GameMenu menu) {
         this.menu = menu;
     }
-
 
     public Label getNameLabel() {
         return nameLabel;
@@ -391,9 +383,4 @@ public class LevelManager {
     public void setGhosts(ArrayList<Ghost> ghosts) {
         this.ghosts = ghosts;
     }
-
-
-
-
-
 }
