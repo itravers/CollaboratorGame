@@ -11,10 +11,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AnimationManager {
     GameWorld parent;
+
     //Animation Related Fields
     private TextureAtlas shipAtlas;
     private TextureAtlas deadAtlas;
     private TextureAtlas explosionAtlas;
+    private TextureAtlas planetAtlas;
 
     private TextureRegion[] deadFrames;
     private TextureRegion[] moveForwardFrames;
@@ -25,6 +27,9 @@ public class AnimationManager {
     private Animation noMovementAnimation;
     private Animation explosionAnimation;
 
+
+    private Animation planetRotateAnimation;
+
     public AnimationManager(GameWorld parent){
         this.parent = parent;
     }
@@ -34,6 +39,12 @@ public class AnimationManager {
         setupNoMovementAnimation();
         setupExplosionAnimation();
         setupDeadAnimation();
+        setupPlanetRotateAnimation();
+    }
+
+    private void setupPlanetRotateAnimation(){
+        planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+        planetRotateAnimation = new Animation(1/16f, planetAtlas.getRegions());
     }
 
     /**
@@ -110,5 +121,33 @@ public class AnimationManager {
     public void setDeadAnimation(Animation deadAnimation) {
         this.deadAnimation = deadAnimation;
     }
+
+
+    public TextureAtlas getShipAtlas() {
+        return shipAtlas;
+    }
+
+    public void setShipAtlas(TextureAtlas shipAtlas) {
+        this.shipAtlas = shipAtlas;
+    }
+
+
+    public TextureAtlas getPlanetAtlas() {
+        return planetAtlas;
+    }
+
+    public void setPlanetAtlas(TextureAtlas planetAtlas) {
+        this.planetAtlas = planetAtlas;
+    }
+
+
+    public Animation getPlanetRotateAnimation() {
+        return planetRotateAnimation;
+    }
+
+    public void setPlanetRotateAnimation(Animation planetRotateAnimation) {
+        this.planetRotateAnimation = planetRotateAnimation;
+    }
+
 
 }

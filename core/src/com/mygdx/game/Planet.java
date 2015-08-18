@@ -89,7 +89,8 @@ public class Planet extends Sprite {
     }
 
     private void setupAnimations(){
-        rotateAnimation = new Animation(1/16f, textureAtlas.getRegions());
+        //rotateAnimation = new Animation(1/16f, textureAtlas.getRegions());
+        rotateAnimation = parent.getAnimationManager().getPlanetRotateAnimation();
     }
 
     public void update(float elapsedTime){

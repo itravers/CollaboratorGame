@@ -34,8 +34,9 @@ public class GameWorld implements ContactListener{
      */
     public GameWorld(MyGdxGame p){
         parent = p;
+        animationManager = new AnimationManager(this); //needs to be done before level manager
         levelManager = new LevelManager(this);
-        animationManager = new AnimationManager(this);
+
         renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
     }

@@ -203,16 +203,17 @@ public class LevelManager {
      */
     private void setupPlanets(){
         int level = getLevel();
-        System.out.println("levelManager.setupPlanets lvl: " + level);
+        TextureAtlas planetAtlas = parent.getAnimationManager().getPlanetAtlas();
+        //System.out.println("levelManager.setupPlanets lvl: " + level);
         if(level == 1){
             planets = new ArrayList<Planet>();
-            TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+           // TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
             Planet p = new Planet(new Vector2(0,0), planetAtlas, world, 100000f, this.parent);
             planets.add(p);
             planets.add(new Planet(new Vector2(0, 300), planetAtlas, world, 50000f, this.parent));
         }else if(level == 2){
             planets = new ArrayList<Planet>();
-            TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
+           // TextureAtlas planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
             planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1000f, this.parent));
             planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 10000f, this.parent));
             planets.add(new Planet(new Vector2(0, 2000), planetAtlas, world, 100000f, this.parent));
@@ -224,18 +225,19 @@ public class LevelManager {
      */
     private void setupPlayer(){
         int level  = getLevel();
+        TextureAtlas shipAtlas = parent.getAnimationManager().getShipAtlas();
         System.out.println("levelManager.setupPlayer lvl: " + level);
         if(level == 1){
             originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
                     getPlanets().get(0).getHeight());
-            TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-            player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
+            //TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }else if(level == 2){
             originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
                     getPlanets().get(0).getHeight());
-            TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-            player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
+            //TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }
     }
