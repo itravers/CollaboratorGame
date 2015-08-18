@@ -168,7 +168,7 @@ public class Player extends Sprite {
 	 * Initializes player animations.
 	 */
 	private void setupAnimations(){
-		currentAnimation = parent.noMovementAnimation;
+		currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
 	}
 
 	public void update(float elapsedTime){
@@ -242,14 +242,14 @@ public class Player extends Sprite {
 	private void chooseAnimation(){
 		if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
-				currentAnimation = parent.moveForwardAnimation;
+				currentAnimation = parent.getAnimationManager().getMoveForwardAnimation();
 			}else{
-				currentAnimation = parent.noMovementAnimation;
+				currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
 			}
 		}else if(getCurrentState() == STATE.EXPLOADING){
-			currentAnimation = parent.explosionAnimation;
+			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(getCurrentState() == STATE.DEAD){
-			currentAnimation = parent.deadAnimation;
+			currentAnimation = parent.getAnimationManager().getDeadAnimation();
 		}
 
 	}
@@ -273,9 +273,9 @@ public class Player extends Sprite {
 	public void setCurrentState(STATE currentState) {
 		//System.out.println("Setting State to: " + currentState);
 		if(currentState == STATE.EXPLOADING){
-			currentAnimation = parent.explosionAnimation;
+			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(currentState == STATE.DEAD){
-			currentAnimation = parent.deadAnimation;
+			currentAnimation = parent.getAnimationManager().getDeadAnimation();
 		}
 		System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;

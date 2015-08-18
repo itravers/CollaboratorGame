@@ -1,20 +1,10 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
 import input.InputManager;
 
@@ -24,6 +14,7 @@ import input.InputManager;
 public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
 
+    private AnimationManager animationManager; /* Tracks all animations. */
     private LevelManager levelManager; /* Manages Level Changes. */
 
     //Input Related Fields
@@ -39,20 +30,6 @@ public class GameWorld implements ContactListener{
     public final short CATEGORY_PLAYER = -1;
     public final short CATEGORY_PLANET = -2;
 
-    //Animation Related Fields
-    private TextureAtlas shipAtlas;
-    private TextureAtlas deadAtlas;
-    private TextureAtlas explosionAtlas;
-
-    private TextureRegion[] deadFrames;
-    private TextureRegion[] moveForwardFrames;
-    private TextureRegion[] noMovementAnimationFrames;
-
-    public Animation deadAnimation;
-    public Animation moveForwardAnimation;
-    public Animation noMovementAnimation;
-    public Animation explosionAnimation;
-
     /**
      * Creates a new game world. Sets up all needed pieces.
      * @param p The Parent wrapper of the game world.
@@ -60,44 +37,11 @@ public class GameWorld implements ContactListener{
     public GameWorld(MyGdxGame p){
         parent = p;
         levelManager = new LevelManager(this);
+        animationManager = new AnimationManager(this);
         renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
     }
 
-    public void setupAnimations(){
-        setupMoveForwardAnimation();
-        setupNoMovementAnimation();
-        setupExplosionAnimation();
-        setupDeadAnimation();
-    }
-
-    /**
-     * Gets our forward animation from the sprite sheet.
-     */
-    private void setupMoveForwardAnimation(){
-        shipAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        moveForwardFrames = new TextureRegion[7];
-        moveForwardFrames[0] = (shipAtlas.findRegion("0005"));
-        moveForwardFrames[1] = (shipAtlas.findRegion("0006"));
-        moveForwardFrames[2] = (shipAtlas.findRegion("0007"));
-        moveForwardFrames[3] = (shipAtlas.findRegion("0008"));
-        moveForwardFrames[4] = (shipAtlas.findRegion("0007"));
-        moveForwardFrames[5] = (shipAtlas.findRegion("0006"));
-        moveForwardFrames[6] = (shipAtlas.findRegion("0005"));
-        moveForwardAnimation = new Animation(1/15f, moveForwardFrames);
-    }
-
-    private void setupNoMovementAnimation(){
-        noMovementAnimationFrames = new TextureRegion[2];
-        noMovementAnimationFrames[0] = (shipAtlas.findRegion("0005"));
-        noMovementAnimationFrames[1] = (shipAtlas.findRegion("0005"));
-        noMovementAnimation = new Animation(1/2f, noMovementAnimationFrames);
-    }
-
-    private void setupExplosionAnimation(){
-        explosionAtlas = new TextureAtlas(Gdx.files.internal("data/explosionC.txt"));
-        explosionAnimation = new Animation(1/30f, explosionAtlas.getRegions());
-    }
 
     /**
      * Depending on the game state this will render either the pregame, ingame or postgame
@@ -106,7 +50,6 @@ public class GameWorld implements ContactListener{
     public void render(float elapsedTime){
         renderManager.render(elapsedTime);
     }
-
 
 
     /**
@@ -138,8 +81,6 @@ public class GameWorld implements ContactListener{
         }
     }
 
-
-
     /**
      * Called by menu when game starts
      * @param name
@@ -159,21 +100,6 @@ public class GameWorld implements ContactListener{
      */
     public String getPlayerName(){
         return playerName;
-    }
-
-
-    private void setupDeadAnimation(){
-        deadAtlas = new TextureAtlas(Gdx.files.internal("data/coin.txt"));
-        deadFrames = new TextureRegion[27];
-        for(int i = 0; i < 27; i++){/* 27 frames in the rotate and flip animation. */
-            if(i < 10){
-                deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation00"+i+"0"));
-            }else{
-                deadFrames[i] = (deadAtlas.findRegion("flipAndRotateAnimation0"+i+"0"));
-            }
-
-        }
-        deadAnimation = new Animation(1/8f, deadFrames);
     }
 
     @Override
@@ -325,5 +251,15 @@ public class GameWorld implements ContactListener{
     public void setRenderManager(RenderManager renderManager) {
         this.renderManager = renderManager;
     }
+
+
+    public AnimationManager getAnimationManager() {
+        return animationManager;
+    }
+
+    public void setAnimationManager(AnimationManager animationManager) {
+        this.animationManager = animationManager;
+    }
+
 
 }

@@ -48,7 +48,7 @@ public class RenderManager {
         backGroundBatch = new SpriteBatch();
         parent.getLevelManager().setupBackground();
         parent.getLevelManager().setupMenu(this.parent, batch);
-        parent.setupAnimations();
+        parent.getAnimationManager().setupAnimations();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
@@ -223,7 +223,7 @@ public class RenderManager {
     public void setDebugRenderer(Box2DDebugRenderer debugRenderer) {
         this.debugRenderer = debugRenderer;
     }
-    
+
     public boolean isDrawSprite() {
         return drawSprite;
     }
