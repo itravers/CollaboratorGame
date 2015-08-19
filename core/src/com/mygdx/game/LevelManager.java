@@ -271,7 +271,7 @@ public class LevelManager {
         TextureAtlas planetAtlas = parent.getAnimationManager().getPlanetAtlas();
         if(level == 1){
             planets = new ArrayList<Planet>();
-            planets.add(new Planet(new Vector2(0, 300), planetAtlas, world, 1000f, 50000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1000f, 500000f, this.parent));
         }else if(level == 2){
             planets = new ArrayList<Planet>();
             planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1400f, 550000f, this.parent));
@@ -295,7 +295,7 @@ public class LevelManager {
         TextureAtlas shipAtlas = parent.getAnimationManager().getShipAtlas();
         //System.out.println("levelManager.setupPlayer lvl: " + level);
         if(level == 1){
-            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,0);
+            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,getPlanets().get(0).getHeight()+500);
             player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }else if(level == 2){

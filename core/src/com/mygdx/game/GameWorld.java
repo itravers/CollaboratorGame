@@ -1,5 +1,6 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -154,6 +155,7 @@ public class GameWorld implements ContactListener{
      */
     private boolean didPlayerCrashIntoPlanet(Player s, Planet p){
         boolean returnVal = false;
+        /*
         Vector2 v_planetToPlayer = s.getBody().getPosition().sub(p.getBody().getPosition());
         float f_planetToPlayer = v_planetToPlayer.angle();
         float f_playerDir = (float)Math.toDegrees(s.getBody().getAngle());
@@ -161,10 +163,31 @@ public class GameWorld implements ContactListener{
         f_playerDir = f_playerDir % 360; //limit to 360 degrees.
         float angleDif = Math.abs(f_planetToPlayer - f_playerDir);
         angleDif = angleDif % 360;
+        */
+       // Vector2 playerPos = new Vector2(s.getX(), s.getY());
+        //Vector2 planetPos = new Vector2(p.getX(), p.getY());
+        Vector2 playerPos = new Vector2(s.getBody().getPosition());
+        Vector2 planetPos = new Vector2(p.getBody().getPosition());
+        Vector2 planetToPlayer = playerPos.cpy().sub(planetPos);
+        Vector2 playerDir = new Vector2(MathUtils.cos(s.getBody().getAngle()), MathUtils.sin(s.getBody().getAngle()));
+        playerDir = playerDir.rotate(90);
+       // playerDir = (float) Math.toDegrees(playerDir); //we do want this
+       // playerDir = playerDir % 360;
+        //float planetToPlayerDir = planetToPlayer.angle();
+
+        //planetToPlayerDir = (float)Math.toDegrees((double)planetToPlayerDir);
+       // planetToPlayerDir = planetToPlayerDir % 360;
+        //float angleDif = planetToPlayerDir - playerDir;
+        //angleDif = (float)Math.toDegrees((double)angleDif);
+        float angleDif = planetToPlayer.angle(playerDir);
+        //angleDif = angleDif % 360;
+        angleDif = Math.abs(angleDif);
 
         //System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
 
-        if(45 >= angleDif || 135 <= angleDif){ //THERE IS STILL A BUG HERE
+       // if(45 >= angleDif || 135 <= angleDif){ //THERE IS STILL A BUG HERE
+        //if(360 - angleDif > 22.5f || angleDif < 22.5f){
+        if(angleDif >= 45f || 360 - angleDif <= 45){
            // System.out.print(" angle is bad ");
             //the player hit the planet while facing the planet, it crashed
             //s.setCurrentState(Player.STATE.EXPLOADING);
