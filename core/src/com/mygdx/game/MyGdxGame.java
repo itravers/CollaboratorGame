@@ -37,14 +37,25 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		elapsedTime = 0;
 		System.out.println("GAMESTATE: " + state + " -> " + s);
+
 		 /* On gamestate changes, set the correct visibilities. */
 		if(getGameState() == GAME_STATE.INGAME &&
 				s == GAME_STATE.MIDGAME){ //INGAME -> MIDGAME transition
+			boolean goalCompleted = gameWorld.getLevelManager().getLevelGoalCompleted();
 			gameWorld.getLevelManager().setUiVisible(false);
 			gameWorld.getLevelManager().setMidGameVisible(true);
 
+			//if(goalCompleted){
+			//	gameWorld.getLevelManager().nextLevel();
+			//}
 		}else if(getGameState() == GAME_STATE.MIDGAME &&
 				s == GAME_STATE.INGAME){ //MIDGAME -> INGAME transition
+			boolean goalCompleted2 = gameWorld.getLevelManager().getLevelGoalCompleted();
+			if(!goalCompleted2){
+				gameWorld.getLevelManager().resetLevel();
+			}else{
+				gameWorld.getLevelManager().nextLevel();
+			}
 			gameWorld.getLevelManager().setLevelGoalCompleted(false); //reset level goal completed
 			gameWorld.getLevelManager().setUiVisible(true);
 			gameWorld.getLevelManager().setMidGameVisible(false);

@@ -148,7 +148,7 @@ public class LevelManager {
             //we know the goal is completed if the player has landed on the goal planet and he is not a ghost.
             if(stateGood && goalGood && playerTypeGood){
 
-                levelGoalCompleted = true;
+                setLevelGoalCompleted(true);//levelGoalCompleted = true;
                 /*we completed the level goal, lets mark it, set a few labels
                   and transition into midgame mode to tell the player how much
                   they don't suck.
@@ -179,7 +179,14 @@ public class LevelManager {
         if(level >= NUM_LEVELS){ //reset to first level.
             level = 1;
         }
+        //We are changing levels, we don't want anwwwwwwwy ghosts.
+       // resetGhostsToZero();
         setLevel(level);
+    }
+
+    private void resetGhostsToZero(){
+        //for(int i = 0; i < ghosts.size(); i++)ghosts.get(i).dispose();
+        ghosts = new ArrayList<Ghost>();
     }
 
     /**
@@ -264,7 +271,7 @@ public class LevelManager {
         TextureAtlas planetAtlas = parent.getAnimationManager().getPlanetAtlas();
         if(level == 1){
             planets = new ArrayList<Planet>();
-            planets.add(new Planet(new Vector2(0, 2000), planetAtlas, world, 1000f, 450000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 300), planetAtlas, world, 1000f, 50000f, this.parent));
         }else if(level == 2){
             planets = new ArrayList<Planet>();
             planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1400f, 550000f, this.parent));
@@ -523,7 +530,7 @@ public class LevelManager {
 
     public void setMidGameVisible(boolean isVisible){
         midGameVisible = isVisible  ;
-        midGameMessage.setVisible(true);
+        midGameMessage.setVisible(isVisible);
     }
 
     public boolean isMidGameVisible() {
@@ -552,7 +559,7 @@ public class LevelManager {
 
 
     public Boolean getLevelGoalCompleted() {
-        return levelGoalCompleted;
+        return this.levelGoalCompleted;
     }
 
     public void setLevelGoalCompleted(Boolean levelGoalCompleted) {

@@ -44,11 +44,11 @@ public class InputManager implements InputProcessor {
             parent.getLevelManager().nextLevel();
         }
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
-            parent.getLevelManager().resetLevel();//nextLevel();
+           // parent.getLevelManager().resetLevel();//nextLevel();
             parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
-            parent.getLevelManager().getMidGameMessage().setVisible(false);
-            parent.getLevelManager().getNameLabel().setVisible(true);
-            parent.getLevelManager().getElapsedTimeLabel().setVisible(true);
+            //parent.getLevelManager().getMidGameMessage().setVisible(false);
+           // parent.getLevelManager().getNameLabel().setVisible(true);
+           // parent.getLevelManager().getElapsedTimeLabel().setVisible(true);
         }
         if(keycode == Input.Keys.ESCAPE){ // transition from ingame -> midgame
             parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
