@@ -56,7 +56,6 @@ public class GameWorld implements ContactListener{
      * @param elapsedTime The time passed
      */
     public void updatePlayer(float elapsedTime) {
-        levelManager.checkGoal();
         levelManager.getPlayer().update(elapsedTime);
     }
 
@@ -132,6 +131,7 @@ public class GameWorld implements ContactListener{
                     s.setCurrentState(Player.STATE.EXPLOADING);
                 }else{
                     s.setCurrentState(Player.STATE.LANDED);
+                    levelManager.checkGoal(p);
                 }
             }else if(s.getCurrentState() == Player.STATE.LANDED){
 
@@ -164,7 +164,7 @@ public class GameWorld implements ContactListener{
 
         //System.out.println("planetToPlayer: " + f_planetToPlayer + " playerDir: " + f_playerDir + " angleDif: " + angleDif);
 
-        if(45 >= angleDif || 135 <= angleDif){
+        if(45 >= angleDif || 135 <= angleDif){ //THERE IS STILL A BUG HERE
            // System.out.print(" angle is bad ");
             //the player hit the planet while facing the planet, it crashed
             //s.setCurrentState(Player.STATE.EXPLOADING);

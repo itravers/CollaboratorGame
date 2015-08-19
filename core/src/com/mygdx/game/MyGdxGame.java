@@ -34,6 +34,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void setGameState(GAME_STATE s){
 		state = s;
 		elapsedTime = 0;
+		 /* On gamestate changes, set the correct visibilities. */
+		if(getGameState() == GAME_STATE.INGAME &&
+				s == GAME_STATE.MIDGAME){ //INGAME -> MIDGAME transition
+			gameWorld.getLevelManager().setUiVisible(false);
+			gameWorld.getLevelManager().setMidGameVisible(true);
+		}else if(getGameState() == GAME_STATE.MIDGAME &&
+				s == GAME_STATE.INGAME){ //MIDGAME -> INGAME transition
+			gameWorld.getLevelManager().setUiVisible(true);
+			gameWorld.getLevelManager().setMidGameVisible(false);
+		}
 	}
 
 	public int getFrameNum() {

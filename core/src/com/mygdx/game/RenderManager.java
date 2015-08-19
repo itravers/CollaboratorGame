@@ -193,6 +193,13 @@ public class RenderManager {
                     renderMidGame(elapsedTime);
                 }
                 break;
+            case 3: //Level 3
+                if(parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+                    renderInGame(elapsedTime);
+                }else if(parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
+                    renderMidGame(elapsedTime);
+                }
+                break;
         }
     }
 

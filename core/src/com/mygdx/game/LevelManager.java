@@ -28,17 +28,24 @@ import input.GameInput;
  * Created by Isaac Assegai on 8/17/2015.
  */
 public class LevelManager {
-    public static final int NUM_LEVELS = 3;
+    public static final int NUM_LEVELS = 4;
 
     private GameWorld parent; /* The Main Game Class. */
     private GameMenu menu; /* The Main Menu. */
     private Background[] backgrounds; /* Array of level backgrounds. */
     private int level; /* Current Level */
 
+    /* Mid Game Fields. */
+    private Background midGameBackground;
+    private Label midGameMessage;
+
+    private boolean midGameVisible;
+
     /* Labels Used by the UI. */
+    private boolean uiVisible;
     private Label nameLabel;
     private Label elapsedTimeLabel;
-    private Label midGameMsgLbl;
+
     private Label playerStateLabel;
     private Label playerSpeedLabel;
 
@@ -85,7 +92,8 @@ public class LevelManager {
      */
     public void setLevel(int currentLevel) {
         this.level = currentLevel;
-
+        uiVisible = true;
+        midGameVisible = false;
         setupBackground();
         setupPhysics();
         setupPlanets(); // before setupPlayer
@@ -103,8 +111,11 @@ public class LevelManager {
         }else if(level == 1){
             Planet p = planets.get(0); //last planet in first level is the goal
             goal = p;
-        }else{
+        }else if(level == 2){
             Planet p = planets.get(1); //last planet in first level is the goal
+            goal = p;
+        }else if(level == 3){
+            Planet p = planets.get(5); //last planet in first level is the goal
             goal = p;
         }
     }
@@ -114,16 +125,21 @@ public class LevelManager {
      * We have completed the goal if we are landed, and the
      * nearest planet is the goal planet.
      */
-    public void checkGoal(){
+    public void checkGoal(Planet planet){
         if(!levelGoalCompleted){
+
             Player p = parent.getLevelManager().getPlayer();
+            if(p.getCurrentState() == Player.STATE.LANDED && goal == planet){
+                levelGoalCompleted = true;
+                System.out.println("Completed Level Goal " + level);
+            }
+            /*
             Planet closestPlanet = p.getClosestPlanet();
             if(p.getCurrentState() == Player.STATE.LANDED && goal == closestPlanet){
                 levelGoalCompleted = true;
                 System.out.println("Completed Level Goal");
-            }
+            }*/
         }
-
     }
 
     /**
@@ -196,6 +212,17 @@ public class LevelManager {
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
             backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
             backgrounds[2] = new Background(this, backgroundLayers);
+        }else if(level == 3){
+            /* Level 2 Background. */
+           // backgrounds[3] = backgrounds[2];
+            /* Level 2 Background. */
+            Texture background = new Texture(Gdx.files.internal("data/background.png"));
+            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
+            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
+            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgrounds[3] = new Background(this, backgroundLayers);
         }
     }
 
@@ -212,6 +239,14 @@ public class LevelManager {
             planets = new ArrayList<Planet>();
             planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1400f, 550000f, this.parent));
             planets.add(new Planet(new Vector2(0, -2000), planetAtlas, world, 700f, 450000f, this.parent));
+        }else if(level == 3){
+            planets = new ArrayList<Planet>();
+            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 200f, 200000f, this.parent));
+            planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 800f, 40000f, this.parent));
+            planets.add(new Planet(new Vector2(0, -1000), planetAtlas, world, 800f, 40000f, this.parent));
+            planets.add(new Planet(new Vector2(1000, 0), planetAtlas, world, 800f, 40000f, this.parent));
+            planets.add(new Planet(new Vector2(-1000, 0), planetAtlas, world, 800f, 40000f, this.parent));
+            planets.add(new Planet(new Vector2(-10000, -10000), planetAtlas, world, 5000f, 2000000f, this.parent));
         }
     }
 
@@ -227,6 +262,11 @@ public class LevelManager {
             player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }else if(level == 2){
+            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
+                    getPlanets().get(0).getHeight());
+            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
+            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+        }else if(level == 3){
             originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
                     getPlanets().get(0).getHeight());
             player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
@@ -299,15 +339,15 @@ public class LevelManager {
         playerSpeedLabel.setColor(Color.RED);
 
         //MidGameMsgSEtup
-        midGameMsgLbl = new Label("You have died. Press Space to Continue", skin, "default");
-        midGameMsgLbl.setColor(Color.RED);
-        midGameMsgLbl.setPosition(0, Gdx.graphics.getHeight() / 2 - 20);
-        midGameMsgLbl.setVisible(false);
+        midGameMessage = new Label("You have died. Press Space to Continue", skin, "default");
+        midGameMessage.setColor(Color.RED);
+        midGameMessage.setPosition(0, Gdx.graphics.getHeight() / 2 - 20);
+        midGameMessage.setVisible(false);
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
         stage.addActor(playerStateLabel);
         stage.addActor(playerSpeedLabel);
-        stage.addActor(midGameMsgLbl);
+        stage.addActor(midGameMessage);
     }
 
     /**
@@ -373,12 +413,12 @@ public class LevelManager {
         this.elapsedTimeLabel = elapsedTimeLabel;
     }
 
-    public Label getMidGameMsgLbl() {
-        return midGameMsgLbl;
+    public Label getMidGameMessage() {
+        return midGameMessage;
     }
 
-    public void setMidGameMsgLbl(Label midGameMsgLbl) {
-        this.midGameMsgLbl = midGameMsgLbl;
+    public void setMidGameMessage(Label midGameMessage) {
+        this.midGameMessage = midGameMessage;
     }
 
     public Label getPlayerStateLabel() {
@@ -448,6 +488,27 @@ public class LevelManager {
 
     public void setGoal(Sprite goal) {
         this.goal = goal;
+    }
+
+
+    public void setMidGameVisible(boolean isVisible){
+        midGameVisible = isVisible  ;
+        midGameMessage.setVisible(true);
+    }
+
+    public boolean isMidGameVisible() {
+        return midGameVisible;
+    }
+
+    public boolean isUiVisible() {
+        return uiVisible;
+    }
+
+    public void setUiVisible(boolean uiVisible) {
+        this.uiVisible = uiVisible;
+        elapsedTimeLabel.setVisible(uiVisible);
+        playerSpeedLabel.setVisible(uiVisible);
+        nameLabel.setVisible(uiVisible);
     }
 
 }
