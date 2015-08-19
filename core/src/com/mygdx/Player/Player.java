@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.mygdx.game.GameWorld;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Planet;
 
 import java.util.ArrayList;
@@ -292,7 +293,19 @@ public class Player extends Sprite {
 		if(currentState == STATE.EXPLOADING){
 			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(currentState == STATE.DEAD){
+			/* Player or Ghost has died. Play the dead animation,
+			   if this is an instance of Ghost we don't do anything else.
+			   if it is not, it means this is the real player, we want to
+			   transition the game state to midgame, and set the labels, etc
+			 */
 			currentAnimation = parent.getAnimationManager().getDeadAnimation();
+			if(this instanceof Ghost){
+				//do nothing else if we are a ghost
+			}else{
+				//we must be the actual player, lets transition game states etc
+				parent.getLevelManager().getMidGameMessage().setText("You Have Died. You suck!");
+				parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
+			}
 		}
 		//System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;

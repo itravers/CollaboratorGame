@@ -35,7 +35,7 @@ public class GameWorld implements ContactListener{
     public GameWorld(MyGdxGame p){
         parent = p;
         animationManager = new AnimationManager(this); //needs to be done before level manager
-        levelManager = new LevelManager(this);
+        levelManager = new LevelManager(this); //before render manager
 
         renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
@@ -131,7 +131,7 @@ public class GameWorld implements ContactListener{
                     s.setCurrentState(Player.STATE.EXPLOADING);
                 }else{
                     s.setCurrentState(Player.STATE.LANDED);
-                    levelManager.checkGoal(p);
+                    levelManager.checkGoal(p, s);
                 }
             }else if(s.getCurrentState() == Player.STATE.LANDED){
 

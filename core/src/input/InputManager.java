@@ -3,11 +3,9 @@ package input;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.Player.Player;
 import com.mygdx.game.GameWorld;
 import com.mygdx.game.MyGdxGame;
 
-import java.util.ArrayList;
 
 /**
  * Created by slack on 8/14/2015.

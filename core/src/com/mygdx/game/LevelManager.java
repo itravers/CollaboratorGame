@@ -63,11 +63,13 @@ public class LevelManager {
     private ArrayList<Ghost> ghosts;
 
     private Sprite goal; /* Each level has a goal. */
+
     private Boolean levelGoalCompleted;
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
         backgrounds = new Background[NUM_LEVELS];
+        setupMidgame();
         setupBackground();
         setLevel(0);
 
@@ -82,6 +84,17 @@ public class LevelManager {
 
     public int getLevel() {
         return level;
+    }
+
+    private void setupMidgame(){
+        /* Midgame background. */
+        Texture background = new Texture(Gdx.files.internal("data/background.png"));
+        Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
+        background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion[] backgroundLayers = new TextureRegion[3];
+        backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
+        backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+        midGameBackground = new Background(this, backgroundLayers);
     }
 
     /**
@@ -125,13 +138,28 @@ public class LevelManager {
      * We have completed the goal if we are landed, and the
      * nearest planet is the goal planet.
      */
-    public void checkGoal(Planet planet){
+    public void checkGoal(Planet planet, Player p){
+        //we only do this if the levelGoal has not been completed
         if(!levelGoalCompleted){
 
-            Player p = parent.getLevelManager().getPlayer();
-            if(p.getCurrentState() == Player.STATE.LANDED && goal == planet){
+            boolean stateGood = p.getCurrentState() == Player.STATE.LANDED;
+            boolean goalGood = (goal.equals(planet));
+            boolean playerTypeGood = (!(p instanceof Ghost));
+            //we know the goal is completed if the player has landed on the goal planet and he is not a ghost.
+            if(stateGood && goalGood && playerTypeGood){
+
                 levelGoalCompleted = true;
+                /*we completed the level goal, lets mark it, set a few labels
+                  and transition into midgame mode to tell the player how much
+                  they don't suck.
+                 */
+                getMidGameMessage().setColor(Color.GREEN);
+                getMidGameMessage().setText("You Completed The Level. Good Job!");
+                parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME); //must be after levelGoalCompleted = true;
+
+
                 System.out.println("Completed Level Goal " + level);
+
             }
             /*
             Planet closestPlanet = p.getClosestPlanet();
@@ -168,6 +196,7 @@ public class LevelManager {
     private void resetWorld(){
         parent.parent.elapsedTime = 0;
         parent.parent.resetFrameNum(); //reset frame counter for accurate replays
+        setupGoal();
         resetPlanets();
         resetGhosts();
         setupPlayer();
@@ -180,6 +209,7 @@ public class LevelManager {
                     p.getTextureAtlas(), getWorld(), p.getRadius(),  p.getMass(), this.parent);
             getPlanets().set(i, newPlanet);
         }
+        setupGoal();
     }
 
     public void setupBackground(){
@@ -510,5 +540,25 @@ public class LevelManager {
         playerSpeedLabel.setVisible(uiVisible);
         nameLabel.setVisible(uiVisible);
     }
+
+
+    public Background getMidGameBackground() {
+        return midGameBackground;
+    }
+
+    public void setMidGameBackground(Background midGameBackground) {
+        this.midGameBackground = midGameBackground;
+    }
+
+
+    public Boolean getLevelGoalCompleted() {
+        return levelGoalCompleted;
+    }
+
+    public void setLevelGoalCompleted(Boolean levelGoalCompleted) {
+        this.levelGoalCompleted = levelGoalCompleted;
+    }
+
+
 
 }

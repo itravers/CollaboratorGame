@@ -17,6 +17,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		//state = GAME_STATE.PREGAME;
+		setGameState(GAME_STATE.PREGAME);
 		gameWorld = new GameWorld(this); // Initialize the GameWorld
 	}
 
@@ -32,18 +34,22 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	public void setGameState(GAME_STATE s){
-		state = s;
+
 		elapsedTime = 0;
+		System.out.println("GAMESTATE: " + state + " -> " + s);
 		 /* On gamestate changes, set the correct visibilities. */
 		if(getGameState() == GAME_STATE.INGAME &&
 				s == GAME_STATE.MIDGAME){ //INGAME -> MIDGAME transition
 			gameWorld.getLevelManager().setUiVisible(false);
 			gameWorld.getLevelManager().setMidGameVisible(true);
+
 		}else if(getGameState() == GAME_STATE.MIDGAME &&
 				s == GAME_STATE.INGAME){ //MIDGAME -> INGAME transition
+			gameWorld.getLevelManager().setLevelGoalCompleted(false); //reset level goal completed
 			gameWorld.getLevelManager().setUiVisible(true);
 			gameWorld.getLevelManager().setMidGameVisible(false);
 		}
+		state = s;
 	}
 
 	public int getFrameNum() {
