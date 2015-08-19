@@ -1,6 +1,7 @@
 package com.mygdx.Player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -303,6 +304,7 @@ public class Player extends Sprite {
 				//do nothing else if we are a ghost
 			}else{
 				//we must be the actual player, lets transition game states etc
+				parent.getLevelManager().getMidGameMessage().setColor(Color.RED);
 				parent.getLevelManager().getMidGameMessage().setText("You Have Died. You suck!");
 				parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
 			}

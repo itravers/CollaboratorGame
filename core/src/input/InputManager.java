@@ -31,10 +31,10 @@ public class InputManager implements InputProcessor {
         if(keycode == Input.Keys.S && vel.dst2(vel) <= parent.getLevelManager().getPlayer().MAX_VELOCITY){
             parent.getLevelManager().getPlayer().backwardPressed = true;
         }
-        if(keycode == Input.Keys.Q && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
+        if(((keycode == Input.Keys.Q)||(keycode == Input.Keys.A)) && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
             parent.getLevelManager().getPlayer().rotateRightPressed = true;
         }
-        if(keycode == Input.Keys.E && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
+        if(((keycode == Input.Keys.E)||(keycode == Input.Keys.D)) && angularVelocity <= parent.getLevelManager().getPlayer().MAX_ANGULAR_VELOCITY){
             parent.getLevelManager().getPlayer().rotateLeftPressed  = true;
         }
         if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
@@ -72,8 +72,8 @@ public class InputManager implements InputProcessor {
     public boolean keyUp(int keycode) {
         if(keycode == com.badlogic.gdx.Input.Keys.W) parent.getLevelManager().getPlayer().forwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.S) parent.getLevelManager().getPlayer().backwardPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.Q) parent.getLevelManager().getPlayer().rotateRightPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.E) parent.getLevelManager().getPlayer().rotateLeftPressed  = false;
+        if((keycode == com.badlogic.gdx.Input.Keys.Q) || (keycode == com.badlogic.gdx.Input.Keys.A)) parent.getLevelManager().getPlayer().rotateRightPressed = false;
+        if((keycode == com.badlogic.gdx.Input.Keys.E)||(keycode == com.badlogic.gdx.Input.Keys.D)) parent.getLevelManager().getPlayer().rotateLeftPressed  = false;
         //System.out.println("pressed at" + parent.parent.getFrameNum());
         GameInput gInput = new GameInput(GameInput.InputType.KEYRELEASED, keycode,
                 parent.parent.getFrameNum(), parent.parent.elapsedTime, parent.getLevelManager().getPlayer());
