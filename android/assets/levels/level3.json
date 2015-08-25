@@ -42,9 +42,9 @@
     {
         "type": "planet",
         "atlas": "planetAtlas",
-        "xLoc": -4000,
-        "yLoc": -4000,
-        "mass": 2000000,
-        "size": 1000
+        "xLoc": -100,
+        "yLoc": -100,
+        "mass": 20000,
+        "size": 100
     }
 ]
