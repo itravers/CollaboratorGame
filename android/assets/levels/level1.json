@@ -1,0 +1,10 @@
+[
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 100000,
+        "size": 50
+    }
+]

@@ -13,12 +13,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
 
 import java.util.ArrayList;
 
 import input.GameInput;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 
 /**
  * Manages the level progression.
@@ -268,23 +271,63 @@ public class LevelManager {
      */
     private void setupPlanets(){
         int level = getLevel();
-        TextureAtlas planetAtlas = parent.getAnimationManager().getPlanetAtlas();
+        TextureAtlas planetAtlas = getTextureAtlasFromString("planetAtlas");
         if(level == 1){
             planets = new ArrayList<Planet>();
-            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1000f, 500000f, this.parent));
+            Json json = new Json();
+            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
+                    Gdx.files.internal("levels/level1.json"));
+            //read list of levelItems, creating a planet for every planet in the list.
+            for(int i = 0; i < levelItems.size(); i++){
+                SpriteTemplate item = levelItems.get(i);
+                if(item.getType().equals("planet")){
+                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
+                    Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
+                            atlas, world, item.getSize(), item.getMass(), this.parent);
+                    planets.add(p);
+                }
+            }
         }else if(level == 2){
             planets = new ArrayList<Planet>();
-            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 1400f, 550000f, this.parent));
-            planets.add(new Planet(new Vector2(0, -2000), planetAtlas, world, 700f, 450000f, this.parent));
+            Json json = new Json();
+            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
+                    Gdx.files.internal("levels/level2.json"));
+            //read list of levelItems, creating a planet for every planet in the list.
+            for(int i = 0; i < levelItems.size(); i++){
+                SpriteTemplate item = levelItems.get(i);
+                if(item.getType().equals("planet")){
+                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
+                    Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
+                            atlas, world, item.getSize(), item.getMass(), this.parent);
+                    planets.add(p);
+                }
+            }
         }else if(level == 3){
             planets = new ArrayList<Planet>();
-            planets.add(new Planet(new Vector2(0, 0), planetAtlas, world, 200f, 200000f, this.parent));
-            planets.add(new Planet(new Vector2(0, 1000), planetAtlas, world, 800f, 40000f, this.parent));
-            planets.add(new Planet(new Vector2(0, -1000), planetAtlas, world, 800f, 40000f, this.parent));
-            planets.add(new Planet(new Vector2(1000, 0), planetAtlas, world, 800f, 40000f, this.parent));
-            planets.add(new Planet(new Vector2(-1000, 0), planetAtlas, world, 800f, 40000f, this.parent));
-            planets.add(new Planet(new Vector2(-10000, -10000), planetAtlas, world, 5000f, 2000000f, this.parent));
+            Json json = new Json();
+            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
+                    Gdx.files.internal("levels/level3.json"));
+            //read list of levelItems, creating a planet for every planet in the list.
+            for(int i = 0; i < levelItems.size(); i++){
+                SpriteTemplate item = levelItems.get(i);
+                if(item.getType().equals("planet")){
+                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
+                    Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
+                            atlas, world, item.getSize(), item.getMass(), this.parent);
+                    planets.add(p);
+                }
+            }
         }
+
+
+    }
+
+    private TextureAtlas getTextureAtlasFromString(String atlasName){
+        TextureAtlas returnVal = null;
+        if(atlasName.equals("planetAtlas")){
+           returnVal = parent.getAnimationManager().getPlanetAtlas();
+        }
+        return returnVal;
     }
 
     /**

@@ -1,0 +1,18 @@
+[
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 550000,
+        "size": 400
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": -2000,
+        "mass": 450000,
+        "size": 700
+    }
+]

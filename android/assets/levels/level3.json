@@ -1,0 +1,50 @@
+[
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 20000,
+        "size": 200
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": 1000,
+        "mass": 40000,
+        "size": 800
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 0,
+        "yLoc": -1000,
+        "mass": 40000,
+        "size": 800
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": 1000,
+        "yLoc": 0,
+        "mass": 40000,
+        "size": 800
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": -1000,
+        "yLoc": 0,
+        "mass": 40000,
+        "size": 800
+    },
+    {
+        "type": "planet",
+        "atlas": "planetAtlas",
+        "xLoc": -4000,
+        "yLoc": -4000,
+        "mass": 2000000,
+        "size": 1000
+    }
+]
