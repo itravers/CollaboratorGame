@@ -290,6 +290,8 @@ public class LevelManager {
         TextureAtlas returnVal = null;
         if(atlasName.equals("planetAtlas")){
            returnVal = parent.getAnimationManager().getPlanetAtlas();
+        }else if(atlasName.equals("shipAtlas")){
+            returnVal = parent.getAnimationManager().getShipAtlas();
         }
         return returnVal;
     }
@@ -299,6 +301,23 @@ public class LevelManager {
      */
     private void setupPlayer(){
         int level  = getLevel();
+        if(level != 0){ //Don't setup player on menu level.
+            Json json = new Json();
+            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
+                    Gdx.files.internal("levels/level"+level+".json"));
+            for(int i = 0; i < levelItems.size(); i++) {
+                SpriteTemplate item = levelItems.get(i);
+                if(item.getType().equals("player")) {
+                    float xLoc = item.getxLoc();
+                    float yLoc = item.getyLoc();
+                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
+                    originalPlayerPosition = new Vector2(xLoc, yLoc);
+                    player = new Player(originalPlayerPosition, atlas, getWorld(), this.parent);
+                    player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
+                }
+            }
+        }
+        /*
         TextureAtlas shipAtlas = parent.getAnimationManager().getShipAtlas();
         //System.out.println("levelManager.setupPlayer lvl: " + level);
         if(level == 1){
@@ -316,6 +335,7 @@ public class LevelManager {
             player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }
+        */
     }
 
     /**

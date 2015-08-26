@@ -61,5 +61,14 @@
         "mass": 0,
         "size": 0,
         "extraInfo": "5"
+    },
+    {
+        "type": "player",
+        "atlas": "shipAtlas",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 0,
+        "size": 0,
+        "extraInfo": ""
     }
 ]
