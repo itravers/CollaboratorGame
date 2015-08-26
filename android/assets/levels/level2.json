@@ -5,7 +5,8 @@
         "xLoc": 0,
         "yLoc": 0,
         "mass": 550000,
-        "size": 1400
+        "size": 1400,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -13,6 +14,17 @@
         "xLoc": 0,
         "yLoc": -2000,
         "mass": 450000,
-        "size": 700
+        "size": 700,
+        "extraInfo": ""
+    },
+    {
+        "type": "goal",
+        "atlas": "",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 0,
+        "size": 0,
+        "extraInfo": "1"
     }
+
 ]

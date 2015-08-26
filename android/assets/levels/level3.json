@@ -5,7 +5,8 @@
         "xLoc": 0,
         "yLoc": 0,
         "mass": 20000,
-        "size": 200
+        "size": 200,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -13,7 +14,8 @@
         "xLoc": 0,
         "yLoc": 1000,
         "mass": 40000,
-        "size": 800
+        "size": 800,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -21,7 +23,8 @@
         "xLoc": 0,
         "yLoc": -1000,
         "mass": 40000,
-        "size": 800
+        "size": 800,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -29,7 +32,8 @@
         "xLoc": 1000,
         "yLoc": 0,
         "mass": 40000,
-        "size": 800
+        "size": 800,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -37,7 +41,8 @@
         "xLoc": -1000,
         "yLoc": 0,
         "mass": 40000,
-        "size": 800
+        "size": 800,
+        "extraInfo": ""
     },
     {
         "type": "planet",
@@ -45,6 +50,16 @@
         "xLoc": -100,
         "yLoc": -100,
         "mass": 20000,
-        "size": 100
+        "size": 100,
+        "extraInfo": ""
+    },
+    {
+        "type": "goal",
+        "atlas": "",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 0,
+        "size": 0,
+        "extraInfo": "5"
     }
 ]

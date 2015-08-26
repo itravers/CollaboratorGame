@@ -5,6 +5,16 @@
         "xLoc": 0,
         "yLoc": 0,
         "mass": 100000,
-        "size": 50
+        "size": 50,
+        "extraInfo": ""
+    },
+    {
+        "type": "goal",
+        "atlas": "",
+        "xLoc": 0,
+        "yLoc": 0,
+        "mass": 0,
+        "size": 50,
+        "extraInfo": "0"
     }
 ]

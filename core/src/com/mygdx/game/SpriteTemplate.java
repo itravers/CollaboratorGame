@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by slack on 8/24/2015.
+ * Created by Isaac Assegai on 8/24/2015.
  */
 
 public class SpriteTemplate {
@@ -16,6 +16,15 @@ public class SpriteTemplate {
     private float yLoc;
     private float mass;
     private float size;
+    private String extraInfo;
+
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
+    }
 
     public String getType() {
         return type;

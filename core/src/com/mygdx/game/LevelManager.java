@@ -121,7 +121,24 @@ public class LevelManager {
 
     private void setupGoal(){
         int level = getLevel();
-        levelGoalCompleted = false;
+        if(level != 0){ //level 0 doesn't have a goal as it is the menu
+            levelGoalCompleted = false;
+            Json json = new Json();
+            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
+                    Gdx.files.internal("levels/level"+level+".json"));
+            //read list of levelItems, creating a planet for every planet in the list.
+            for(int i = 0; i < levelItems.size(); i++){
+                SpriteTemplate item = levelItems.get(i);
+                if(item.getType().equals("goal")){
+                    int index = Integer.valueOf(item.getExtraInfo()); //The index of the goal planet defined in the levelx.json file
+                    Planet p = planets.get(index);
+                    goal = p;
+                }
+            }
+        }
+
+
+    /*
         if(level == 0){
             goal = null;
         }else if(level == 1){
@@ -134,6 +151,7 @@ public class LevelManager {
             Planet p = planets.get(5); //last planet in first level is the goal
             goal = p;
         }
+        */
     }
 
     /**
@@ -271,7 +289,7 @@ public class LevelManager {
      */
     private void setupPlanets(){
         int level = getLevel();
-        TextureAtlas planetAtlas = getTextureAtlasFromString("planetAtlas");
+        //TextureAtlas planetAtlas = getTextureAtlasFromString("planetAtlas");
         if(level == 1){
             planets = new ArrayList<Planet>();
             Json json = new Json();
