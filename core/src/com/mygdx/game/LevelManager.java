@@ -116,9 +116,12 @@ public class LevelManager {
         setupPlayer();
         setupGhosts();
         setupGoal();
-       // System.out.println("levelManager.setLevel(" + currentLevel + ")");
     }
 
+    /**
+     * Reads the levelx.json file for the current level and designates the appropriate
+     * planet as the goal.
+     */
     private void setupGoal(){
         int level = getLevel();
         if(level != 0){ //level 0 doesn't have a goal as it is the menu
@@ -136,22 +139,6 @@ public class LevelManager {
                 }
             }
         }
-
-
-    /*
-        if(level == 0){
-            goal = null;
-        }else if(level == 1){
-            Planet p = planets.get(0); //last planet in first level is the goal
-            goal = p;
-        }else if(level == 2){
-            Planet p = planets.get(1); //last planet in first level is the goal
-            goal = p;
-        }else if(level == 3){
-            Planet p = planets.get(5); //last planet in first level is the goal
-            goal = p;
-        }
-        */
     }
 
     /**
@@ -178,16 +165,8 @@ public class LevelManager {
                 getMidGameMessage().setText("You Completed The Level. Good Job!");
                 parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME); //must be after levelGoalCompleted = true;
 
-
                 System.out.println("Completed Level Goal " + level);
-
             }
-            /*
-            Planet closestPlanet = p.getClosestPlanet();
-            if(p.getCurrentState() == Player.STATE.LANDED && goal == closestPlanet){
-                levelGoalCompleted = true;
-                System.out.println("Completed Level Goal");
-            }*/
         }
     }
 
@@ -289,42 +268,11 @@ public class LevelManager {
      */
     private void setupPlanets(){
         int level = getLevel();
-        //TextureAtlas planetAtlas = getTextureAtlasFromString("planetAtlas");
-        if(level == 1){
+        if(level != 0){ //don't setup planets on the menu
             planets = new ArrayList<Planet>();
             Json json = new Json();
             ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level1.json"));
-            //read list of levelItems, creating a planet for every planet in the list.
-            for(int i = 0; i < levelItems.size(); i++){
-                SpriteTemplate item = levelItems.get(i);
-                if(item.getType().equals("planet")){
-                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
-                    Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
-                            atlas, world, item.getSize(), item.getMass(), this.parent);
-                    planets.add(p);
-                }
-            }
-        }else if(level == 2){
-            planets = new ArrayList<Planet>();
-            Json json = new Json();
-            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level2.json"));
-            //read list of levelItems, creating a planet for every planet in the list.
-            for(int i = 0; i < levelItems.size(); i++){
-                SpriteTemplate item = levelItems.get(i);
-                if(item.getType().equals("planet")){
-                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
-                    Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
-                            atlas, world, item.getSize(), item.getMass(), this.parent);
-                    planets.add(p);
-                }
-            }
-        }else if(level == 3){
-            planets = new ArrayList<Planet>();
-            Json json = new Json();
-            ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level3.json"));
+                    Gdx.files.internal("levels/level"+level+".json"));
             //read list of levelItems, creating a planet for every planet in the list.
             for(int i = 0; i < levelItems.size(); i++){
                 SpriteTemplate item = levelItems.get(i);
@@ -336,8 +284,6 @@ public class LevelManager {
                 }
             }
         }
-
-
     }
 
     private TextureAtlas getTextureAtlasFromString(String atlasName){
