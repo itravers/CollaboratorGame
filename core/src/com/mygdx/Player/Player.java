@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -102,9 +103,23 @@ public class Player extends Sprite {
 			setCurrentState(STATE.FLYING);
 		}
 
+		 //draws all sprites the same size
 		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
 				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 				this.getScaleX(), this.getScaleY(), this.getRotation());
+
+		/* // draw different size based on fraem
+		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
+		float x = getX();
+		float y = getY();
+		float oX = getOriginX();
+		float oY = getOriginY();
+		float w = frame.getRegionWidth();
+		float h = frame.getRegionHeight();
+		float sX = this.getScaleX();
+		float sY = this.getScaleY();
+		batch.draw(frame, x, y, oX, oY , w, h, sX, sY, this.getRotation());
+		*/
 
 		/* Create a new GameInput to record Player states. We do this every time the player
 			has input, but we also do it here, maybe twice a second? We */
@@ -195,6 +210,7 @@ public class Player extends Sprite {
 
 	public void update(float elapsedTime){
 		stateTime += Gdx.graphics.getDeltaTime();
+		//updateBodyBasedOnFrame(elapsedTime);
 		if(getCurrentState() == STATE.DEAD || getCurrentState() == STATE.EXPLOADING){
 			//we have died, we don't want to update like normal.
 			body.setLinearVelocity(0,0); // stay where we die at.
@@ -210,6 +226,13 @@ public class Player extends Sprite {
 		/* We want the position to be set reguardless of the STATE. */
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
 				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
+
+
+	}
+
+	public void updateBodyBasedOnFrame(float elapsedTime){
+		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
+		fixture.getShape().setRadius(frame.getRegionWidth());
 
 	}
 
@@ -236,7 +259,12 @@ public class Player extends Sprite {
 			preForce = preForce.scl(g * pMass * sMass);
 			preForce.set(preForce.x / distanceSQ, preForce.y / distanceSQ); //Divide by a scalar.
 
-			force = force.add(preForce);
+			//only add the force if the distance is less than the gravity radius of the planet
+			if(distance* parent.PIXELS_TO_METERS*2 <= p.getGravityRadius()){
+				System.out.println("dist: " + (distance* parent.PIXELS_TO_METERS * 2)  + " gravRadius: " + p.getGravityRadius());
+				force = force.add(preForce);
+			}
+
 		}
 		float elapsedTimeInLastFrame = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;

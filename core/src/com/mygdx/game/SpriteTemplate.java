@@ -16,6 +16,7 @@ public class SpriteTemplate {
     private float yLoc;
     private float mass;
     private float size;
+    private float gravityRadius;
     private String extraInfo;
 
     public String getExtraInfo() {
@@ -74,4 +75,14 @@ public class SpriteTemplate {
     public void setyLoc(float yLoc) {
         this.yLoc = yLoc;
     }
+
+
+    public float getGravityRadius() {
+        return gravityRadius;
+    }
+
+    public void setGravityRadius(float gravityRadius) {
+        this.gravityRadius = gravityRadius;
+    }
+
 }

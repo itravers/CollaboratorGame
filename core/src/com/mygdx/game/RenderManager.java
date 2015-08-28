@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +14,9 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
+import com.sun.prism.j2d.paint.RadialGradientPaint;
+
+import java.awt.Point;
 
 /**
  * This class is resposible for all rendering calls, and fields
@@ -246,13 +250,30 @@ public class RenderManager {
                 shapeRenderer.rectLine(endLine, perpLine2, 3);
                 shapeRenderer.end();
 
+
+
+
+
+
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                // shapeRenderer.set(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.setProjectionMatrix(camera.combined);
+
+               /* RadialGradientPaint rgp = new RadialGradientPaint(
+                        new Point((int)(0+0 / 2), (int) (0 + 0 / 2)),
+                        (float) 0,
+                        new float[]{.01f, .5f},
+                        new java.awt.Color[]{java.awt.Color.GREEN, java.awt.Color.GREEN}
+                );
+                */
+
+
+
                 shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius / 2);
+
                 shapeRenderer.setProjectionMatrix(shapeCamera.combined);
                 shapeRenderer.end();
-
+                //Gdx.gl2
             }
         }
 

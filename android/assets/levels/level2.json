@@ -6,6 +6,7 @@
         "yLoc": 0,
         "mass": 550000,
         "size": 1400,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -15,6 +16,7 @@
         "yLoc": -2000,
         "mass": 450000,
         "size": 700,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {

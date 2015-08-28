@@ -211,7 +211,7 @@ public class LevelManager {
         for(int i = 0; i < getPlanets().size(); i++){
             Planet p = getPlanets().get(i);
             Planet newPlanet = new Planet(new Vector2(p.getX(), p.getY()),
-                    p.getTextureAtlas(), getWorld(), p.getRadius(),  p.getMass(), this.parent);
+                    p.getTextureAtlas(), getWorld(), p.getRadius(), p.getGravityRadius(), p.getMass(), this.parent);
             getPlanets().set(i, newPlanet);
         }
         setupGoal();
@@ -277,7 +277,7 @@ public class LevelManager {
                 if(item.getType().equals("planet")){
                     TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
                     Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
-                            atlas, world, item.getSize(), item.getMass(), this.parent);
+                            atlas, world, item.getSize(), item.getGravityRadius(), item.getMass(), this.parent);
                     planets.add(p);
                 }
             }

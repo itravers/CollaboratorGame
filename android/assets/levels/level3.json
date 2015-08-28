@@ -6,6 +6,7 @@
         "yLoc": 0,
         "mass": 20000,
         "size": 200,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -15,6 +16,7 @@
         "yLoc": 1000,
         "mass": 40000,
         "size": 800,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -24,6 +26,7 @@
         "yLoc": -1000,
         "mass": 40000,
         "size": 800,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -33,6 +36,7 @@
         "yLoc": 0,
         "mass": 40000,
         "size": 800,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -42,6 +46,7 @@
         "yLoc": 0,
         "mass": 40000,
         "size": 800,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {
@@ -50,7 +55,8 @@
         "xLoc": -10000,
         "yLoc": -10000,
         "mass": 2000000,
-        "size": 10000,
+        "size": 1000,
+        "gravityRadius": 1000,
         "extraInfo": ""
     },
     {

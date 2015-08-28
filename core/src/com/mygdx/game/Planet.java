@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,16 +30,18 @@ public class Planet extends Sprite {
     private CircleShape shape;
     private World world;
     private float mass; /* A Static body doesn't have a mass of it's own, so we need this. */
-
     private float radius;
+
+    private float gravityRadius; //the radius the gravity well extends too.
 
     private GameWorld parent;
 
-    public Planet(Vector2 pos, TextureAtlas textureAtlas, World world, float radius, float mass, GameWorld parent){
+    public Planet(Vector2 pos, TextureAtlas textureAtlas, World world, float radius, float gravityRadius,  float mass, GameWorld parent){
         super(textureAtlas.getRegions().first());
         this.parent = parent;
         this.mass = mass;
         this.radius = radius;
+        this.gravityRadius = gravityRadius;
         //float radius = getRadiusFromMass(mass);
         this.setSize(radius, radius);
         this.setPosition(pos.x, pos.y);
@@ -50,9 +53,25 @@ public class Planet extends Sprite {
     public void render(float elapsedTime, SpriteBatch batch){
        // System.out.println("Planet: " + getX() + " " + getY() + " Body: " + body.getPosition().x + " " + body.getPosition().y);
        // batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), 0, 0);
+
+        float m = this.gravityRadius;
+        float w = m;//this.getWidth()*1;
+        float h = m;//this.getHeight()*1;
+        float x = getX()+(this.getWidth()/2)-w/2;
+        float y = getY()+(this.getHeight()/2)-h/2;
+
+        Color oldColor = batch.getColor();
+        batch.setColor(.5f, .5f, 1f, .15f);
+        batch.draw(parent.getAnimationManager().getGravityWellAtlas().getRegions().first(),
+                x, y,
+                w, h);
+
+        //draw the planet
+        batch.setColor(oldColor);
         batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
                 this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
                 this.getScaleX(), this.getScaleY(), this.getRotation());
+
     }
 
     private void setupRendering(TextureAtlas textureAtlas){
@@ -141,5 +160,15 @@ public class Planet extends Sprite {
     public void setRadius(float radius) {
         this.radius = radius;
     }
+
+
+    public float getGravityRadius() {
+        return gravityRadius;
+    }
+
+    public void setGravityRadius(float gravityRadius) {
+        this.gravityRadius = gravityRadius;
+    }
+
 
 }

@@ -18,6 +18,8 @@ public class AnimationManager {
     private TextureAtlas explosionAtlas;
     private TextureAtlas planetAtlas;
 
+    private TextureAtlas gravityWellAtlas;
+
     private TextureRegion[] deadFrames;
     private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
@@ -40,7 +42,13 @@ public class AnimationManager {
         setupExplosionAnimation();
         setupDeadAnimation();
         setupPlanetRotateAnimation();
+        setupGravityWells();
     }
+
+    private void setupGravityWells(){
+        gravityWellAtlas = new TextureAtlas(Gdx.files.internal("data/gravity_Well.txt"));
+    }
+
 
     private void setupPlanetRotateAnimation(){
         planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
@@ -148,6 +156,16 @@ public class AnimationManager {
     public void setPlanetRotateAnimation(Animation planetRotateAnimation) {
         this.planetRotateAnimation = planetRotateAnimation;
     }
+
+
+    public TextureAtlas getGravityWellAtlas() {
+        return gravityWellAtlas;
+    }
+
+    public void setGravityWellAtlas(TextureAtlas gravityWellAtlas) {
+        this.gravityWellAtlas = gravityWellAtlas;
+    }
+
 
 
 }
