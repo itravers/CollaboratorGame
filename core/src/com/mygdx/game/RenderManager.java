@@ -25,6 +25,8 @@ public class RenderManager {
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
     private OrthographicCamera camera; //drawing game pieces
+
+    private float cameraZoom;
     private ShapeRenderer shapeRenderer;
 
     private ParallaxCamera backgroundCamera; //drawing sprites
@@ -40,6 +42,7 @@ public class RenderManager {
 
     public RenderManager(GameWorld parent){
         this.parent = parent;
+
         setupRendering();
     }
 
@@ -57,6 +60,7 @@ public class RenderManager {
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cameraZoom = 1;
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
@@ -108,6 +112,7 @@ public class RenderManager {
         debugMatrix = batch.getProjectionMatrix().cpy().scale(parent.PIXELS_TO_METERS, parent.PIXELS_TO_METERS, 0);
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
         renderGoal(elapsedTime, batch);
+        renderClosest(elapsedTime, batch);
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
 
@@ -129,10 +134,44 @@ public class RenderManager {
         parent.updateGhosts(elapsedTime);
     }
 
+    /**
+     * Renders an arrow pointing to the closest planet, and a counter
+     * telling how many meters to it's surface.
+     */
+    private void renderClosest(float elapsedTime, SpriteBatch batch){
+        Player p = parent.getLevelManager().getPlayer();
+        Planet closestPlanet = p.getClosestPlanet();
+        if(closestPlanet != null){
+            Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHeight() / 2);
+            Vector2 goalPos = new Vector2(closestPlanet.getX() + closestPlanet.getRadius()/2, closestPlanet.getY() + closestPlanet.getRadius() /2);
+            Vector2 endLine = goalPos.cpy().sub(startPos); //get difference vector
+            Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
+            Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
+
+            endLine.setLength(35f); // set length of distance vector
+            perpLine1.setLength(10f); //set length of perpLineVector
+            perpLine2.setLength(10f); //set length of perpLineVector
+
+            endLine = startPos.cpy().add(endLine); //convert back to point
+            perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
+            perpLine2 = endLine.cpy().add(perpLine2); // convert back to point
+
+            shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+            shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            //shapeRenderer.line(startPos, goalPos);
+            shapeRenderer.line(endLine, perpLine1);
+            shapeRenderer.line(endLine, perpLine2);
+            shapeRenderer.end();
+        }
+    }
+
     private void renderGoal(float elapsedTime, SpriteBatch batch){
         Sprite g = parent.getLevelManager().getGoal(); /* This object is our goal. */
         Player p = parent.getLevelManager().getPlayer();
-        if(g instanceof Planet){
+
+        if(g instanceof Planet){ //D
             Planet goal = (Planet)g;
            // float goalRadius = goal.getRadiusFromMass(goal.getMass());
             float goalRadius = goal.getRadius();
@@ -143,7 +182,7 @@ public class RenderManager {
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
 
-            endLine.setLength(35f); // set length of distance vector
+            endLine.setLength(55f); // set length of distance vector
             perpLine1.setLength(10f); //set length of perpLineVector
             perpLine2.setLength(10f); //set length of perpLineVector
 
@@ -156,7 +195,7 @@ public class RenderManager {
                 //shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                //shapeRenderer.line(startPos, endLine);
                 shapeRenderer.line(endLine, perpLine1);
@@ -316,5 +355,13 @@ public class RenderManager {
     }
 
 
+    public float getCameraZoom() {
+        return cameraZoom;
+    }
 
+    public void setCameraZoom(float cameraZoom) {
+        this.cameraZoom = cameraZoom;
+        camera.zoom = cameraZoom;
+        backgroundCamera.zoom = cameraZoom;
+    }
 }

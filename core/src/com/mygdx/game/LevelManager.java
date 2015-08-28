@@ -350,10 +350,10 @@ public class LevelManager {
         String fileName = "levels/level"+lvl+".json";
         if(Gdx.files.classpath(fileName).exists()){
             fileHandle = Gdx.files.local(fileName);
-            System.out.println("using external file.");
+            //System.out.println("using external file.");
         }else{
             fileHandle = Gdx.files.internal(fileName);
-            System.out.println("using internal file.");
+            //System.out.println("using internal file.");
         }
         return fileHandle;
     }

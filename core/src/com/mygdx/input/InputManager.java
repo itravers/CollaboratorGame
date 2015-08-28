@@ -121,6 +121,16 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+        float zoom = parent.getRenderManager().getCameraZoom();
+        if(amount <= 0){
+            zoom -= .1f;
+            if(zoom <= 0) zoom = .01f;
+            System.out.println("Zoom In");
+        }else{
+            zoom += .1f;
+            System.out.println("Zoom Out");
+        }
+        parent.getRenderManager().setCameraZoom(zoom);
         return false;
     }
 }
