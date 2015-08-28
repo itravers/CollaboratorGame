@@ -20,7 +20,7 @@ import com.mygdx.game.Planet;
 
 import java.util.ArrayList;
 
-import input.GameInput;
+import com.mygdx.input.GameInput;
 
 /**
  * The Player Sprites

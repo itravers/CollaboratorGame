@@ -11,7 +11,7 @@ import com.mygdx.game.GameWorld;
 
 import java.util.ArrayList;
 
-import input.GameInput;
+import com.mygdx.input.GameInput;
 
 /**
  * Created by slack on 8/14/2015.

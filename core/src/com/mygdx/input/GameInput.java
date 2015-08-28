@@ -1,4 +1,4 @@
-package input;
+package com.mygdx.input;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.Player.Player;

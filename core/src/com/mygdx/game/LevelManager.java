@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,14 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
+import com.mygdx.input.GameInput;
 
 import java.util.ArrayList;
-
-import input.GameInput;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 
 /**
  * Manages the level progression.
@@ -128,7 +126,7 @@ public class LevelManager {
             levelGoalCompleted = false;
             Json json = new Json();
             ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level"+level+".json"));
+                    getLevelFile(level));
             //read list of levelItems, creating a planet for every planet in the list.
             for(int i = 0; i < levelItems.size(); i++){
                 SpriteTemplate item = levelItems.get(i);
@@ -272,7 +270,7 @@ public class LevelManager {
             planets = new ArrayList<Planet>();
             Json json = new Json();
             ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level"+level+".json"));
+                    getLevelFile(level));
             //read list of levelItems, creating a planet for every planet in the list.
             for(int i = 0; i < levelItems.size(); i++){
                 SpriteTemplate item = levelItems.get(i);
@@ -304,7 +302,9 @@ public class LevelManager {
         if(level != 0){ //Don't setup player on menu level.
             Json json = new Json();
             ArrayList<SpriteTemplate> levelItems = json.fromJson(ArrayList.class, SpriteTemplate.class,
-                    Gdx.files.internal("levels/level"+level+".json"));
+                    getLevelFile(level));
+           // Gdx.files.internal("levels/level"+level+".json")
+            //        Gdx.files.in
             for(int i = 0; i < levelItems.size(); i++) {
                 SpriteTemplate item = levelItems.get(i);
                 if(item.getType().equals("player")) {
@@ -336,6 +336,26 @@ public class LevelManager {
             player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
         }
         */
+    }
+
+    /**
+     * Returns the level file handle for this level.
+     * First checks externally, to check if a mod of the level exists.
+     * if not, it looks for the level file internally, in android assets.
+     * @param lvl The level we want to find.
+     * @return A fileHandler for the  level we want.
+     */
+    private FileHandle getLevelFile(int lvl){
+        FileHandle fileHandle = null;
+        String fileName = "levels/level"+lvl+".json";
+        if(Gdx.files.classpath(fileName).exists()){
+            fileHandle = Gdx.files.local(fileName);
+            System.out.println("using external file.");
+        }else{
+            fileHandle = Gdx.files.internal(fileName);
+            System.out.println("using internal file.");
+        }
+        return fileHandle;
     }
 
     /**
@@ -376,7 +396,7 @@ public class LevelManager {
     public void addGhost(Player player){
         TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
         //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
-        ArrayList<GameInput>inputList = new ArrayList<GameInput>();
+        ArrayList<com.mygdx.input.GameInput>inputList = new ArrayList<com.mygdx.input.GameInput>();
         inputList.addAll(player.inputList);
         int index = ghosts.size();
         Ghost g = new Ghost(getOriginalPlayerPosition(), textureAtlas, getWorld(), this.parent, inputList, index);

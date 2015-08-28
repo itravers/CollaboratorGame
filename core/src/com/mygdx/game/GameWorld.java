@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.Player.Player;
-import input.InputManager;
+import com.mygdx.input.InputManager;
 
 /**
  * Created by Isaac Assegai on 8/13/2015.
