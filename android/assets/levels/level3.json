@@ -49,7 +49,7 @@
         "atlas": "planetAtlas",
         "xLoc": -10000,
         "yLoc": -10000,
-        "mass": 20000,
+        "mass": 2000000,
         "size": 10000,
         "extraInfo": ""
     },

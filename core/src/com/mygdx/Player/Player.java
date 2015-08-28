@@ -43,6 +43,8 @@ public class Player extends Sprite {
 	private PolygonShape shape;
 	private World world;
 	private float torque = 0.0f;
+
+	private Vector2 gravityForce;
 	public float MAX_VELOCITY = 35f;
 	public float MAX_ANGULAR_VELOCITY = 20f;
 
@@ -154,6 +156,7 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public void setupPhysics(World world){
+		gravityForce = new Vector2(0,0);
 		this.world = world;
 		bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -232,13 +235,16 @@ public class Player extends Sprite {
 			preForce = (pCenter.sub(sCenter));
 			preForce = preForce.scl(g * pMass * sMass);
 			preForce.set(preForce.x / distanceSQ, preForce.y / distanceSQ); //Divide by a scalar.
+
 			force = force.add(preForce);
 		}
 		float elapsedTimeInLastFrame = elapsedTime - lastFrameTime;
 		lastFrameTime = elapsedTime;
+		this.gravityForce = force.cpy();
 		force = force.scl(elapsedTimeInLastFrame);
 		//System.out.println("force = " + force.x + ":" + force.y);
 		this.getBody().applyForce(force, body.getPosition(), true);
+
 	}
 
 	private void applyInput(float elapsedTime){
@@ -314,5 +320,8 @@ public class Player extends Sprite {
 		stateTime = 0;
 	}
 
+	public Vector2 getGravityForce() {
+		return gravityForce;
+	}
 
 }

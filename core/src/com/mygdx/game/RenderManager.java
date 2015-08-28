@@ -111,20 +111,18 @@ public class RenderManager {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(parent.PIXELS_TO_METERS, parent.PIXELS_TO_METERS, 0);
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
-        renderGoal(elapsedTime, batch);
-        renderClosest(elapsedTime, batch);
+
         batch.begin();
         if(drawSprite){ /* Draw sprites if true */
-
             renderPlanets(elapsedTime, batch);
-
             renderGhosts(elapsedTime, batch);
             renderPlayer(elapsedTime, batch);
-
-
         }
         batch.end();
 
+        renderGoal(elapsedTime, batch);
+        renderClosest(elapsedTime, batch);
+        renderGravityIndicator(elapsedTime, batch);
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         if(!drawSprite) debugRenderer.render(parent.getLevelManager().getWorld(), debugMatrix); /* Render box2d physics items */
 
@@ -132,6 +130,34 @@ public class RenderManager {
         parent.updatePlayer(elapsedTime);
         parent.updatePlanets(elapsedTime);
         parent.updateGhosts(elapsedTime);
+    }
+
+    private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
+        Player p = parent.getLevelManager().getPlayer();
+        Vector2 gravityForce = p.getGravityForce();
+        Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHeight() / 2);
+        Vector2 endPos = gravityForce.cpy().sub(startPos);
+
+        Vector2 perpLine1 = endPos.cpy().rotate(135f); //get rotated difference vector
+        Vector2 perpLine2 = endPos.cpy().rotate(-135f); //get rotated difference vector
+
+        endPos.setLength(75f); // set length of distance vector
+        perpLine1.setLength(30f); //set length of perpLineVector
+        perpLine2.setLength(30f); //set length of perpLineVector
+
+        endPos = startPos.cpy().add(endPos); //convert back to point
+        perpLine1 = endPos.cpy().add(perpLine1); // convert back to point
+        perpLine2 = endPos.cpy().add(perpLine2); // convert back to point
+
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //shapeRenderer.line(startPos, endPos);
+       // shapeRenderer.line
+        shapeRenderer.rectLine(endPos, perpLine1, 3);
+        shapeRenderer.rectLine(endPos, perpLine2, 3);
+        shapeRenderer.end();
     }
 
     /**
@@ -148,7 +174,7 @@ public class RenderManager {
             Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
-            endLine.setLength(35f); // set length of distance vector
+            endLine.setLength(40f); // set length of distance vector
             perpLine1.setLength(10f); //set length of perpLineVector
             perpLine2.setLength(10f); //set length of perpLineVector
 
@@ -159,10 +185,10 @@ public class RenderManager {
             shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
             shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
             shapeRenderer.setColor(Color.RED);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             //shapeRenderer.line(startPos, goalPos);
-            shapeRenderer.line(endLine, perpLine1);
-            shapeRenderer.line(endLine, perpLine2);
+            shapeRenderer.rectLine(endLine, perpLine1, 3);
+            shapeRenderer.rectLine(endLine, perpLine2, 3);
             shapeRenderer.end();
         }
     }
@@ -183,8 +209,8 @@ public class RenderManager {
 
 
             endLine.setLength(55f); // set length of distance vector
-            perpLine1.setLength(10f); //set length of perpLineVector
-            perpLine2.setLength(10f); //set length of perpLineVector
+            perpLine1.setLength(15f); //set length of perpLineVector
+            perpLine2.setLength(15f); //set length of perpLineVector
 
             endLine = startPos.cpy().add(endLine); //convert back to point
             perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
@@ -193,15 +219,21 @@ public class RenderManager {
 
             if(g != null){ /* The goal can be null, make sure it isn't here. */
                 //shapeRenderer.setProjectionMatrix(camera.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
                 shapeRenderer.setColor(Color.GREEN);
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
                //shapeRenderer.line(startPos, endLine);
-                shapeRenderer.line(endLine, perpLine1);
-                shapeRenderer.line(endLine, perpLine2);
-                shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius/2);
+                shapeRenderer.rectLine(endLine, perpLine1, 3);
+                shapeRenderer.rectLine(endLine, perpLine2, 3);
                 shapeRenderer.end();
+
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+               // shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius / 2);
+                shapeRenderer.end();
+
             }
         }
 
