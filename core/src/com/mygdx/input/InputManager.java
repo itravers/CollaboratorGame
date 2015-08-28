@@ -124,10 +124,11 @@ public class InputManager implements InputProcessor {
         float zoom = parent.getRenderManager().getCameraZoom();
         if(amount <= 0){
             zoom -= .1f;
-            if(zoom <= 0) zoom = .01f;
+            if(zoom <= .4) zoom = .4f;
             System.out.println("Zoom In");
         }else{
             zoom += .1f;
+            if(zoom > 2.5) zoom = 2.5f;
             System.out.println("Zoom Out");
         }
         parent.getRenderManager().setCameraZoom(zoom);

@@ -47,10 +47,10 @@
     {
         "type": "planet",
         "atlas": "planetAtlas",
-        "xLoc": -100,
-        "yLoc": -100,
+        "xLoc": -10000,
+        "yLoc": -10000,
         "mass": 20000,
-        "size": 100,
+        "size": 10000,
         "extraInfo": ""
     },
     {
