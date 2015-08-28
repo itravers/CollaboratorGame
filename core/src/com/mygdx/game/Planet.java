@@ -61,7 +61,7 @@ public class Planet extends Sprite {
         float y = getY()+(this.getHeight()/2)-h/2;
 
         Color oldColor = batch.getColor();
-        batch.setColor(.5f, .5f, 1f, .15f);
+        batch.setColor(1f, .5f, .25f, .25f);
         batch.draw(parent.getAnimationManager().getGravityWellAtlas().getRegions().first(),
                 x, y,
                 w, h);
