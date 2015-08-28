@@ -28,6 +28,7 @@ public class RenderManager {
 
     private float cameraZoom;
     private ShapeRenderer shapeRenderer;
+    private OrthographicCamera shapeCamera; // need this because other cameras zoom
 
     private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
@@ -60,6 +61,7 @@ public class RenderManager {
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cameraZoom = 1;
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
@@ -78,10 +80,16 @@ public class RenderManager {
     }
 
     private void renderMidGame(float elapsedTime){
-        camera.position.set(parent.getLevelManager().getPlayer().getX(), parent.getLevelManager().getPlayer().getY(), 0);
+        Player p = parent.getLevelManager().getPlayer();
+        shapeCamera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
+        shapeCamera.update();
+        camera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(parent.getLevelManager().getPlayer().getX(), parent.getLevelManager().getPlayer().getY(), 0);
+        backgroundCamera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
         backgroundCamera.update();
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         parent.getLevelManager().getWorld().step(1f / 60f, 6, 2);
@@ -99,10 +107,16 @@ public class RenderManager {
      * @param elapsedTime The time passed
      */
     private void renderInGame(float elapsedTime) {
-        camera.position.set(parent.getLevelManager().getPlayer().getX(), parent.getLevelManager().getPlayer().getY(), 0);
+        Player p = parent.getLevelManager().getPlayer();
+        shapeCamera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
+        shapeCamera.update();
+        camera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        backgroundCamera.position.set(parent.getLevelManager().getPlayer().getX(), parent.getLevelManager().getPlayer().getY(), 0);
+        backgroundCamera.position.set(p.getX() + p.getWidth(),
+                p.getY() + p.getHeight(), 0);
         backgroundCamera.update();
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         parent.getLevelManager().getWorld().step(1f / 60f, 6, 2);
@@ -141,7 +155,7 @@ public class RenderManager {
         Vector2 perpLine1 = endPos.cpy().rotate(135f); //get rotated difference vector
         Vector2 perpLine2 = endPos.cpy().rotate(-135f); //get rotated difference vector
 
-        endPos.setLength(75f); // set length of distance vector
+        endPos.setLength(125f); // set length of distance vector
         perpLine1.setLength(30f); //set length of perpLineVector
         perpLine2.setLength(30f); //set length of perpLineVector
 
@@ -150,6 +164,8 @@ public class RenderManager {
         perpLine2 = endPos.cpy().add(perpLine2); // convert back to point
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -174,7 +190,7 @@ public class RenderManager {
             Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
-            endLine.setLength(40f); // set length of distance vector
+            endLine.setLength(90f); // set length of distance vector
             perpLine1.setLength(10f); //set length of perpLineVector
             perpLine2.setLength(10f); //set length of perpLineVector
 
@@ -182,7 +198,7 @@ public class RenderManager {
             perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
             perpLine2 = endLine.cpy().add(perpLine2); // convert back to point
 
-            shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+            shapeRenderer.setProjectionMatrix(shapeCamera.combined);
             shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
             shapeRenderer.setColor(Color.RED);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -208,7 +224,7 @@ public class RenderManager {
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
 
-            endLine.setLength(55f); // set length of distance vector
+            endLine.setLength(105f); // set length of distance vector
             perpLine1.setLength(15f); //set length of perpLineVector
             perpLine2.setLength(15f); //set length of perpLineVector
 
@@ -218,9 +234,10 @@ public class RenderManager {
 
 
             if(g != null){ /* The goal can be null, make sure it isn't here. */
-                //shapeRenderer.setProjectionMatrix(camera.combined);
+                //
+
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+                shapeRenderer.setProjectionMatrix(shapeCamera.combined);
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
                 shapeRenderer.setColor(Color.GREEN);
 
@@ -231,7 +248,9 @@ public class RenderManager {
 
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                // shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setProjectionMatrix(camera.combined);
                 shapeRenderer.circle((goalPos.x), (goalPos.y), goalRadius / 2);
+                shapeRenderer.setProjectionMatrix(shapeCamera.combined);
                 shapeRenderer.end();
 
             }
