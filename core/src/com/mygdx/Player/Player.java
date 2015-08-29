@@ -113,15 +113,31 @@ public class Player extends Sprite {
 			//get a directly on the butt of the ship.
 			Vector2 P = new Vector2(getX(), getY());
 			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
-			D = D.rotate(90);
+			D = D.rotate(88);
 			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
 			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
-			D = D.setLength(-this.getHeight()*1.5f);
+			D = D.setLength(-this.getHeight()*1.45f);
 			Vector2 B = P.cpy().sub(D);
 			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*2, this.getScaleY()*2, this.getRotation()+180);
+		}
+
+		if(backwardPressed){
+			//draws all sprites the same size
+			//get a directly on the butt of the ship.
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(270);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
+			D = D.setLength(-this.getHeight()*.98f);
+			Vector2 B = P.cpy().sub(D);
+			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*1, this.getScaleY()*1, this.getRotation());
 		}
 
 		if(rotateRightPressed){ //draw an exast coming out of right side of nose
@@ -326,6 +342,7 @@ public class Player extends Sprite {
 		if(forwardPressed) body.applyLinearImpulse(impulse, pos, true);
 		if(backwardPressed){
 			impulse = impulse.rotate(180f);
+			impulse = impulse.scl(.5f);
 			body.applyLinearImpulse(impulse, pos, true);
 		}
 		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
