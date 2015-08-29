@@ -1,80 +1,80 @@
 [
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 0,
-        "yLoc": 0,
-        "mass": 20000,
-        "size": 200,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 0,
-        "yLoc": 1000,
-        "mass": 40000,
-        "size": 800,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 0,
-        "yLoc": -1000,
-        "mass": 40000,
-        "size": 800,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 1000,
-        "yLoc": 0,
-        "mass": 40000,
-        "size": 800,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": -1000,
-        "yLoc": 0,
-        "mass": 40000,
-        "size": 800,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": -10000,
-        "yLoc": -10000,
-        "mass": 2000000,
-        "size": 1000,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "goal",
-        "atlas": "",
-        "xLoc": 0,
-        "yLoc": 0,
-        "mass": 0,
-        "size": 0,
-        "extraInfo": "5"
-    },
-    {
-        "type": "player",
-        "atlas": "shipAtlas",
-        "xLoc": 0,
-        "yLoc": 0,
-        "mass": 0,
-        "size": 0,
-        "extraInfo": ""
-    }
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 0,
+    "yLoc": 0,
+    "mass": 20000,
+    "size": 200,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 0,
+    "yLoc": 1000,
+    "mass": 40000,
+    "size": 800,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 0,
+    "yLoc": -1000,
+    "mass": 40000,
+    "size": 800,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 1000,
+    "yLoc": 0,
+    "mass": 40000,
+    "size": 800,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": -1000,
+    "yLoc": 0,
+    "mass": 40000,
+    "size": 800,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": -10000,
+    "yLoc": -10000,
+    "mass": 2000000,
+    "size": 1000,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "goal",
+    "atlas": "",
+    "xLoc": 0,
+    "yLoc": 0,
+    "mass": 0,
+    "size": 0,
+    "extraInfo": "5"
+  },
+  {
+    "type": "player",
+    "atlas": "shipAtlas",
+    "xLoc": 0,
+    "yLoc": 0,
+    "mass": 0,
+    "size": 0,
+    "extraInfo": ""
+  }
 ]

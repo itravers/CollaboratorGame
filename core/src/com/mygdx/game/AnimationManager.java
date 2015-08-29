@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 /**
  * Keeps track of all animations and animation type data.
@@ -17,17 +20,20 @@ public class AnimationManager {
     private TextureAtlas deadAtlas;
     private TextureAtlas explosionAtlas;
     private TextureAtlas planetAtlas;
-
     private TextureAtlas gravityWellAtlas;
+    private TextureAtlas exhastAtlas;
 
     private TextureRegion[] deadFrames;
     private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
+    private Array<TextureAtlas.AtlasRegion> exhastRegion;
+
 
     private Animation deadAnimation;
     private Animation moveForwardAnimation;
     private Animation noMovementAnimation;
     private Animation explosionAnimation;
+    private Animation exhastAnimation;
 
 
     private Animation planetRotateAnimation;
@@ -43,6 +49,22 @@ public class AnimationManager {
         setupDeadAnimation();
         setupPlanetRotateAnimation();
         setupGravityWells();
+        setupExhastAnimation();
+    }
+
+    public Animation getExhastAnimation() {
+        return exhastAnimation;
+    }
+
+    public void setExhastAnimation(Animation exhastAnimation) {
+        this.exhastAnimation = exhastAnimation;
+    }
+
+    private void setupExhastAnimation(){
+        exhastAtlas = new TextureAtlas(Gdx.files.internal("data/Exhast.pack"));
+        exhastRegion = exhastAtlas.getRegions();
+        exhastAnimation = new Animation(1/30f, exhastRegion);
+
     }
 
     private void setupGravityWells(){

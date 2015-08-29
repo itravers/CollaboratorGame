@@ -1,41 +1,41 @@
 [
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 0,
-        "yLoc": 0,
-        "mass": 550000,
-        "size": 1400,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "planet",
-        "atlas": "planetAtlas",
-        "xLoc": 0,
-        "yLoc": -2000,
-        "mass": 450000,
-        "size": 700,
-        "gravityRadius": 1000,
-        "extraInfo": ""
-    },
-    {
-        "type": "goal",
-        "atlas": "",
-        "xLoc": 0,
-        "yLoc": 0,
-        "mass": 0,
-        "size": 0,
-        "extraInfo": "1"
-    },
-    {
-        "type": "player",
-        "atlas": "shipAtlas",
-        "xLoc": 680,
-        "yLoc": 1395,
-        "mass": 0,
-        "size": 0,
-        "extraInfo": ""
-    }
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 0,
+    "yLoc": 0,
+    "mass": 550000,
+    "size": 1400,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "planetAtlas",
+    "xLoc": 0,
+    "yLoc": -2000,
+    "mass": 450000,
+    "size": 700,
+    "gravityRadius": 1000,
+    "extraInfo": ""
+  },
+  {
+    "type": "goal",
+    "atlas": "",
+    "xLoc": 0,
+    "yLoc": 0,
+    "mass": 0,
+    "size": 0,
+    "extraInfo": "1"
+  },
+  {
+    "type": "player",
+    "atlas": "shipAtlas",
+    "xLoc": 680,
+    "yLoc": 1395,
+    "mass": 0,
+    "size": 0,
+    "extraInfo": ""
+  }
 
 ]

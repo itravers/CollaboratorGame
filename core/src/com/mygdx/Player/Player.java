@@ -108,6 +108,49 @@ public class Player extends Sprite {
 				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 				this.getScaleX(), this.getScaleY(), this.getRotation());
 
+		if(forwardPressed){
+			//draws all sprites the same size
+			//get a directly on the butt of the ship.
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(90);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
+			D = D.setLength(-this.getHeight()*1.5f);
+			Vector2 B = P.cpy().sub(D);
+			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*2, this.getScaleY()*2, this.getRotation()+180);
+		}
+
+		if(rotateRightPressed){ //draw an exast coming out of right side of nose
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(-150);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			D = D.setLength(-this.getHeight()*.5f);
+			Vector2 B = P.cpy().sub(D);
+			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-95);
+		}
+
+		if(rotateLeftPressed){ //draw an exast coming out of right side of nose
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(325);
+			//D=D.rotate(180);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			D = D.setLength(this.getHeight()*.5f);
+			Vector2 B = P.cpy().sub(D);
+			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-275);
+		}
+
 		/* // draw different size based on fraem
 		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
 		float x = getX();
@@ -261,7 +304,7 @@ public class Player extends Sprite {
 
 			//only add the force if the distance is less than the gravity radius of the planet
 			if(distance* parent.PIXELS_TO_METERS*2 <= p.getGravityRadius()){
-				System.out.println("dist: " + (distance* parent.PIXELS_TO_METERS * 2)  + " gravRadius: " + p.getGravityRadius());
+				//System.out.println("dist: " + (distance* parent.PIXELS_TO_METERS * 2)  + " gravRadius: " + p.getGravityRadius());
 				force = force.add(preForce);
 			}
 
