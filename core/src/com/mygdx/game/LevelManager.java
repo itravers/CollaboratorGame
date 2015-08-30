@@ -90,11 +90,17 @@ public class LevelManager {
     private void setupMidgame(){
         /* Midgame background. */
         Texture background = new Texture(Gdx.files.internal("data/background.png"));
-        Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-        background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        TextureRegion[] backgroundLayers = new TextureRegion[3];
+        Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
+        Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
+        Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
+        starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion[] backgroundLayers = new TextureRegion[4];
         backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-        backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+        backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 8000, 8000);
+        backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
+        backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
         midGameBackground = new Background(this, backgroundLayers);
     }
 
@@ -274,7 +280,7 @@ public class LevelManager {
             Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
             Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
             starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            starscape1.
+
             starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
             starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
             TextureRegion[] backgroundLayers = new TextureRegion[4];
@@ -396,7 +402,7 @@ public class LevelManager {
     public void resetGhosts(){
         for(int i = 0; i < ghosts.size(); i++){
             Ghost g = ghosts.get(i);
-            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+            TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/Ship.pack"));
 
             ArrayList<GameInput>inputList = new ArrayList<GameInput>();
             inputList.addAll(g.inputList);
@@ -419,7 +425,7 @@ public class LevelManager {
      * @param player The player we are basing the ghost on.
      */
     public void addGhost(Player player){
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("data/Ship.pack"));
         //ArrayList<GameInput>inputList = (ArrayList<GameInput>) player.inputList.clone();//new ArrayList<GameInput>(player.inputList);//(ArrayList<GameInput>) player.inputList.clone();
         ArrayList<com.mygdx.input.GameInput>inputList = new ArrayList<com.mygdx.input.GameInput>();
         inputList.addAll(player.inputList);
