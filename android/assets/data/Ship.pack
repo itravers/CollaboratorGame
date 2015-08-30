@@ -1,0 +1,12 @@
+
+Ship.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship
+  rotate: false
+  xy: 1, 1
+  size: 2052, 2413
+  orig: 2052, 2413
+  offset: 0, 0
+  index: -1

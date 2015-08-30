@@ -28,6 +28,7 @@ public class RenderManager {
     // Rendering Related Fields
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
+
     private OrthographicCamera camera; //drawing game pieces
 
     private float cameraZoom;
@@ -436,4 +437,14 @@ public class RenderManager {
         camera.zoom = cameraZoom;
         backgroundCamera.zoom = cameraZoom;
     }
+
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+
 }

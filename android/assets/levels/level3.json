@@ -55,7 +55,7 @@
     "xLoc": -10000,
     "yLoc": -10000,
     "mass": 2000000,
-    "size": 1000,
+    "size": 5000,
     "gravityRadius": 1000,
     "extraInfo": ""
   },

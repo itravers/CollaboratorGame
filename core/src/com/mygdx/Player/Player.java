@@ -63,7 +63,7 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
-		super(textureAtlas.getRegions().first());
+		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
 		this.parent = parent;
 		setCurrentState(STATE.LANDED);
 		this.setPosition(pos.x, pos.y);
@@ -93,6 +93,7 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
+		System.out.println("Mass: " + this.body.getMass());
 		/* Change state from exploading to dead if the exploading animation is done. */
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(stateTime)){
 			setCurrentState(STATE.DEAD);
@@ -118,7 +119,7 @@ public class Player extends Sprite {
 			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
 			D = D.setLength(-this.getHeight()*1.45f);
 			Vector2 B = P.cpy().sub(D);
-			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*2, this.getScaleY()*2, this.getRotation()+180);
@@ -134,7 +135,7 @@ public class Player extends Sprite {
 			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
 			D = D.setLength(-this.getHeight()*.98f);
 			Vector2 B = P.cpy().sub(D);
-			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*1, this.getScaleY()*1, this.getRotation());
@@ -147,7 +148,7 @@ public class Player extends Sprite {
 			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
 			D = D.setLength(-this.getHeight()*.5f);
 			Vector2 B = P.cpy().sub(D);
-			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-95);
@@ -161,7 +162,7 @@ public class Player extends Sprite {
 			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
 			D = D.setLength(this.getHeight()*.5f);
 			Vector2 B = P.cpy().sub(D);
-			System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-275);

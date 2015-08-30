@@ -54,13 +54,31 @@ public class Background {
         batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
                 -(int) (layers[0].getRegionHeight() / 2));
         batch.end();
-        batch.enableBlending();
 
-        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.3f, .3f));
+
+        batch.enableBlending();
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.2f, .2f));
         batch.begin();
         batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / 2),
                 -(int) (layers[1].getRegionHeight() / 2));
         batch.end();
+
+
+
+        batch.enableBlending();
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.4f, .4f));
+        batch.begin();
+        batch.draw(layers[2], -(int) (layers[2].getRegionWidth() / 2),
+                -(int) (layers[2].getRegionHeight() / 2));
+        batch.end();
+
+        batch.enableBlending();
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(1f, 1f));
+        batch.begin();
+        batch.draw(layers[3], -(int) (layers[3].getRegionWidth() / 2),
+                -(int) (layers[3].getRegionHeight() / 2));
+        batch.end();
+
 
         batch.setProjectionMatrix(temp);
     }

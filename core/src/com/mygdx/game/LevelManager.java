@@ -223,40 +223,65 @@ public class LevelManager {
         if(level == 0){
              /* Level 0 Background. MAIN MENU */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
-            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
+            Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
+            Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
+            starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[4];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 8000, 8000);
+            backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
+            backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
             backgrounds[0] = new Background(this, backgroundLayers);
         }else if(level == 1) {
             /* Level 1 Background. */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
-            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
+            Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
+            Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
+            starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[4];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 8000, 8000);
+            backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
+            backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
             backgrounds[1] = new Background(this, backgroundLayers);
         }else if(level == 2){
             /* Level 2 Background. */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
-            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
+            Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
+            Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
+            starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[4];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 8000, 8000);
+            backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
+            backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
             backgrounds[2] = new Background(this, backgroundLayers);
         }else if(level == 3){
             /* Level 2 Background. */
            // backgrounds[3] = backgrounds[2];
             /* Level 2 Background. */
             Texture background = new Texture(Gdx.files.internal("data/background.png"));
-            Texture background2 = new Texture(Gdx.files.internal("data/background2.png"));
-            background2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-            TextureRegion[] backgroundLayers = new TextureRegion[3];
+            Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
+            Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
+            Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
+            starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape1.
+            starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion[] backgroundLayers = new TextureRegion[4];
             backgroundLayers[0] = new TextureRegion(background, 0, 0, 2732, 1536);
-            backgroundLayers[1] = new TextureRegion(background2, 0, 0, 5320, 4440);
+            backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 8000, 8000);
+            backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
+            backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
             backgrounds[3] = new Background(this, backgroundLayers);
         }
     }

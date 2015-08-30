@@ -1,10 +1,13 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -66,11 +69,14 @@ public class Planet extends Sprite {
                 x, y,
                 w, h);
 
+
         //draw the planet
         batch.setColor(oldColor);
+
         batch.draw(rotateAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
                 this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
                 this.getScaleX(), this.getScaleY(), this.getRotation());
+
 
     }
 
