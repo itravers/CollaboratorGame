@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
 /**
  * Represents a single levels background.
@@ -48,36 +49,75 @@ public class Background {
      */
     public void render(float elapsedTime, SpriteBatch batch){
         Matrix4 temp = batch.getProjectionMatrix();
-        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.1f, .1f));
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.08f, .08f));
         batch.disableBlending();
         batch.begin();
-        batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
+        /*batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
                 -(int) (layers[0].getRegionHeight() / 2));
+        */
+        float scaler = 1f;
+        float scaler2 = scaler/2f;
+        batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / scaler), -(int) (layers[0].getRegionHeight() / scaler),
+                +(int) (0), +(int) (0),
+                layers[0].getRegionWidth() / scaler2, layers[0].getRegionHeight() / scaler2,
+                1f, 1f,
+                0);
         batch.end();
 
 
         batch.enableBlending();
-        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.2f, .2f));
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.15f, .15f));
         batch.begin();
-        batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / 2),
-                -(int) (layers[1].getRegionHeight() / 2));
+       // batch.draw(layers[3],  -(int)(layers[3].getRegionWidth() /4), -(int)(layers[3].getRegionHeight() /4),
+       //         layers[3].getRegionWidth()/2, layers[3].getRegionWidth()/2);
+        scaler = 10f;
+        scaler2 = scaler/2f;
+        batch.draw(layers[3], -(int) (layers[3].getRegionWidth() / scaler), -(int) (layers[3].getRegionHeight() / scaler),
+                +(int) (0), +(int) (0),
+                layers[3].getRegionWidth() / scaler2, layers[3].getRegionHeight() / scaler2,
+                1f, 1f,
+                0);
+
         batch.end();
 
 
+
+        batch.enableBlending();
+        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.225f, .225f));
+        batch.begin();
+        // batch.draw(layers[2], -(int) (layers[2].getRegionWidth() / 2),
+        //         -(int) (layers[2].getRegionHeight() / 2));
+        //batch.draw(layers[2],  -(int)(layers[2].getRegionWidth() /3), -(int)(layers[2].getRegionHeight() / 3),
+        //        layers[2].getRegionWidth() / 1.5f, layers[3].getRegionWidth() / 1.5f);
+        scaler = 20f;
+        scaler2 = scaler/2f;
+
+        batch.draw(layers[2], -(int) (layers[2].getRegionWidth() / scaler), -(int) (layers[2].getRegionHeight() / scaler),
+                +(int) (0), +(int) (0),
+                layers[2].getRegionWidth() / scaler2, layers[2].getRegionHeight() / scaler2,
+                1f, 1f,
+                0);
+
+        batch.end();
 
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.4f, .4f));
         batch.begin();
-        batch.draw(layers[2], -(int) (layers[2].getRegionWidth() / 2),
-                -(int) (layers[2].getRegionHeight() / 2));
-        batch.end();
+       // TiledDrawable tile = new TiledDrawable(layers[1]);
+        //tile.draw(batch, (layers[1].getRegionWidth() / 2f), (layers[1].getRegionHeight() / 2f),
+        //        layers[1].getRegionWidth() / 1f, layers[1].getRegionWidth() / 1f);
+       // batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / 16f), -(int) (layers[1].getRegionHeight() / 16f),
+       //         layers[1].getRegionWidth() / 8f, layers[1].getRegionWidth() / 8f);
+        scaler = 24f;
+        scaler2 = scaler/2f;
+        batch.draw(layers[1], -(int) (layers[1].getRegionWidth() / scaler), -(int) (layers[1].getRegionHeight() / scaler),
+                +(int) (0), +(int) (0),
+                layers[1].getRegionWidth() / scaler2, layers[1].getRegionHeight() / scaler2,
+                1f, 1f,
+                 0);
 
-        batch.enableBlending();
-        batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(1f, 1f));
-        batch.begin();
-        batch.draw(layers[3], -(int) (layers[3].getRegionWidth() / 2),
-                -(int) (layers[3].getRegionHeight() / 2));
-        batch.end();
+
+                batch.end();
 
 
         batch.setProjectionMatrix(temp);

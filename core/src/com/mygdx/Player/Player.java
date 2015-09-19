@@ -93,7 +93,7 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
-		System.out.println("Mass: " + this.body.getMass());
+		//System.out.println("Mass: " + this.body.getMass());
 		/* Change state from exploading to dead if the exploading animation is done. */
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(stateTime)){
 			setCurrentState(STATE.DEAD);

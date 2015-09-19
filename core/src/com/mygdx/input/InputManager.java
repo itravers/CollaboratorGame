@@ -56,6 +56,11 @@ public class InputManager implements InputProcessor {
             parent.getLevelManager().getNameLabel().setVisible(false);
             parent.getLevelManager().getElapsedTimeLabel().setVisible(false);
         }
+        if(keycode == Input.Keys.P){ // transition from ingame -> midgame
+
+            parent.parent.devMode = !parent.parent.devMode;
+            System.out.println("toggle dev mode: " + parent.parent.devMode);
+        }
 
         GameInput gInput = new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(),
                 parent.parent.elapsedTime, parent.getLevelManager().getPlayer());
@@ -123,13 +128,19 @@ public class InputManager implements InputProcessor {
     public boolean scrolled(int amount) {
         float zoom = parent.getRenderManager().getCameraZoom();
         if(amount <= 0){
-            zoom -= .1f;
-            if(zoom <= .4) zoom = .4f;
+            float zoomChange = zoom/10;
+            zoom -= zoomChange;
+            if(zoom <= .4 && !parent.parent.devMode) zoom = .4f;
             System.out.println("Zoom In");
         }else{
-            zoom += .1f;
-            if(zoom > 2.5) zoom = 2.5f;
-            System.out.println("Zoom Out");
+            float zoomChange = zoom/10;
+            zoom += zoomChange;
+
+            if(zoom > 2.5 && !parent.parent.devMode){
+                zoom = 2.5f;
+                System.out.println("Zoom Out");
+            }
+
         }
         parent.getRenderManager().setCameraZoom(zoom);
         return false;

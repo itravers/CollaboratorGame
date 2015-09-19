@@ -14,6 +14,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private GAME_STATE state = GAME_STATE.PREGAME;
 	public float elapsedTime = 0;
 	private int frameNum = 0;
+	public boolean devMode = false;
 
 	@Override
 	public void create () {
