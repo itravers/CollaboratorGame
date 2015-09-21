@@ -333,13 +333,8 @@ public class RenderManager {
     }
 
     private void renderBackground(float elapsedTime, SpriteBatch b){
-        if(parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){
-            //render the midgame background
-            parent.getLevelManager().getMidGameBackground().render(elapsedTime, b);
-        }else{
             //render the level background.
             parent.getLevelManager().getBackground().render(elapsedTime, b);
-        }
 
     }
 

@@ -33,11 +33,11 @@ public class LevelManager {
 
     private GameWorld parent; /* The Main Game Class. */
     private GameMenu menu; /* The Main Menu. */
-    private Background[] backgrounds; /* Array of level backgrounds. */
+    private Background mainBackground; /* Array of level backgrounds. */
     private int level; /* Current Level */
 
     /* Mid Game Fields. */
-    private Background midGameBackground;
+    //private Background midGameBackground;
     private Label midGameMessage;
 
     private boolean midGameVisible;
@@ -69,8 +69,8 @@ public class LevelManager {
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
-        backgrounds = new Background[NUM_LEVELS];
-        setupMidgame();
+        //mainBackground = new Background[NUM_LEVELS];
+        //setupMidgame();
         setupBackground();
         setLevel(0);
 
@@ -87,8 +87,8 @@ public class LevelManager {
         return level;
     }
 
-    private void setupMidgame(){
-        /* Midgame background. */
+    /*private void setupMidgame(){
+        // Midgame background.
         Texture background = new Texture(Gdx.files.internal("data/background.png"));
         Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
         Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
@@ -102,7 +102,7 @@ public class LevelManager {
         backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
         backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
         midGameBackground = new Background(this, backgroundLayers);
-    }
+    }*/
 
     /**
      * Sets the level to the designated level.
@@ -114,7 +114,7 @@ public class LevelManager {
         this.level = currentLevel;
         uiVisible = true;
         midGameVisible = false;
-        setupBackground();
+       // setupBackground(); //only need to do this once now.
         setupPhysics();
         setupPlanets(); // before setupPlayer
         setupPlayer();
@@ -224,10 +224,6 @@ public class LevelManager {
     }
 
     public void setupBackground() {
-        int level = getLevel();
-        // System.out.println("setupBackground lvl: " + level);
-        if (level == 0 || level == 1 || level == 2 || level == 3) {
-            /* Level 1 Background. */
                 Texture background = new Texture(Gdx.files.internal("data/tiledBackground.png"));
                 Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
                 Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
@@ -241,9 +237,7 @@ public class LevelManager {
                 backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 110000, 110000);
                 backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 60000, 60000);
                 backgroundLayers[3] = new TextureRegion(starscape3, 0, 0, 20000, 20000);
-                backgrounds[level] = new Background(this, backgroundLayers);
-
-        }
+                mainBackground = new Background(this, backgroundLayers);
     }
 
     /**
@@ -433,29 +427,12 @@ public class LevelManager {
         setupPhysics();
     }
 
-    public Background getBackground(){
-        return getBackground(level);
-    }
-
     /**
      * Returns the background for the current level, or 0 or last if levelNum is wrong.
-     * @param levelNum The number of the level we are getting a background for.
      * @return The background itself.
      */
-    public Background getBackground(int levelNum){
-        Background background;
-        //First check if the levelNum is possible.
-        if(levelNum >= NUM_LEVELS){
-            //levelNum is too high, assign last available level background.
-            background = backgrounds[NUM_LEVELS-1];
-        }else if(levelNum >= 0){
-            //levelNum is just right, assign it.
-            background = backgrounds[levelNum];
-        }else{
-            //level num is negative, assign first level num
-            background = backgrounds[0];
-        }
-        return background;
+    public Background getBackground(){
+        return mainBackground;
     }
 
     public GameMenu getMenu() {
@@ -580,14 +557,6 @@ public class LevelManager {
         nameLabel.setVisible(uiVisible);
     }
 
-
-    public Background getMidGameBackground() {
-        return midGameBackground;
-    }
-
-    public void setMidGameBackground(Background midGameBackground) {
-        this.midGameBackground = midGameBackground;
-    }
 
 
     public Boolean getLevelGoalCompleted() {

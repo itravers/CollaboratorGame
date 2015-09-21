@@ -3,20 +3,20 @@
     "type": "planet",
     "atlas": "planetAtlas",
     "xLoc": 0,
-    "yLoc": 0,
-    "mass": 550000,
+    "yLoc": -3000,
+    "mass": 400000,
     "size": 1400,
-    "gravityRadius": 1000,
+    "gravityRadius": 5000,
     "extraInfo": ""
   },
   {
     "type": "planet",
     "atlas": "planetAtlas",
     "xLoc": 0,
-    "yLoc": -2000,
-    "mass": 450000,
-    "size": 700,
-    "gravityRadius": 1000,
+    "yLoc": 3000,
+    "mass": 400000,
+    "size": 1400,
+    "gravityRadius": 4000,
     "extraInfo": ""
   },
   {
@@ -32,7 +32,7 @@
     "type": "player",
     "atlas": "shipAtlas",
     "xLoc": 680,
-    "yLoc": 1395,
+    "yLoc": -2000,
     "mass": 0,
     "size": 0,
     "extraInfo": ""
