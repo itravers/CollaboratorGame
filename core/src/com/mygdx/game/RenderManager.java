@@ -40,7 +40,7 @@ public class RenderManager {
 
     //UI Related Fields
     private Skin skin;
-    private Stage stage; //for drawing ui
+    public Stage stage; //for drawing ui
 
     public RenderManager(GameWorld parent){
         this.parent = parent;

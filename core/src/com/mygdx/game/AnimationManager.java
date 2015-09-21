@@ -2,8 +2,12 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -36,6 +40,9 @@ public class AnimationManager {
     private Animation exhastAnimation;
 
 
+
+
+
     private Animation planetRotateAnimation;
 
     public AnimationManager(GameWorld parent){
@@ -50,7 +57,10 @@ public class AnimationManager {
         setupPlanetRotateAnimation();
         setupGravityWells();
         setupExhastAnimation();
+
     }
+
+
 
     public Animation getExhastAnimation() {
         return exhastAnimation;

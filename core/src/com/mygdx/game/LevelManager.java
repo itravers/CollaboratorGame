@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,13 +12,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
 import com.mygdx.input.GameInput;
+import com.mygdx.input.NavButtonProcessor;
 
 import java.util.ArrayList;
 
@@ -66,6 +74,13 @@ public class LevelManager {
     private Sprite goal; /* Each level has a goal. */
 
     private Boolean levelGoalCompleted;
+
+    private TextureAtlas navButtonAtlas;
+    private Skin navButtonSkin;
+    public TextButton navUpButton;
+    public TextButton navDownButton;
+    public TextButton navLeftButton;
+    public TextButton navRightButton;
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
@@ -368,11 +383,80 @@ public class LevelManager {
         midGameMessage.setColor(Color.RED);
         midGameMessage.setPosition(0, Gdx.graphics.getHeight() / 2 - 20);
         midGameMessage.setVisible(false);
+
+
+
+        //setup buttons
+        setupNavButtons(stage);
+
+
+
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
         stage.addActor(playerStateLabel);
         stage.addActor(playerSpeedLabel);
         stage.addActor(midGameMessage);
+       // Gdx.input.setInputProcessor(stage);
+    }
+
+    private void setupNavButtons(Stage stage){
+        int width = 64;
+        int height = 64;
+        BitmapFont font = new BitmapFont();
+        navButtonAtlas = new TextureAtlas("data/arrows.pack");
+        navButtonSkin = new Skin();
+        navButtonSkin.addRegions(navButtonAtlas);
+        //up button
+        TextButton.TextButtonStyle navUpButtonStyle = new TextButton.TextButtonStyle();
+        navUpButtonStyle.up = navButtonSkin.getDrawable("navArrow_up");
+        navUpButtonStyle.down = navButtonSkin.getDrawable("navArrow_up_touch");
+        navUpButtonStyle.font = font;
+        navUpButton = new TextButton("", navUpButtonStyle);
+        navUpButton.setPosition(5, 100);
+        navUpButton.setHeight(height);
+        navUpButton.setWidth(width);
+
+        //down button
+        TextButton.TextButtonStyle navDownButtonStyle = new TextButton.TextButtonStyle();
+        navDownButtonStyle.up = navButtonSkin.getDrawable("navArrow_down");
+        navDownButtonStyle.down = navButtonSkin.getDrawable("navArrow_down_touch");
+        navDownButtonStyle.font = font;
+        navDownButton = new TextButton("", navDownButtonStyle);
+        navDownButton.setPosition(5, 30);
+        navDownButton.setHeight(height);
+        navDownButton.setWidth(width);
+
+        //right button
+        TextButton.TextButtonStyle navRightButtonStyle = new TextButton.TextButtonStyle();
+        navRightButtonStyle.up = navButtonSkin.getDrawable("navArrow_right");
+        navRightButtonStyle.down = navButtonSkin.getDrawable("navArrow_right_touch");
+        navRightButtonStyle.font = font;
+        navRightButton = new TextButton("", navRightButtonStyle);
+        navRightButton.setPosition(Gdx.graphics.getWidth() - 5 - width, 30);
+        navRightButton.setHeight(height);
+        navRightButton.setWidth(width);
+
+        //left button
+        TextButton.TextButtonStyle navLeftButtonStyle = new TextButton.TextButtonStyle();
+        navLeftButtonStyle.up = navButtonSkin.getDrawable("navArrow_left");
+        navLeftButtonStyle.down = navButtonSkin.getDrawable("navArrow_left_touch");
+        navLeftButtonStyle.font = font;
+        navLeftButton = new TextButton("", navLeftButtonStyle);
+        navLeftButton.setPosition(Gdx.graphics.getWidth() - 10 - width * 2, 30);
+        navLeftButton.setHeight(height);
+        navLeftButton.setWidth(width);
+
+
+        navUpButton.addListener(new NavButtonProcessor(this));
+        navDownButton.addListener(new NavButtonProcessor(this));
+        navRightButton.addListener(new NavButtonProcessor(this));
+        navLeftButton.addListener(new NavButtonProcessor(this));
+
+
+        stage.addActor(navUpButton);
+        stage.addActor(navDownButton);
+        stage.addActor(navRightButton);
+        stage.addActor(navLeftButton);
     }
 
     /**

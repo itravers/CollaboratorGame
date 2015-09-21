@@ -1,5 +1,6 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -40,6 +41,8 @@ public class GameWorld implements ContactListener{
 
         renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
+        //navButtonProcessor = new NavButtonProcessor();
+
     }
 
 
@@ -86,7 +89,14 @@ public class GameWorld implements ContactListener{
      * @param name
      */
     public void setPlayerName(String name){
-        Gdx.input.setInputProcessor(inputManager);
+        //Gdx.input.setInputProcessor(inputManager);
+        //setup the input manager whenever player name gets set, this isn't a good logical place for this
+        //but right now is the only place I can find all the items i need to multiplex
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(inputManager);
+        multiplexer.addProcessor(renderManager.stage);
+       // multiplexer.addProcessor(navButtonProcessor);
+        Gdx.input.setInputProcessor(multiplexer);
         playerName = name;
         levelManager.getNameLabel().setText(playerName);
         levelManager.getElapsedTimeLabel().setPosition(
@@ -247,4 +257,12 @@ public class GameWorld implements ContactListener{
     public void setAnimationManager(AnimationManager animationManager) {
         this.animationManager = animationManager;
     }
+
+    /*public NavButtonProcessor getNavButtonProcessor() {
+        return navButtonProcessor;
+    }
+
+    public void setNavButtonProcessor(NavButtonProcessor navButtonProcessor) {
+        this.navButtonProcessor = navButtonProcessor;
+    }*/
 }

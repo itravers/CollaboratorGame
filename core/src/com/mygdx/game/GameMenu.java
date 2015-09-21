@@ -1,5 +1,6 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -79,6 +80,13 @@ public class GameMenu {
         portraitButton.setWidth(100f);
         portraitButton.setHeight(20f);
 
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        //multiplexer.addProcessor(parent.getInputManager());
+        multiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(multiplexer);
+
+       // Gdx.input.setInputProcessor(parent.getInputManager());
+       // Gdx.input.setInputProcessor(stage);
         landscapeButton.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 30f);
         portraitButton.setPosition(Gdx.graphics.getWidth() / 2 - 0f, Gdx.graphics.getHeight() / 2 - 30f);
 
@@ -103,7 +111,7 @@ public class GameMenu {
         stage.addActor(button);
         stage.addActor(landscapeButton);
         stage.addActor(portraitButton);
-        Gdx.input.setInputProcessor(stage);
+       //Gdx.input.setInputProcessor(stage);
     }
 
     public void render(float elapsedTime){
