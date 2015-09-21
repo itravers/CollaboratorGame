@@ -12,6 +12,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.mygdx.Player.Player;
 
 /**
@@ -26,7 +31,9 @@ public class RenderManager {
     private SpriteBatch backGroundBatch;
 
     private OrthographicCamera camera; //drawing game pieces
+   // public ScalingViewport viewport;
 
+    private float baseZoom;
     private float cameraZoom;
     private ShapeRenderer shapeRenderer;
     private OrthographicCamera shapeCamera; // need this because other cameras zoom
@@ -41,10 +48,12 @@ public class RenderManager {
     //UI Related Fields
     private Skin skin;
     public Stage stage; //for drawing ui
+    public float scale; //used for determining sizes of things based on device width
 
     public RenderManager(GameWorld parent){
         this.parent = parent;
-
+        scale = Gdx.graphics.getWidth()/parent.parent.developmentWidth;
+        baseZoom = 1/scale;
         setupRendering();
     }
 
@@ -52,6 +61,8 @@ public class RenderManager {
      * Prepare objects for rendering.
      */
     private void setupRendering(){
+        System.out.println("setup Rendering");
+        System.out.println("W x H: " + Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight());
         setupUI();
 
         batch = new SpriteBatch();
@@ -61,11 +72,23 @@ public class RenderManager {
         parent.getAnimationManager().setupAnimations();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shapeCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cameraZoom = 1;
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         shapeRenderer = new ShapeRenderer();
+        setupScreenSizeDependantItems();
+    }
+
+    //Several things in the game are going to be dependant on the users screen size
+    //zoom
+    //gui size
+    private void setupScreenSizeDependantItems(){
+        if(Gdx.graphics.getWidth() <= 480){
+            baseZoom = 1f;
+        }else if(Gdx.graphics.getWidth() >= 900){
+            baseZoom = .5f;
+        }
+        setCameraZoom(baseZoom);
     }
 
     /**
@@ -418,7 +441,12 @@ public class RenderManager {
         this.cameraZoom = cameraZoom;
         camera.zoom = cameraZoom;
         backgroundCamera.zoom = cameraZoom;
+       // shapeCamera.zoom = cameraZoom;
     }
+
+    //public void resize(int w, int h){
+    //    viewport.update(w, h);
+    //}
 
 
     public OrthographicCamera getCamera() {
@@ -428,5 +456,15 @@ public class RenderManager {
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
     }
+
+
+    public float getBaseZoom() {
+        return baseZoom;
+    }
+
+    public void setBaseZoom(float baseZoom) {
+        this.baseZoom = baseZoom;
+    }
+
 
 }

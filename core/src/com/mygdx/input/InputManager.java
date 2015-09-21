@@ -55,6 +55,10 @@ public class InputManager implements InputProcessor{
             parent.getLevelManager().getNameLabel().setVisible(false);
             parent.getLevelManager().getElapsedTimeLabel().setVisible(false);
         }
+
+        if(keycode == Input.Keys.R){
+           // parent.getRenderManager().resize(480, 800);
+        }
         if(keycode == Input.Keys.P){ // transition from ingame -> midgame
 
             parent.parent.devMode = !parent.parent.devMode;
@@ -110,6 +114,10 @@ public class InputManager implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        //We need to allow the player to click the screen to go to the next level
+        if(parent.parent.getGameState() == MyGdxGame.GAME_STATE.MIDGAME){ //transition from midgame -> ingame
+            parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
+        }
         return false;
     }
 
@@ -126,21 +134,23 @@ public class InputManager implements InputProcessor{
     @Override
     public boolean scrolled(int amount) {
         float zoom = parent.getRenderManager().getCameraZoom();
+        float baseZoom = parent.getRenderManager().getBaseZoom();
         if(amount <= 0){
             float zoomChange = zoom/10;
             zoom -= zoomChange;
-            if(zoom <= .4 && !parent.parent.devMode) zoom = .4f;
-            System.out.println("Zoom In");
+            if(zoom <= baseZoom*.4f && !parent.parent.devMode) zoom = baseZoom*.4f;
+            System.out.println("Zoom In " + zoom);
         }else{
             float zoomChange = zoom/10;
             zoom += zoomChange;
 
-            if(zoom > 2.5 && !parent.parent.devMode){
-                zoom = 2.5f;
-                System.out.println("Zoom Out");
+            if(zoom > baseZoom*2.5 && !parent.parent.devMode){
+                zoom = baseZoom*2.5f;
+                System.out.println("Zoom Out " + zoom);
             }
 
         }
+        //parent.getRenderManager().viewport.getC
         parent.getRenderManager().setCameraZoom(zoom);
         return false;
     }

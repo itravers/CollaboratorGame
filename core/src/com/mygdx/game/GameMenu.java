@@ -28,21 +28,24 @@ public class GameMenu {
     private Label nameLabel;
     private TextField textField;
     private TextButton button;
-    private TextButton landscapeButton;
-    private TextButton portraitButton;
 
     public GameMenu(GameWorld p, SpriteBatch b){
-        System.out.println("init gamemenu");
+        float devWidth = p.parent.developmentWidth;
+        float scale = Gdx.graphics.getWidth()/devWidth;
+        System.out.println("init gamemenu at scale: " + scale);
+        float labelWidth = Gdx.graphics.getWidth()/2.5f;
+        float labelHeight = Gdx.graphics.getHeight()/30;
         parent = p;
         batch = b;
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         stage = new Stage();
 
+        //skin.getFont().
         nameLabel = new Label("Your Name", skin, "default");
-        nameLabel.setWidth(200f);
-        nameLabel.setHeight(10f);
+        nameLabel.setWidth(labelWidth);
+        nameLabel.setHeight(labelHeight);
         nameLabel.setAlignment(1);
-        nameLabel.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 + 30f);
+        nameLabel.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth / 2, Gdx.graphics.getHeight() / 2 + labelHeight * 3);
 
         textField = new TextField("", skin, "default");
         textField.addListener(new InputListener() {
@@ -52,66 +55,35 @@ public class GameMenu {
             }
         });
 
-        textField.setWidth(200f);
-        textField.setHeight(20f);
+        textField.setWidth(labelWidth);
+        textField.setHeight(labelHeight);
         textField.setAlignment(1); /* Center */
         textField.getStyle().fontColor = Color.GREEN;
-        textField.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 + 10f);
+        textField.getStyle().font.getData().setScale(scale, scale);
+        textField.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth/2, Gdx.graphics.getHeight() / 2 + labelHeight*2);
         button = new TextButton("Start Game", skin, "default");
-        button.setWidth(200f);
-        button.setHeight(20f);
-        button.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 10f);
+        button.setWidth(labelWidth);
+        button.setHeight(labelHeight);
+        button.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth/2, Gdx.graphics.getHeight() / 2 + labelHeight*1);
         button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("Starting Game");
                 setName();
                 parent.parent.setFrameNum(0);
                 parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
-                //parent.getLevelManager().setLevel(1); //start the first level
                 parent.getLevelManager().nextLevel();
             }
         });
 
-        landscapeButton = new TextButton("Landscape", skin, "default");
-        portraitButton = new TextButton("Portrait", skin, "default");
-
-        landscapeButton.setWidth(100f);
-        landscapeButton.setHeight(20f);
-        portraitButton.setWidth(100f);
-        portraitButton.setHeight(20f);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
-        //multiplexer.addProcessor(parent.getInputManager());
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
-
-       // Gdx.input.setInputProcessor(parent.getInputManager());
-       // Gdx.input.setInputProcessor(stage);
-        landscapeButton.setPosition(Gdx.graphics.getWidth() / 2 - 100f, Gdx.graphics.getHeight() / 2 - 30f);
-        portraitButton.setPosition(Gdx.graphics.getWidth() / 2 - 0f, Gdx.graphics.getHeight() / 2 - 30f);
-
-        landscapeButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                button.setText("Setting Landscape Mode");
-
-            }
-        });
-
-        portraitButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                button.setText("Setting Portrait Mode");
-                setName();
-                parent.parent.setGameState(MyGdxGame.GAME_STATE.INGAME);
-            }
-        });
 
 
         stage.addActor(nameLabel);
         stage.addActor(textField);
         stage.addActor(button);
-        stage.addActor(landscapeButton);
-        stage.addActor(portraitButton);
-       //Gdx.input.setInputProcessor(stage);
     }
 
     public void render(float elapsedTime){

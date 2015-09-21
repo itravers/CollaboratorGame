@@ -15,11 +15,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	public float elapsedTime = 0;
 	private int frameNum = 0;
 	public boolean devMode = false;
+	public float developmentWidth = 480;
 
 	@Override
 	public void create () {
 		//state = GAME_STATE.PREGAME;
 		setGameState(GAME_STATE.PREGAME);
+		developmentWidth = 480;
 		gameWorld = new GameWorld(this); // Initialize the GameWorld
 	}
 
