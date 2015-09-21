@@ -1,0 +1,61 @@
+
+arrows.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+navArrow_down
+  rotate: false
+  xy: 1, 515
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_down_touch
+  rotate: false
+  xy: 1, 258
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_left
+  rotate: false
+  xy: 258, 515
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_left_touch
+  rotate: false
+  xy: 1, 1
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_right
+  rotate: false
+  xy: 258, 258
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_right_touch
+  rotate: false
+  xy: 515, 515
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_up
+  rotate: false
+  xy: 258, 1
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1
+navArrow_up_touch
+  rotate: false
+  xy: 515, 258
+  size: 255, 255
+  orig: 255, 255
+  offset: 0, 0
+  index: -1

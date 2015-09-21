@@ -69,8 +69,6 @@ public class LevelManager {
 
     public LevelManager(GameWorld parent){
         this.parent = parent;
-        //mainBackground = new Background[NUM_LEVELS];
-        //setupMidgame();
         setupBackground();
         setLevel(0);
 
@@ -86,23 +84,6 @@ public class LevelManager {
     public int getLevel() {
         return level;
     }
-
-    /*private void setupMidgame(){
-        // Midgame background.
-        Texture background = new Texture(Gdx.files.internal("data/background.png"));
-        Texture starscape1 = new Texture(Gdx.files.internal("data/starscape1.png"));
-        Texture starscape2 = new Texture(Gdx.files.internal("data/starscape2.png"));
-        Texture starscape3 = new Texture(Gdx.files.internal("data/starscape3.png"));
-        starscape1.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        starscape2.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        starscape3.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        TextureRegion[] backgroundLayers = new TextureRegion[4];
-        backgroundLayers[0] = new TextureRegion(background, 0, 0, 20000, 20000);
-        backgroundLayers[1] = new TextureRegion(starscape1, 0, 0, 1000, 1000);
-        backgroundLayers[2] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
-        backgroundLayers[3] = new TextureRegion(starscape2, 0, 0, 8000, 8000);
-        midGameBackground = new Background(this, backgroundLayers);
-    }*/
 
     /**
      * Sets the level to the designated level.
@@ -296,25 +277,6 @@ public class LevelManager {
                 }
             }
         }
-        /*
-        TextureAtlas shipAtlas = parent.getAnimationManager().getShipAtlas();
-        //System.out.println("levelManager.setupPlayer lvl: " + level);
-        if(level == 1){
-            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,getPlanets().get(0).getHeight()+500);
-            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
-            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
-        }else if(level == 2){
-            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
-                    getPlanets().get(0).getHeight());
-            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
-            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
-        }else if(level == 3){
-            originalPlayerPosition = new Vector2((getPlanets().get(0).getWidth()/2)-12,
-                    getPlanets().get(0).getHeight());
-            player = new Player(originalPlayerPosition, shipAtlas, getWorld(), this.parent);
-            player.setPosition(originalPlayerPosition.x, originalPlayerPosition.y);
-        }
-        */
     }
 
     /**
@@ -556,9 +518,6 @@ public class LevelManager {
         playerSpeedLabel.setVisible(uiVisible);
         nameLabel.setVisible(uiVisible);
     }
-
-
-
     public Boolean getLevelGoalCompleted() {
         return this.levelGoalCompleted;
     }
@@ -566,7 +525,4 @@ public class LevelManager {
     public void setLevelGoalCompleted(Boolean levelGoalCompleted) {
         this.levelGoalCompleted = levelGoalCompleted;
     }
-
-
-
 }

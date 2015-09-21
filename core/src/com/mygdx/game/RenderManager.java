@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -14,9 +13,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
-import com.sun.prism.j2d.paint.RadialGradientPaint;
-
-import java.awt.Point;
 
 /**
  * This class is resposible for all rendering calls, and fields
@@ -51,8 +47,6 @@ public class RenderManager {
 
         setupRendering();
     }
-
-
 
     /**
      * Prepare objects for rendering.
@@ -174,8 +168,6 @@ public class RenderManager {
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //shapeRenderer.line(startPos, endPos);
-       // shapeRenderer.line
         shapeRenderer.rectLine(endPos, perpLine1, 3);
         shapeRenderer.rectLine(endPos, perpLine2, 3);
         shapeRenderer.end();
@@ -250,11 +242,6 @@ public class RenderManager {
                 shapeRenderer.rectLine(endLine, perpLine1, 3);
                 shapeRenderer.rectLine(endLine, perpLine2, 3);
                 shapeRenderer.end();
-
-
-
-
-
 
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                // shapeRenderer.set(ShapeRenderer.ShapeType.Line);
