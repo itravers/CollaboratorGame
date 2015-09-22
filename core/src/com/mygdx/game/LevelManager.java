@@ -12,15 +12,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
@@ -82,11 +77,20 @@ public class LevelManager {
     public TextButton navLeftButton;
     public TextButton navRightButton;
 
+    private float scale;
+    private float baseZoom;
+
     public LevelManager(GameWorld parent){
         this.parent = parent;
+        setupScaling();
         setupBackground();
         setLevel(0);
 
+    }
+
+    private void setupScaling(){
+        scale = parent.scale;
+        baseZoom = parent.baseZoom;
     }
     public GameWorld getParent() {
         return parent;
@@ -365,6 +369,7 @@ public class LevelManager {
     }
 
     public void setupUI(Skin skin, Stage stage){
+
         nameLabel = new Label("NAME", skin, "default");
         nameLabel.setPosition(0, Gdx.graphics.getHeight() - 20);
         elapsedTimeLabel = new Label("ELAPSEDTIME", skin, "default");
@@ -385,11 +390,11 @@ public class LevelManager {
         midGameMessage.setVisible(false);
 
 
+        //change font size based on precalculated scale difference
+        nameLabel.getStyle().font.getData().setScale(scale, scale);
 
         //setup buttons
         setupNavButtons(stage);
-
-
 
         stage.addActor(nameLabel);
         stage.addActor(elapsedTimeLabel);
@@ -400,8 +405,8 @@ public class LevelManager {
     }
 
     private void setupNavButtons(Stage stage){
-        int width = 64;
-        int height = 64;
+        int width = Gdx.graphics.getWidth()/4;
+        int height = width;
         BitmapFont font = new BitmapFont();
         navButtonAtlas = new TextureAtlas("data/arrows.pack");
         navButtonSkin = new Skin();
@@ -412,7 +417,7 @@ public class LevelManager {
         navUpButtonStyle.down = navButtonSkin.getDrawable("navArrow_up_touch");
         navUpButtonStyle.font = font;
         navUpButton = new TextButton("", navUpButtonStyle);
-        navUpButton.setPosition(5, 100);
+        navUpButton.setPosition(5, + height + 35);
         navUpButton.setHeight(height);
         navUpButton.setWidth(width);
 

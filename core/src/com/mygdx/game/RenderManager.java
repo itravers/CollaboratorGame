@@ -12,11 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.mygdx.Player.Player;
 
 /**
@@ -52,9 +47,13 @@ public class RenderManager {
 
     public RenderManager(GameWorld parent){
         this.parent = parent;
-        scale = Gdx.graphics.getWidth()/parent.parent.developmentWidth;
-        baseZoom = 1/scale;
+        setupScaling();
         setupRendering();
+    }
+
+    private void setupScaling(){
+        scale = parent.scale;
+        baseZoom = parent.baseZoom;
     }
 
     /**

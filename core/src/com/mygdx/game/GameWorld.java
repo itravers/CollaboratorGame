@@ -22,6 +22,9 @@ public class GameWorld implements ContactListener{
     private InputManager inputManager; /* Manages user input. */
     private RenderManager renderManager; /* Manages all rendering options. */
 
+    float scale;
+    float baseZoom;
+
     // Player Related Fields
     private String playerName;
 
@@ -36,6 +39,7 @@ public class GameWorld implements ContactListener{
      */
     public GameWorld(MyGdxGame p){
         parent = p;
+        calculateScaling();
         animationManager = new AnimationManager(this); //needs to be done before level manager
         levelManager = new LevelManager(this); //before render manager
 
@@ -43,6 +47,11 @@ public class GameWorld implements ContactListener{
         inputManager = new InputManager(this);
         //navButtonProcessor = new NavButtonProcessor();
 
+    }
+
+    private void calculateScaling(){
+        scale = Gdx.graphics.getWidth()/parent.developmentWidth; //scale is based on what the game was developed in.
+        baseZoom = 1/scale; //base zoom is the reciprocal of scale
     }
 
 
