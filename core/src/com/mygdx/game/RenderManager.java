@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
 
@@ -41,6 +42,8 @@ public class RenderManager {
 
     private boolean drawSprite = true;
     private FPSLogger fpsLogger;
+
+
 
     //UI Related Fields
     private Skin skin;
@@ -158,16 +161,64 @@ public class RenderManager {
         }
         batch.end();
 
+
         renderGoal(elapsedTime, batch);
         renderClosest(elapsedTime, batch);
         renderGravityIndicator(elapsedTime, batch);
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
+        renderHUD(elapsedTime, batch);
         if(!drawSprite) debugRenderer.render(parent.getLevelManager().getWorld(), debugMatrix); /* Render box2d physics items */
 
         //Update after rendering, this will be rendered next frame
         parent.updatePlayer(elapsedTime);
         parent.updatePlanets(elapsedTime);
         parent.updateGhosts(elapsedTime);
+    }
+
+    private void renderHUD(float elapsedTime, SpriteBatch batch){
+        Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
+                parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
+        drawSpeedometer(elapsedTime, batch, topMiddleScreen);
+        //drawHealthmeter(elapsedTime, batch);
+        //drawBoostmeter(elapsedTime, batch);
+    }
+
+    private void drawSpeedometer(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
+        //A vector that tells us where the top of the screen is, from the players position,
+
+
+        Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,30);
+
+        float speedometerRadius = 75;
+        Color speedometerColor = Color.RED;
+
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //draw the stroke circle
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius + 5);
+
+
+        //draw the main circle
+        shapeRenderer.setColor(speedometerColor);
+
+        shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius);
+        shapeRenderer.end();
+
+        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+        Label lSpeed =  parent.getLevelManager().getPlayerSpeedLabel();
+
+        lSpeed.setPosition(Gdx.graphics.getWidth()/2-lSpeed.getWidth()/4, Gdx.graphics.getHeight() - lSpeed.getHeight()+5);
+        //lSpeed.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - lSpeed.getHeight()+5);
+        lSpeed.setText(String.format("%.02f", speed));
+        stage.draw();
+
+        //parent.getLevelManager().getPlayerSpeedLabel().setPosition(0, topMiddleScreen.y);
+       // playerSpeedLabel.setPosition(playerStateLabel.getWidth() + 10, 20);
+
     }
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
@@ -390,8 +441,7 @@ public class RenderManager {
     private void renderUI(float elapsedTime, SpriteBatch batch){
         parent.getLevelManager().getElapsedTimeLabel().setText(new Float(elapsedTime).toString());
         parent.getLevelManager().getPlayerStateLabel().setText(parent.getLevelManager().getPlayer().getCurrentState().toString());
-        parent.getLevelManager().getPlayerSpeedLabel().setText(new Float(parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len()).toString());
-        stage.draw();
+        //stage.draw();
     }
 
     /**

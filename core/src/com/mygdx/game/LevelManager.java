@@ -377,11 +377,12 @@ public class LevelManager {
         playerStateLabel = new Label("STATE", skin, "default");
         playerStateLabel.setPosition(0, 20);
         playerSpeedLabel = new Label("SPEED", skin, "default");
-        playerSpeedLabel.setPosition(playerStateLabel.getWidth() + 10, 20);
+
+
         nameLabel.setColor(Color.GREEN);
         elapsedTimeLabel.setColor(Color.RED);
         playerStateLabel.setColor(Color.RED);
-        playerSpeedLabel.setColor(Color.RED);
+        playerSpeedLabel.setColor(Color.WHITE);
 
         //MidGameMsgSEtup
         midGameMessage = new Label("You have died. Press Space to Continue", skin, "default");
@@ -391,14 +392,14 @@ public class LevelManager {
 
 
         //change font size based on precalculated scale difference
-        nameLabel.getStyle().font.getData().setScale(scale, scale);
+        nameLabel.getStyle().font.getData().setScale(scale/1.5f, scale/1.5f);
 
         //setup buttons
         setupNavButtons(stage);
 
-        stage.addActor(nameLabel);
-        stage.addActor(elapsedTimeLabel);
-        stage.addActor(playerStateLabel);
+        //stage.addActor(nameLabel);
+       // stage.addActor(elapsedTimeLabel);
+        //stage.addActor(playerStateLabel);
         stage.addActor(playerSpeedLabel);
         stage.addActor(midGameMessage);
        // Gdx.input.setInputProcessor(stage);
