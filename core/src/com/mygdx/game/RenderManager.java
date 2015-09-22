@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -39,6 +40,7 @@ public class RenderManager {
     private Box2DDebugRenderer debugRenderer;
 
     private boolean drawSprite = true;
+    private FPSLogger fpsLogger;
 
     //UI Related Fields
     private Skin skin;
@@ -62,6 +64,7 @@ public class RenderManager {
     private void setupRendering(){
         System.out.println("setup Rendering");
         System.out.println("W x H: " + Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight());
+        fpsLogger = new FPSLogger();
         setupUI();
 
         batch = new SpriteBatch();
@@ -295,6 +298,7 @@ public class RenderManager {
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
+        fpsLogger.log();
         int level = parent.getLevelManager().getLevel();
         switch (level){
             case 0: //Pregame menu

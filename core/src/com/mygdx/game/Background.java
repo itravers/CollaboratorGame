@@ -57,6 +57,8 @@ public class Background {
         */
         float scaler = 1f;
         float scaler2 = scaler/2f;
+
+
         batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / scaler), -(int) (layers[0].getRegionHeight() / scaler),
                 +(int) (0), +(int) (0),
                 layers[0].getRegionWidth() / scaler2, layers[0].getRegionHeight() / scaler2,
@@ -64,7 +66,7 @@ public class Background {
                 0);
         batch.end();
 
-
+/*
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.15f, .15f));
         batch.begin();
@@ -119,7 +121,7 @@ public class Background {
 
                 batch.end();
 
-
+*/
         batch.setProjectionMatrix(temp);
     }
 }
