@@ -45,7 +45,7 @@ public class GameMenu {
         nameLabel.setWidth(labelWidth);
         nameLabel.setHeight(labelHeight);
         nameLabel.setAlignment(1);
-        nameLabel.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth / 2, Gdx.graphics.getHeight() / 2 + labelHeight * 3);
+        nameLabel.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth / 2, Gdx.graphics.getHeight() / 2 + labelHeight * 4);
 
         textField = new TextField("", skin, "default");
         textField.addListener(new InputListener() {
@@ -56,10 +56,10 @@ public class GameMenu {
         });
 
         textField.setWidth(labelWidth);
-        textField.setHeight(labelHeight);
+        textField.setHeight(labelHeight*2);
         textField.setAlignment(1); /* Center */
         textField.getStyle().fontColor = Color.GREEN;
-        textField.getStyle().font.getData().setScale(scale, scale);
+        //textField.getStyle().font.getData().setScale(scale, scale);
         textField.setPosition(Gdx.graphics.getWidth() / 2 - labelWidth/2, Gdx.graphics.getHeight() / 2 + labelHeight*2);
         button = new TextButton("Start Game", skin, "default");
         button.setWidth(labelWidth);
@@ -79,6 +79,9 @@ public class GameMenu {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
+
+        //change font size
+        nameLabel.getStyle().font.getData().setScale(.5f, .5f);
 
 
         stage.addActor(nameLabel);
