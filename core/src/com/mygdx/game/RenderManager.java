@@ -223,7 +223,7 @@ public class RenderManager {
 
         shapeRenderer.setColor(Color.GREEN);
         shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
-        shapeRenderer.arc(boxLeft + 3 + boxWidth -6, topMiddleScreen.y-3, 30f, 270, 45);
+        shapeRenderer.arc(boxLeft + 3 + boxWidth - 6, topMiddleScreen.y - 3, 30f, 270, 45);
        // shapeRenderer.arc(boxLeft+boxWidth, topMiddleScreen.y, 36f, 270, 45);
         shapeRenderer.end();
     }
@@ -233,7 +233,7 @@ public class RenderManager {
         Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,30);
 
         float speedometerRadius = 75*scale;
-        Color speedometerColor = Color.RED;
+        Color speedometerColor = getSpeedometerColor();
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
@@ -258,6 +258,28 @@ public class RenderManager {
 
         lSpeed.setText(String.format("%.02f", speed));
         stage.draw();
+    }
+
+    /**
+     * The Speedometer color depends on the relationship of the players current speed
+     * to it's crash velocity. If the player is more than 1m/s less than crash velocity
+     * the speedometer will be green, if the player is within +-1m/s of crash velocity
+     * than the speedometer will be yellow. If the player is +1m/s to crash velocity
+     * than the meter is red.
+     * @return
+     */
+    private Color getSpeedometerColor(){
+        Color c;
+        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+        float crashSpeed = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
+        if(speed < crashSpeed - 1){
+            c = Color.GREEN;
+        }else if(speed > crashSpeed + 1){
+            c = Color.RED;
+        }else{
+            c = Color.BLUE;
+        }
+        return c;
     }
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){

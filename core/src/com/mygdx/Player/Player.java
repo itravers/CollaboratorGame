@@ -47,6 +47,7 @@ public class Player extends Sprite {
 
 	private Vector2 gravityForce;
 	public float MAX_VELOCITY = 35f;
+	public float CRASH_VELOCITY;
 	public float MAX_ANGULAR_VELOCITY = 20f;
 
 	//Inputs
@@ -231,6 +232,7 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public void setupPhysics(World world){
+		CRASH_VELOCITY = MAX_VELOCITY/3;
 		gravityForce = new Vector2(0,0);
 		this.world = world;
 		bodyDef = new BodyDef();

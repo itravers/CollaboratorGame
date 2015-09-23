@@ -187,7 +187,7 @@ public class GameWorld implements ContactListener{
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
             float speed = levelManager.getPlayer().getBody().getLinearVelocity().len();
-            if(speed > levelManager.getPlayer().MAX_VELOCITY/3){
+            if(speed > levelManager.getPlayer().CRASH_VELOCITY){
                 returnVal = true;
             }else{
                 returnVal = false;
