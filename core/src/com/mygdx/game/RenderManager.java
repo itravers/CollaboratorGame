@@ -186,7 +186,7 @@ public class RenderManager {
 
     private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
         float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
-        float boxHeight = 36f;
+        float boxHeight = 36f*scale;
         float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
         float boxTop = topMiddleScreen.y - boxHeight;
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -207,8 +207,8 @@ public class RenderManager {
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
 
-        float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
-        float boxHeight = 36f;
+        float boxWidth = ((Gdx.graphics.getWidth()/2)-73f);
+        float boxHeight = 36 * scale;
         float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
         float boxTop = topMiddleScreen.y - boxHeight;
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -234,7 +234,7 @@ public class RenderManager {
 
         Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,30);
 
-        float speedometerRadius = 75;
+        float speedometerRadius = 75*scale;
         Color speedometerColor = Color.RED;
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
