@@ -179,9 +179,30 @@ public class RenderManager {
         Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
                 parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
         drawHealthmeter(elapsedTime, batch, topMiddleScreen);
+        drawBoostmeter(elapsedTime, batch, topMiddleScreen);
         drawSpeedometer(elapsedTime, batch, topMiddleScreen);
 
-        //drawBoostmeter(elapsedTime, batch);
+    }
+
+    private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
+        float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
+        float boxHeight = 36f;
+        float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
+        float boxTop = topMiddleScreen.y - boxHeight;
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //draw the box
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
+        shapeRenderer.arc(boxRight - boxWidth, topMiddleScreen.y, 36f, 270, -45);
+
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.box(boxRight - boxWidth + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
+        shapeRenderer.arc(boxRight - boxWidth + 3, topMiddleScreen.y - 3, 30f, 270, -45);
+        shapeRenderer.end();
     }
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
@@ -202,7 +223,7 @@ public class RenderManager {
 
         shapeRenderer.setColor(Color.GREEN);
         shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
-        shapeRenderer.arc(boxLeft+3 + boxWidth-6, topMiddleScreen.y-3, 30f, 270, 45);
+        shapeRenderer.arc(boxLeft + 3 + boxWidth -6, topMiddleScreen.y-3, 30f, 270, 45);
        // shapeRenderer.arc(boxLeft+boxWidth, topMiddleScreen.y, 36f, 270, 45);
         shapeRenderer.end();
     }
