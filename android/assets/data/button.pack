@@ -1,0 +1,66 @@
+
+button.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+buttonDown
+  rotate: false
+  xy: 1, 421
+  size: 267, 418
+  orig: 267, 418
+  offset: 0, 0
+  index: -1
+buttonDown_pressed
+  rotate: false
+  xy: 1, 1
+  size: 267, 418
+  orig: 267, 418
+  offset: 0, 0
+  index: -1
+buttonLeft
+  rotate: false
+  xy: 270, 572
+  size: 418, 267
+  orig: 418, 267
+  offset: 0, 0
+  index: -1
+buttonLeft_pressed
+  rotate: false
+  xy: 270, 303
+  size: 418, 267
+  orig: 418, 267
+  offset: 0, 0
+  index: -1
+buttonRight
+  rotate: false
+  xy: 270, 34
+  size: 418, 267
+  orig: 418, 267
+  offset: 0, 0
+  index: -1
+buttonUp
+  rotate: false
+  xy: 690, 421
+  size: 267, 418
+  orig: 267, 418
+  offset: 0, 0
+  index: -1
+buttonUp_pressed
+  rotate: false
+  xy: 690, 1
+  size: 267, 418
+  orig: 267, 418
+  offset: 0, 0
+  index: -1
+
+button2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+buttonRight_pressed
+  rotate: false
+  xy: 1, 1
+  size: 418, 267
+  orig: 418, 267
+  offset: 0, 0
+  index: -1

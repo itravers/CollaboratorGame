@@ -406,51 +406,56 @@ public class LevelManager {
     }
 
     private void setupNavButtons(Stage stage){
-        int width = Gdx.graphics.getWidth()/4;
-        int height = width;
+        float width = Gdx.graphics.getWidth()/5;
+        float height = width*1.5f;
         BitmapFont font = new BitmapFont();
-        navButtonAtlas = new TextureAtlas("data/arrows.pack");
+        navButtonAtlas = new TextureAtlas("data/button.pack");
         navButtonSkin = new Skin();
         navButtonSkin.addRegions(navButtonAtlas);
         //up button
         TextButton.TextButtonStyle navUpButtonStyle = new TextButton.TextButtonStyle();
-        navUpButtonStyle.up = navButtonSkin.getDrawable("navArrow_up");
-        navUpButtonStyle.down = navButtonSkin.getDrawable("navArrow_up_touch");
+        navUpButtonStyle.up = navButtonSkin.getDrawable("buttonUp");
+        navUpButtonStyle.down = navButtonSkin.getDrawable("buttonUp_pressed");
         navUpButtonStyle.font = font;
+
         navUpButton = new TextButton("", navUpButtonStyle);
+        navUpButton.setColor(navUpButton.getColor().r, navUpButton.getColor().g, navUpButton.getColor().b, .125f);
         navUpButton.setPosition(5, + height + 35);
         navUpButton.setHeight(height);
         navUpButton.setWidth(width);
 
         //down button
         TextButton.TextButtonStyle navDownButtonStyle = new TextButton.TextButtonStyle();
-        navDownButtonStyle.up = navButtonSkin.getDrawable("navArrow_down");
-        navDownButtonStyle.down = navButtonSkin.getDrawable("navArrow_down_touch");
+        navDownButtonStyle.up = navButtonSkin.getDrawable("buttonDown");
+        navDownButtonStyle.down = navButtonSkin.getDrawable("buttonDown_pressed");
         navDownButtonStyle.font = font;
         navDownButton = new TextButton("", navDownButtonStyle);
+        navDownButton.setColor(navDownButton.getColor().r, navDownButton.getColor().g, navDownButton.getColor().b, .125f);
         navDownButton.setPosition(5, 30);
         navDownButton.setHeight(height);
         navDownButton.setWidth(width);
 
         //right button
         TextButton.TextButtonStyle navRightButtonStyle = new TextButton.TextButtonStyle();
-        navRightButtonStyle.up = navButtonSkin.getDrawable("navArrow_right");
-        navRightButtonStyle.down = navButtonSkin.getDrawable("navArrow_right_touch");
+        navRightButtonStyle.up = navButtonSkin.getDrawable("buttonRight");
+        navRightButtonStyle.down = navButtonSkin.getDrawable("buttonRight_pressed");
         navRightButtonStyle.font = font;
         navRightButton = new TextButton("", navRightButtonStyle);
-        navRightButton.setPosition(Gdx.graphics.getWidth() - 5 - width, 30);
-        navRightButton.setHeight(height);
-        navRightButton.setWidth(width);
+        navRightButton.setColor(navRightButton.getColor().r, navRightButton.getColor().g, navRightButton.getColor().b, .125f);
+        navRightButton.setPosition(Gdx.graphics.getWidth() - 5 - height, 30);
+        navRightButton.setHeight(width);
+        navRightButton.setWidth(height);
 
         //left button
         TextButton.TextButtonStyle navLeftButtonStyle = new TextButton.TextButtonStyle();
-        navLeftButtonStyle.up = navButtonSkin.getDrawable("navArrow_left");
-        navLeftButtonStyle.down = navButtonSkin.getDrawable("navArrow_left_touch");
+        navLeftButtonStyle.up = navButtonSkin.getDrawable("buttonLeft");
+        navLeftButtonStyle.down = navButtonSkin.getDrawable("buttonLeft_pressed");
         navLeftButtonStyle.font = font;
         navLeftButton = new TextButton("", navLeftButtonStyle);
-        navLeftButton.setPosition(Gdx.graphics.getWidth() - 10 - width * 2, 30);
-        navLeftButton.setHeight(height);
-        navLeftButton.setWidth(width);
+        navLeftButton.setColor(navLeftButton.getColor().r, navLeftButton.getColor().g, navLeftButton.getColor().b, .125f);
+        navLeftButton.setPosition(Gdx.graphics.getWidth() - 10 - height * 2, 30);
+        navLeftButton.setHeight(width);
+        navLeftButton.setWidth(height);
 
 
         navUpButton.addListener(new NavButtonProcessor(this));
