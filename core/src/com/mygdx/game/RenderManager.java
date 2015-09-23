@@ -230,8 +230,6 @@ public class RenderManager {
 
     private void drawSpeedometer(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
         //A vector that tells us where the top of the screen is, from the players position,
-
-
         Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,30);
 
         float speedometerRadius = 75*scale;
@@ -246,24 +244,20 @@ public class RenderManager {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius + 5);
 
-
         //draw the main circle
         shapeRenderer.setColor(speedometerColor);
-
         shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius);
         shapeRenderer.end();
 
         float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
         Label lSpeed =  parent.getLevelManager().getPlayerSpeedLabel();
+        lSpeed.setScale(scale, scale);
+        float xPos = (Gdx.graphics.getWidth() / 2 - lSpeed.getWidth() / 2)+parent.getLevelManager().getPlayer().getWidth()/1;
+        float yPos = Gdx.graphics.getHeight() - lSpeed.getHeight()-(1*scale);
+        lSpeed.setPosition(xPos, yPos);
 
-        lSpeed.setPosition(Gdx.graphics.getWidth()/2-lSpeed.getWidth()/4, Gdx.graphics.getHeight() - lSpeed.getHeight()+5);
-        //lSpeed.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight() - lSpeed.getHeight()+5);
         lSpeed.setText(String.format("%.02f", speed));
         stage.draw();
-
-        //parent.getLevelManager().getPlayerSpeedLabel().setPosition(0, topMiddleScreen.y);
-       // playerSpeedLabel.setPosition(playerStateLabel.getWidth() + 10, 20);
-
     }
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
