@@ -230,20 +230,27 @@ public class RenderManager {
 
     private void drawSpeedometer(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
         //A vector that tells us where the top of the screen is, from the players position,
-        Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,30);
+        Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,0);
 
         float speedometerRadius = 75*scale;
         Color speedometerColor = getSpeedometerColor();
         Color seperatingLineColor = getSeperatingLineColor(speedometerColor);
         float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-        Vector2 n0 = new Vector2(speedoMeterPos.x-speedometerRadius, speedoMeterPos.y);
+
+        //calculate seperating line
+        Vector2 n0 = new Vector2(speedoMeterPos.x-speedometerRadius+1, speedoMeterPos.y);
         Vector2 l0 = n0.cpy().sub(speedoMeterPos);
         float maxV = parent.getLevelManager().getPlayer().MAX_VELOCITY;
         float crashV = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
         float rotation = (crashV * 180) / maxV;
         Vector2 l1 = l0.cpy().rotate(rotation);
         Vector2 n1 = speedoMeterPos.cpy().add(l1);
-       // endSeperatingLine = endSeperatingLine.rotate(45);
+
+        //calculate speedometer line
+        rotation = (speed * 180) / maxV;
+        l1 = l0.cpy().rotate(rotation);
+        Vector2 s1 = speedoMeterPos.cpy().add(l1);
+
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
@@ -262,9 +269,14 @@ public class RenderManager {
         shapeRenderer.setColor(seperatingLineColor);
         shapeRenderer.rectLine(speedoMeterPos, n1, 3*scale);
 
+        //draw the speedometer line, showing us how fast we go.
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.rectLine(speedoMeterPos, s1, 4*scale);
+
         shapeRenderer.end();
 
         //float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+        /*
         Label lSpeed =  parent.getLevelManager().getPlayerSpeedLabel();
         lSpeed.setScale(scale, scale);
         float xPos = (Gdx.graphics.getWidth() / 2 - lSpeed.getWidth() / 2)+parent.getLevelManager().getPlayer().getWidth()/1;
@@ -272,6 +284,7 @@ public class RenderManager {
         lSpeed.setPosition(xPos, yPos);
 
         lSpeed.setText(String.format("%.02f", speed));
+        */
         stage.draw();
     }
 
