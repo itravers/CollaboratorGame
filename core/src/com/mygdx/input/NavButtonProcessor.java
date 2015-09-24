@@ -21,6 +21,8 @@ public class NavButtonProcessor implements EventListener {
      public boolean handle(Event e) {
         String type = "";
         Actor listenActor = e.getListenerActor();
+        GameInput.InputType inputType = GameInput.InputType.KEYPRESSED;
+        int keycode = com.badlogic.gdx.Input.Keys.W;
         if(e instanceof InputEvent){
           type = ((InputEvent)e).getType().name();
         }
@@ -31,21 +33,42 @@ public class NavButtonProcessor implements EventListener {
 
         if(type.equals("touchDown") && listenActor == parent.navUpButton){ //player wants to go forward
             parent.getPlayer().forwardPressed  = true;
+            inputType = GameInput.InputType.KEYPRESSED;
+            keycode = com.badlogic.gdx.Input.Keys.W;
         }else if(type.equals("touchUp") && listenActor == parent.navUpButton){
             parent.getPlayer().forwardPressed  = false;
+            inputType = GameInput.InputType.KEYRELEASED;
+            keycode = com.badlogic.gdx.Input.Keys.W;
         }else if(type.equals("touchDown") && listenActor == parent.navDownButton){ //player wants to go forward
             parent.getPlayer().backwardPressed  = true;
+            inputType = GameInput.InputType.KEYPRESSED;
+            keycode = com.badlogic.gdx.Input.Keys.S;
         }else if(type.equals("touchUp") && listenActor == parent.navDownButton){
             parent.getPlayer().backwardPressed  = false;
+            inputType = GameInput.InputType.KEYRELEASED;
+            keycode = com.badlogic.gdx.Input.Keys.S;
         }else if(type.equals("touchDown") && listenActor == parent.navRightButton){ //player wants to go forward
             parent.getPlayer().rotateLeftPressed  = true;
+            inputType = GameInput.InputType.KEYPRESSED;
+            keycode = com.badlogic.gdx.Input.Keys.E;
         }else if(type.equals("touchUp") && listenActor == parent.navRightButton){
             parent.getPlayer().rotateLeftPressed  = false;
+            inputType = GameInput.InputType.KEYRELEASED;
+            keycode = com.badlogic.gdx.Input.Keys.E;
         }else if(type.equals("touchDown") && listenActor == parent.navLeftButton){ //player wants to go forward
             parent.getPlayer().rotateRightPressed  = true;
+            parent.getPlayer().rotateLeftPressed  = false;
+            inputType = GameInput.InputType.KEYPRESSED;
+            keycode = com.badlogic.gdx.Input.Keys.Q;
         }else if(type.equals("touchUp") && listenActor == parent.navLeftButton){
             parent.getPlayer().rotateRightPressed  = false;
+            inputType = GameInput.InputType.KEYRELEASED;
+            keycode = com.badlogic.gdx.Input.Keys.Q;
         }
+
+        GameInput gInput = new GameInput(inputType, keycode, parent.getParent().parent.getFrameNum(),
+                parent.getParent().parent.elapsedTime, parent.getParent().getLevelManager().getPlayer());
+        parent.getParent().getLevelManager().getPlayer().inputList.add(gInput);
 
         return false;
     }

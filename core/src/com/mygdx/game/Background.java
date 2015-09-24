@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
@@ -55,6 +57,7 @@ public class Background {
         /*batch.draw(layers[0], -(int) (layers[0].getRegionWidth() / 2),
                 -(int) (layers[0].getRegionHeight() / 2));
         */
+        float scale = parent.getParent().getRenderManager().getCameraZoom();
         float scaler = 1f;
         float scaler2 = scaler/2f;
 
@@ -64,9 +67,10 @@ public class Background {
                 layers[0].getRegionWidth() / scaler2, layers[0].getRegionHeight() / scaler2,
                 1f, 1f,
                 0);
-        batch.end();
 
-/*
+         batch.end();
+
+
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.15f, .15f));
         batch.begin();
@@ -82,7 +86,7 @@ public class Background {
 
         batch.end();
 
-
+ /*
 
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.225f, .225f));
@@ -101,6 +105,7 @@ public class Background {
                 0);
 
         batch.end();
+
 
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.4f, .4f));

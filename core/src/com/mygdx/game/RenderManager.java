@@ -273,7 +273,8 @@ public class RenderManager {
         float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
         float crashSpeed = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
         if(speed < crashSpeed - 1){
-            c = Color.GREEN;
+            c = Color.GREEN;//new Color(41f, 255f, 41f, 1f);
+           // c = new Color(0, 75, 255, 133);
         }else if(speed > crashSpeed + 1){
             c = Color.RED;
         }else{
