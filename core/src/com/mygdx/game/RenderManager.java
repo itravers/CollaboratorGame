@@ -206,9 +206,10 @@ public class RenderManager {
     }
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
+        //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
 
-        float boxWidth = ((Gdx.graphics.getWidth()/2)-73f);
-        float boxHeight = 36 * scale;
+        float boxWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
+        float boxHeight = 35 * scale;
         float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
         float boxTop = topMiddleScreen.y - boxHeight;
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -219,7 +220,7 @@ public class RenderManager {
         //draw the box
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.box(boxLeft, boxTop, 0, boxWidth, boxHeight, 0);
-        shapeRenderer.arc(boxLeft + boxWidth, topMiddleScreen.y, 36f, 270, 45);
+        shapeRenderer.arc(boxLeft + boxWidth, topMiddleScreen.y, 36f, 270, 40);
 
         shapeRenderer.setColor(Color.GREEN);
         shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
