@@ -50,7 +50,7 @@ public class GestureManager implements GestureDetector.GestureListener{
         float zoom = parent.getRenderManager().getCameraZoom();
         float baseZoom = parent.getRenderManager().getBaseZoom();
         if(newScale > 1){
-            float zoomChange = zoom/(10*newScale);
+            float zoomChange = zoom/(10/newScale);
             zoom -= zoomChange;
             if(zoom <= baseZoom*.4f && !parent.parent.devMode) zoom = baseZoom*.4f;
             System.out.println("Zoom In " + zoom);
