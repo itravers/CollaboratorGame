@@ -70,7 +70,7 @@ public class Background {
 
          batch.end();
 
-
+/*
         batch.enableBlending();
         batch.setProjectionMatrix(parent.getParent().getRenderManager().getBackgroundCamera().calculateParallaxMatrix(.15f, .15f));
         batch.begin();
@@ -85,6 +85,7 @@ public class Background {
                 0);
 
         batch.end();
+        */
 
  /*
 
