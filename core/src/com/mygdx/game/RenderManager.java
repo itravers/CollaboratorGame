@@ -234,6 +234,15 @@ public class RenderManager {
 
         float speedometerRadius = 75*scale;
         Color speedometerColor = getSpeedometerColor();
+        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+        Vector2 n0 = new Vector2(speedoMeterPos.x-speedometerRadius, speedoMeterPos.y);
+        Vector2 l0 = n0.cpy().sub(speedoMeterPos);
+        float maxV = parent.getLevelManager().getPlayer().MAX_VELOCITY;
+        float crashV = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
+        float rotation = (crashV * 180) / maxV;
+        Vector2 l1 = l0.cpy().rotate(rotation);
+        Vector2 n1 = speedoMeterPos.cpy().add(l1);
+       // endSeperatingLine = endSeperatingLine.rotate(45);
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
@@ -247,9 +256,14 @@ public class RenderManager {
         //draw the main circle
         shapeRenderer.setColor(speedometerColor);
         shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius);
+
+        //draw a line seperating the main circle depending on MaxVelocities ratio to Crash Velocity
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rectLine(speedoMeterPos, n1, 5);
+
         shapeRenderer.end();
 
-        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+        //float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
         Label lSpeed =  parent.getLevelManager().getPlayerSpeedLabel();
         lSpeed.setScale(scale, scale);
         float xPos = (Gdx.graphics.getWidth() / 2 - lSpeed.getWidth() / 2)+parent.getLevelManager().getPlayer().getWidth()/1;
