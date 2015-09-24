@@ -234,6 +234,7 @@ public class RenderManager {
 
         float speedometerRadius = 75*scale;
         Color speedometerColor = getSpeedometerColor();
+        Color seperatingLineColor = getSeperatingLineColor(speedometerColor);
         float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
         Vector2 n0 = new Vector2(speedoMeterPos.x-speedometerRadius, speedoMeterPos.y);
         Vector2 l0 = n0.cpy().sub(speedoMeterPos);
@@ -258,8 +259,8 @@ public class RenderManager {
         shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius);
 
         //draw a line seperating the main circle depending on MaxVelocities ratio to Crash Velocity
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rectLine(speedoMeterPos, n1, 5);
+        shapeRenderer.setColor(seperatingLineColor);
+        shapeRenderer.rectLine(speedoMeterPos, n1, 3*scale);
 
         shapeRenderer.end();
 
@@ -272,6 +273,21 @@ public class RenderManager {
 
         lSpeed.setText(String.format("%.02f", speed));
         stage.draw();
+    }
+
+    /**
+     * Decides the color of the speedometer line based on the color of the speedometer
+     * if the speedometer is green or blue the line will be red
+     * if the speedometer is red, than the line will be green.
+     */
+    private Color getSeperatingLineColor(Color c){
+        Color lineColor;
+        if(c == Color.GREEN || c == Color.BLUE){
+            lineColor = Color.RED;
+        }else{
+            lineColor = Color.GREEN;
+        }
+        return lineColor;
     }
 
     /**
