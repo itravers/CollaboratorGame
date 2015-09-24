@@ -1,6 +1,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -21,6 +22,7 @@ public class GameWorld implements ContactListener{
     private LevelManager levelManager; /* Manages Level Changes. */
     private InputManager inputManager; /* Manages user input. */
     private RenderManager renderManager; /* Manages all rendering options. */
+    private GestureManager gestureManager; /* Manages all gestures on the screen. */
 
     float scale;
     float baseZoom;
@@ -45,6 +47,7 @@ public class GameWorld implements ContactListener{
 
         renderManager = new RenderManager(this);
         inputManager = new InputManager(this);
+        gestureManager = new GestureManager(this);
         //navButtonProcessor = new NavButtonProcessor();
 
     }
@@ -103,6 +106,7 @@ public class GameWorld implements ContactListener{
         //but right now is the only place I can find all the items i need to multiplex
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(inputManager);
+        multiplexer.addProcessor(new GestureDetector(gestureManager));
         multiplexer.addProcessor(renderManager.stage);
        // multiplexer.addProcessor(navButtonProcessor);
         Gdx.input.setInputProcessor(multiplexer);
