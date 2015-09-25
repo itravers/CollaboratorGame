@@ -22,6 +22,9 @@ import com.mygdx.Player.Player;
  */
 public class RenderManager {
     GameWorld parent;
+    Color green;
+    Color red;
+    Color blue;
 
     // Rendering Related Fields
     private SpriteBatch batch;
@@ -68,6 +71,9 @@ public class RenderManager {
         System.out.println("setup Rendering");
         System.out.println("W x H: " + Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight());
         fpsLogger = new FPSLogger();
+        red = new Color(193/255f, 39/255f, 45/255f, .5f);
+        green = new Color(55/255f, 255/255f, 55/255f, .5f);
+        blue = new Color(0/255f, 210/255f, 246/255f, .5f);
         setupUI();
 
         batch = new SpriteBatch();
@@ -178,13 +184,42 @@ public class RenderManager {
     private void renderHUD(float elapsedTime, SpriteBatch batch){
         Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
                 parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
-        drawHealthmeter(elapsedTime, batch, topMiddleScreen);
-        drawBoostmeter(elapsedTime, batch, topMiddleScreen);
-        drawSpeedometer(elapsedTime, batch, topMiddleScreen);
+        drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
+        drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
+        drawSpeedometer(elapsedTime, batch, topMiddleScreen.cpy());
 
     }
 
     private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
+   	 //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
+    	float h0 = 35 * scale - 3;
+    	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+    	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
+    	//Vector2 bottomLeft = new Vector2(topMiddleScreen.x, topMiddleScreen.y-h0);
+    	float w1 = (w0*i)/iMax;
+    	
+    	float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
+        float boxHeight = 36f*scale;
+        float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
+        float boxTop = topMiddleScreen.y - boxHeight;
+  
+       
+    	
+    	shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //draw the box
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
+        
+        shapeRenderer.setColor(blue);
+        shapeRenderer.box(boxRight - boxWidth, boxTop+3, 0, w1, h0, 0);
+        shapeRenderer.end();
+    	
+    	/*
         float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
         float boxHeight = 36f*scale;
         float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
@@ -199,10 +234,11 @@ public class RenderManager {
         shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
         shapeRenderer.arc(boxRight - boxWidth, topMiddleScreen.y, 36f, 270, -45);
 
-        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.setColor(blue);
         shapeRenderer.box(boxRight - boxWidth + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
         shapeRenderer.arc(boxRight - boxWidth + 3, topMiddleScreen.y - 3, 30f, 270, -45);
         shapeRenderer.end();
+        */
     }
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
@@ -210,9 +246,9 @@ public class RenderManager {
     	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
     	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
     	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
-    	float h0 = 35 * scale - 3;
+    	float h0 = 35 * scale - 4;
     	float x0 = topMiddleScreen.x - 70*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
-    	float y0 = topMiddleScreen.y-h0;
+    	float y0 = topMiddleScreen.y-h0-1;
     	float y1 = y0;
     	float w1 = ((w0*i)/iMax);
     	float x1 = x0 - w1;
@@ -220,7 +256,7 @@ public class RenderManager {
         float baseHeight = 35 * scale;
         float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
         float boxTop = topMiddleScreen.y - baseHeight;
-    	
+        
     	shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
         shapeRenderer.setProjectionMatrix(shapeCamera.combined);
@@ -230,31 +266,9 @@ public class RenderManager {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.box(boxLeft, boxTop, 0, baseWidth, baseHeight, 0);
         
-        shapeRenderer.setColor(Color.GREEN);
+      
+        shapeRenderer.setColor(green);
         shapeRenderer.box(x1, y1, 0, w1, h0, 0);
-    	
-    	
-       /* float baseWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
-        float baseHeight = 35 * scale;
-        float boxWidth = baseWidth - 6;
-        float boxHeight = baseHeight - 6;
-        float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
-        float boxTop = topMiddleScreen.y - boxHeight;
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //draw the box
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth, boxHeight, 0);
-       // shapeRenderer.arc(boxLeft + baseWidth, topMiddleScreen.y, 36f, 270, 40);
-
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth, boxHeight, 0);
-       // shapeRenderer.arc(boxLeft + 3 + boxWidth, topMiddleScreen.y - 3, 30f, 270, 45);
-       // shapeRenderer.arc(boxLeft+boxWidth, topMiddleScreen.y, 36f, 270, 45);
-         */
        
         shapeRenderer.end();
     }
@@ -281,6 +295,7 @@ public class RenderManager {
         rotation = (speed * 180) / maxV;
         l1 = l0.cpy().rotate(rotation);
         Vector2 s1 = speedoMeterPos.cpy().add(l1);
+       
 
 
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -326,10 +341,10 @@ public class RenderManager {
      */
     private Color getSeperatingLineColor(Color c){
         Color lineColor;
-        if(c == Color.GREEN || c == Color.BLUE){
-            lineColor = Color.RED;
+        if(c == green || c == blue){
+            lineColor = red;
         }else{
-            lineColor = Color.GREEN;
+        	 lineColor = green;
         }
         return lineColor;
     }
@@ -347,12 +362,12 @@ public class RenderManager {
         float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
         float crashSpeed = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
         if(speed < crashSpeed - 1){
-            c = Color.GREEN;//new Color(41f, 255f, 41f, 1f);
+            c = green;
            // c = new Color(0, 75, 255, 133);
         }else if(speed > crashSpeed + 1){
-            c = Color.RED;
+            c = red;
         }else{
-            c = Color.BLUE;
+            c = blue;
         }
         return c;
     }
@@ -448,7 +463,7 @@ public class RenderManager {
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 shapeRenderer.setProjectionMatrix(shapeCamera.combined);
                 shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-                shapeRenderer.setColor(Color.GREEN);
+                shapeRenderer.setColor(green);
 
                //shapeRenderer.line(startPos, endLine);
                 shapeRenderer.rectLine(endLine, perpLine1, 3);
@@ -463,7 +478,7 @@ public class RenderManager {
                         new Point((int)(0+0 / 2), (int) (0 + 0 / 2)),
                         (float) 0,
                         new float[]{.01f, .5f},
-                        new java.awt.Color[]{java.awt.Color.GREEN, java.awt.Color.GREEN}
+                        new java.awt.Color[]{java.awt.green, java.awt.green}
                 );
                 */
 
