@@ -207,9 +207,37 @@ public class RenderManager {
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
         //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
-
-        float boxWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
-        float boxHeight = 35 * scale;
+    	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+    	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
+    	float h0 = 35 * scale - 3;
+    	float x0 = topMiddleScreen.x - 70*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
+    	float y0 = topMiddleScreen.y-h0;
+    	float y1 = y0;
+    	float w1 = ((w0*i)/iMax);
+    	float x1 = x0 - w1;
+    	float baseWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
+        float baseHeight = 35 * scale;
+        float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
+        float boxTop = topMiddleScreen.y - baseHeight;
+    	
+    	shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //draw the box
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth, baseHeight, 0);
+        
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.box(x1, y1, 0, w1, h0, 0);
+    	
+    	
+       /* float baseWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
+        float baseHeight = 35 * scale;
+        float boxWidth = baseWidth - 6;
+        float boxHeight = baseHeight - 6;
         float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
         float boxTop = topMiddleScreen.y - boxHeight;
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -219,13 +247,15 @@ public class RenderManager {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         //draw the box
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxLeft, boxTop, 0, boxWidth, boxHeight, 0);
-        shapeRenderer.arc(boxLeft + boxWidth, topMiddleScreen.y, 36f, 270, 40);
+        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth, boxHeight, 0);
+       // shapeRenderer.arc(boxLeft + baseWidth, topMiddleScreen.y, 36f, 270, 40);
 
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
-        shapeRenderer.arc(boxLeft + 3 + boxWidth - 6, topMiddleScreen.y - 3, 30f, 270, 45);
+        shapeRenderer.box(boxLeft + 3, boxTop + 3, 0, boxWidth, boxHeight, 0);
+       // shapeRenderer.arc(boxLeft + 3 + boxWidth, topMiddleScreen.y - 3, 30f, 270, 45);
        // shapeRenderer.arc(boxLeft+boxWidth, topMiddleScreen.y, 36f, 270, 45);
+         */
+       
         shapeRenderer.end();
     }
 
