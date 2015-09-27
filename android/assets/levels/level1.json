@@ -1,7 +1,7 @@
 [
   {
     "type": "planet",
-    "atlas": "planetAtlas",
+    "atlas": "Planet 01",
     "xLoc": 0,
     "yLoc": 0,
     "mass": 100000,

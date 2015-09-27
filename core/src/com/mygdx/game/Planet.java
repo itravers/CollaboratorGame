@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by Isaac Assegai on 8/13/2015.
  */
 public class Planet extends Sprite {
+
     // Rendering Oriented Fields
     private Animation rotateAnimation;
     private TextureAtlas textureAtlas;
@@ -175,6 +176,15 @@ public class Planet extends Sprite {
     public void setGravityRadius(float gravityRadius) {
         this.gravityRadius = gravityRadius;
     }
+
+    public Animation getRotateAnimation() {
+        return rotateAnimation;
+    }
+
+    public void setRotateAnimation(Animation rotateAnimation) {
+        this.rotateAnimation = rotateAnimation;
+    }
+
 
 
 }

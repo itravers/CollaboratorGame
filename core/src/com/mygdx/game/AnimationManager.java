@@ -90,7 +90,7 @@ public class AnimationManager {
         planetRegion = planetAtlas.getRegions();
         planetRotateAnimation = new Animation(1/12f, planetRegion);*/
         planetAtlas = new TextureAtlas((Gdx.files.internal("data/Planets.pack")));
-        planetRegion = planetAtlas.findRegions("Planet 01");
+        planetRegion = planetAtlas.findRegions("Moon");
         planetRotateAnimation = new Animation(1/2f, planetRegion);
     }
 

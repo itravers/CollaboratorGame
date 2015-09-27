@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.mygdx.game.LevelManager;
-
+//Todo: Make it so when the player slides his finger off the button, have the button still pushed as long as the ship is thrusting.
 
 /**
  * Created by Isaac Assegai on 9/21/2015.

@@ -1,7 +1,7 @@
 [
   {
     "type": "planet",
-    "atlas": "planetAtlas",
+    "atlas": "Moon",
     "xLoc": 0,
     "yLoc": -3000,
     "mass": 400000,
@@ -11,7 +11,7 @@
   },
   {
     "type": "planet",
-    "atlas": "planetAtlas",
+    "atlas": "Planet 02",
     "xLoc": 0,
     "yLoc": 3000,
     "mass": 400000,

@@ -182,6 +182,7 @@ public class RenderManager {
     }
 
     private void renderHUD(float elapsedTime, SpriteBatch batch){
+        //Todo: Fix renderHUD so it uses rasterized images instead of raw shapes.
         Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
                 parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
         drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
@@ -214,7 +215,7 @@ public class RenderManager {
         //draw the box
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
-        
+
         shapeRenderer.setColor(blue);
         shapeRenderer.box(boxRight - boxWidth, boxTop+3, 0, w1, h0, 0);
         shapeRenderer.end();
@@ -247,7 +248,7 @@ public class RenderManager {
     	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
     	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
     	float h0 = 35 * scale - 4;
-    	float x0 = topMiddleScreen.x - 70*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
+    	float x0 = topMiddleScreen.x - 68*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
     	float y0 = topMiddleScreen.y-h0-1;
     	float y1 = y0;
     	float w1 = ((w0*i)/iMax);
@@ -264,9 +265,9 @@ public class RenderManager {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         //draw the box
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth, baseHeight, 0);
-        
-      
+        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth+5*scale, baseHeight, 0);
+
+
         shapeRenderer.setColor(green);
         shapeRenderer.box(x1, y1, 0, w1, h0, 0);
        

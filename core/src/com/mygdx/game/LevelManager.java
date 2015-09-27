@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.Player.Ghost;
 import com.mygdx.Player.Player;
@@ -261,13 +263,20 @@ public class LevelManager {
             for(int i = 0; i < levelItems.size(); i++){
                 SpriteTemplate item = levelItems.get(i);
                 if(item.getType().equals("planet")){
-                    TextureAtlas atlas = getTextureAtlasFromString(item.getAtlas());
+                    TextureAtlas atlas = parent.getAnimationManager().getPlanetAtlas();
                     Planet p = new Planet(new Vector2(item.getxLoc(), item.getyLoc()),
                             atlas, world, item.getSize(), item.getGravityRadius(), item.getMass(), this.parent);
+                    p.setRotateAnimation(getPlanetAnimationFromName(item.getAtlas()));
                     planets.add(p);
                 }
             }
         }
+    }
+
+    private Animation getPlanetAnimationFromName(String atlasName){
+        Array<TextureAtlas.AtlasRegion> planetRegion = parent.getAnimationManager().getPlanetAtlas().findRegions(atlasName);
+        Animation planetRotateAnimation = new Animation(1/2f, planetRegion);
+        return planetRotateAnimation;
     }
 
     private TextureAtlas getTextureAtlasFromString(String atlasName){
