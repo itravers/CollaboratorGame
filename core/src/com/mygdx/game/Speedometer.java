@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -23,6 +25,8 @@ public class Speedometer{
     private Vector2 loc;
     private Vector2 dimensions;
     private Vector2 speedometerOrigin;
+    private Vector2 speedometerEnd;
+    private float baseRotation = 25f;
 
     public static enum MODES{GREEN, BLUE, RED};
 
@@ -31,6 +35,7 @@ public class Speedometer{
         loc = new Vector2();
         dimensions = new Vector2();
         speedometerOrigin = new Vector2();
+        speedometerEnd = new Vector2();
         textureAtlas = new TextureAtlas(Gdx.files.internal("data/speedometer.pack"));
         region = textureAtlas.getRegions().get(1);
         setMode(MODES.GREEN);
@@ -54,8 +59,9 @@ public class Speedometer{
      * Renders the speedometer
      */
     public void render(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera c){
+    	float scale = parent.parent.getRenderManager().scale;
     	updateSizes(); //for debugging
-    	updateSpeedometer();
+    	updateSpeedometer(parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len());
     	OrthographicCamera d = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Matrix4 oldMatrix  = batch.getProjectionMatrix();
         batch.setProjectionMatrix(d.combined);
@@ -67,22 +73,40 @@ public class Speedometer{
         
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setProjectionMatrix(d.combined);
+        
         shapeRenderer.begin();
-        shapeRenderer.rectLine(speedometerOrigin.x, speedometerOrigin.y, 100, 100, 5);
+        shapeRenderer.set(ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rectLine(speedometerOrigin.x, speedometerOrigin.y, speedometerEnd.x, speedometerEnd.y, 2*scale);
         shapeRenderer.end();
     }
     
-    private void updateSpeedometer(){
-    	speedometerOrigin = new Vector2(getX()+getWidth()/2, getY()+getHeight());
+    private void updateSpeedometer(float speed){
+    	float scale = parent.parent.getRenderManager().scale;
+    	float rotation, maxV = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	speedometerOrigin = new Vector2(getX()+getWidth()/2, getY()+getHeight()+30*scale);
+    	speedometerEnd = new Vector2(speedometerOrigin.x-getWidth()/2-5*scale, getY()+getHeight()+30*scale);
+    	Vector2 line = speedometerEnd.cpy().sub(speedometerOrigin.cpy());
+    	//calculate speedometer line
+    	baseRotation = 0f;
+    	rotation = baseRotation;
+        rotation += (speed * 180-baseRotation) / maxV;
+        line = line.cpy().rotate(rotation);
+        
+        speedometerEnd = speedometerOrigin.cpy().add(line);
+       // line = line.setLength(getWidth()/14.5f);
+        //speedometerOrigin = speedometerEnd.cpy().sub(line);
     }
     
     private void updateSizes(){
+    	float scale = parent.parent.getRenderManager().scale;
     	region = textureAtlas.getRegions().get(0);
     	
-    	this.setWidth(Gdx.graphics.getWidth()/2.5f);
-    	this.setHeight(Gdx.graphics.getHeight()/8);
+    	this.setWidth(region.getRegionWidth()*scale/6);
+    	this.setHeight(50*scale);
     	this.setX(-getWidth()/2);
-        this.setY(Gdx.graphics.getHeight()/3+getHeight()/2);
+        //this.setY(0+Gdx.graphics.getHeight()/2-getHeight());
+    	this.setY(0);
         
         
         
