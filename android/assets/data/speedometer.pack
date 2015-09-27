@@ -5,21 +5,28 @@ filter: Nearest,Nearest
 repeat: none
 speedometer_blue
   rotate: false
-  xy: 1, 383
+  xy: 1, 1147
   size: 897, 380
   orig: 897, 380
   offset: 0, 0
   index: -1
 speedometer_green
   rotate: false
-  xy: 1, 1
+  xy: 1, 765
   size: 897, 380
   orig: 897, 380
   offset: 0, 0
   index: -1
 speedometer_red
   rotate: false
-  xy: 900, 383
+  xy: 1, 383
+  size: 897, 380
+  orig: 897, 380
+  offset: 0, 0
+  index: -1
+speedometer_stroke
+  rotate: false
+  xy: 1, 1
   size: 897, 380
   orig: 897, 380
   offset: 0, 0

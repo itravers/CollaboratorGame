@@ -79,23 +79,32 @@ public class Speedometer{
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.rectLine(speedometerOrigin.x, speedometerOrigin.y, speedometerEnd.x, speedometerEnd.y, 2*scale);
         shapeRenderer.end();
+        
+        //draw the stroke
+        oldMatrix  = batch.getProjectionMatrix();
+        batch.setProjectionMatrix(d.combined);
+        batch.begin();
+        batch.draw(textureAtlas.getRegions().get(3), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
+        batch.end();
+        batch.setProjectionMatrix(oldMatrix);
     }
     
     private void updateSpeedometer(float speed){
+    	setSpeedometerRegionBySpeed(speed);
     	float scale = parent.parent.getRenderManager().scale;
     	float rotation, maxV = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
     	speedometerOrigin = new Vector2(getX()+getWidth()/2, getY()+getHeight()+30*scale);
     	speedometerEnd = new Vector2(speedometerOrigin.x-getWidth()/2-5*scale, getY()+getHeight()+30*scale);
     	Vector2 line = speedometerEnd.cpy().sub(speedometerOrigin.cpy());
     	//calculate speedometer line
-    	baseRotation = 0f;
+    	baseRotation = 30f;
     	rotation = baseRotation;
         rotation += (speed * 180-baseRotation) / maxV;
         line = line.cpy().rotate(rotation);
         
         speedometerEnd = speedometerOrigin.cpy().add(line);
-       // line = line.setLength(getWidth()/14.5f);
-        //speedometerOrigin = speedometerEnd.cpy().sub(line);
+        line = line.setLength(getWidth()/15.5f);
+        speedometerOrigin = speedometerEnd.cpy().sub(line);
     }
     
     private void updateSizes(){
@@ -105,12 +114,31 @@ public class Speedometer{
     	this.setWidth(region.getRegionWidth()*scale/6);
     	this.setHeight(50*scale);
     	this.setX(-getWidth()/2);
-        //this.setY(0+Gdx.graphics.getHeight()/2-getHeight());
-    	this.setY(0);
+        this.setY(0+Gdx.graphics.getHeight()/2-getHeight());
+    	//this.setY(0);
         
         
         
         System.out.println("x:y " + getX() + ":" + getY() + "  hXw " + getHeight()  + "X" + getWidth());
+    }
+    
+    /**
+     * The Speedometer color depends on the relationship of the players current speed
+     * to it's crash velocity. If the player is more than 1m/s less than crash velocity
+     * the speedometer will be green, if the player is within +-1m/s of crash velocity
+     * than the speedometer will be yellow. If the player is +1m/s to crash velocity
+     * than the meter is red.
+     * @return
+     */
+    private void setSpeedometerRegionBySpeed(float speed){
+        float crashSpeed = parent.parent.getLevelManager().getPlayer().CRASH_VELOCITY;
+        if(speed < crashSpeed - 1){
+        	region = textureAtlas.getRegions().get(1);
+        }else if(speed > crashSpeed + 1){
+        	region = textureAtlas.getRegions().get(2);
+        }else{
+        	region = textureAtlas.getRegions().get(0);
+        }
     }
     
     public void setX(float x){

@@ -184,8 +184,8 @@ public class RenderManager {
         //Todo: Fix renderHUD so it uses rasterized images instead of raw shapes.
         Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
                 parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
-       // drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
-       // drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
+        drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
+        drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
        // drawSpeedometer(elapsedTime, batch, topMiddleScreen.cpy());
         drawSpeedometer(stage);
         stage.draw();
