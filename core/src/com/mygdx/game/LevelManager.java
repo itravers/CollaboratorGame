@@ -413,10 +413,13 @@ public class LevelManager {
         //setup buttons
         setupNavButtons(stage);
 
+        //setupGUI
+        //parent.getGuiManager().addStage(stage);
+
         //stage.addActor(nameLabel);
        // stage.addActor(elapsedTimeLabel);
         //stage.addActor(playerStateLabel);
-        stage.addActor(playerSpeedLabel);
+       // stage.addActor(playerSpeedLabel);
         stage.addActor(midGameMessage);
        // Gdx.input.setInputProcessor(stage);
     }

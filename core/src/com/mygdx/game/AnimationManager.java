@@ -39,10 +39,6 @@ public class AnimationManager {
     private Animation explosionAnimation;
     private Animation exhastAnimation;
 
-
-
-
-
     private Animation planetRotateAnimation;
 
     public AnimationManager(GameWorld parent){
@@ -83,12 +79,6 @@ public class AnimationManager {
 
 
     private void setupPlanetRotateAnimation(){
-        //planetAtlas = new TextureAtlas(Gdx.files.internal("data/planetSprites.txt"));
-        //planetRotateAnimation = new Animation(1/16f, planetAtlas.getRegions());
-
-        /*planetAtlas = new TextureAtlas(Gdx.files.internal("data/Mars.pack"));
-        planetRegion = planetAtlas.getRegions();
-        planetRotateAnimation = new Animation(1/12f, planetRegion);*/
         planetAtlas = new TextureAtlas((Gdx.files.internal("data/Planets.pack")));
         planetRegion = planetAtlas.findRegions("Moon");
         planetRotateAnimation = new Animation(1/2f, planetRegion);
@@ -98,16 +88,6 @@ public class AnimationManager {
      * Gets our forward animation from the sprite sheet.
      */
     private void setupMoveForwardAnimation(){
-        /*shipAtlas = new TextureAtlas(Gdx.files.internal("data/shipSprite.txt"));
-        moveForwardFrames = new TextureRegion[7];
-        moveForwardFrames[0] = (shipAtlas.findRegion("0005"));
-        moveForwardFrames[1] = (shipAtlas.findRegion("0006"));
-        moveForwardFrames[2] = (shipAtlas.findRegion("0007"));
-        moveForwardFrames[3] = (shipAtlas.findRegion("0008"));
-        moveForwardFrames[4] = (shipAtlas.findRegion("0007"));
-        moveForwardFrames[5] = (shipAtlas.findRegion("0006"));
-        moveForwardFrames[6] = (shipAtlas.findRegion("0005"));
-        moveForwardAnimation = new Animation(1/15f, moveForwardFrames);*/
 
         shipAtlas = new TextureAtlas(Gdx.files.internal("data/Ship.pack"));
         moveForwardRegion = shipAtlas.getRegions();

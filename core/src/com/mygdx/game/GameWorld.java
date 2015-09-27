@@ -18,6 +18,7 @@ public class GameWorld implements ContactListener{
     public MyGdxGame parent;  /* Parent */
 
     /* Game Manager Classes. */
+    private GuiManager guiManager; /* Manages the gui, speedometer, etc. */
     private AnimationManager animationManager; /* Tracks all animations. */
     private LevelManager levelManager; /* Manages Level Changes. */
     private InputManager inputManager; /* Manages user input. */
@@ -42,6 +43,7 @@ public class GameWorld implements ContactListener{
     public GameWorld(MyGdxGame p){
         parent = p;
         calculateScaling();
+        guiManager = new GuiManager(this);
         animationManager = new AnimationManager(this); //needs to be done before level manager
         levelManager = new LevelManager(this); //before render manager
 
@@ -269,6 +271,14 @@ public class GameWorld implements ContactListener{
 
     public void setAnimationManager(AnimationManager animationManager) {
         this.animationManager = animationManager;
+    }
+
+    public GuiManager getGuiManager() {
+        return guiManager;
+    }
+
+    public void setGuiManager(GuiManager guiManager) {
+        this.guiManager = guiManager;
     }
 
     /*public NavButtonProcessor getNavButtonProcessor() {

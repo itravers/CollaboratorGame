@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.Player.Player;
 
@@ -185,10 +184,16 @@ public class RenderManager {
         //Todo: Fix renderHUD so it uses rasterized images instead of raw shapes.
         Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
                 parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
-        drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
-        drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
-        drawSpeedometer(elapsedTime, batch, topMiddleScreen.cpy());
+       // drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
+       // drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
+       // drawSpeedometer(elapsedTime, batch, topMiddleScreen.cpy());
+        drawSpeedometer(stage);
+        stage.draw();
 
+    }
+
+    private void drawSpeedometer(Stage s){
+        parent.getGuiManager().render(batch, shapeRenderer, shapeCamera);
     }
 
     private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
@@ -332,7 +337,7 @@ public class RenderManager {
 
         lSpeed.setText(String.format("%.02f", speed));
         */
-        stage.draw();
+
     }
 
     /**
