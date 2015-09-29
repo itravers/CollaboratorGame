@@ -181,186 +181,32 @@ public class RenderManager {
     }
 
     private void renderHUD(float elapsedTime, SpriteBatch batch){
-        //Todo: Fix renderHUD so it uses rasterized images instead of raw shapes.
-        Vector2 topMiddleScreen = new Vector2(parent.getLevelManager().getPlayer().getX()+parent.getLevelManager().getPlayer().getWidth()/2,
-                parent.getLevelManager().getPlayer().getY()+Gdx.graphics.getHeight()/2+parent.getLevelManager().getPlayer().getHeight()/1);
-        drawHealthmeter(elapsedTime, batch, topMiddleScreen.cpy());
-        drawBoostmeter(elapsedTime, batch, topMiddleScreen.cpy());
-       // drawSpeedometer(elapsedTime, batch, topMiddleScreen.cpy());
-        drawSpeedometer(stage);
+        drawHUD(stage);
         stage.draw();
-
     }
 
-    private void drawSpeedometer(Stage s){
+    private void drawHUD(Stage s){
         parent.getGuiManager().render(batch, shapeRenderer);
     }
 
-    private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
-    	/*
-   	 //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
-    	float h0 = 35 * scale - 3;
-    	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-    	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
-    	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
-    	//Vector2 bottomLeft = new Vector2(topMiddleScreen.x, topMiddleScreen.y-h0);
-    	float w1 = (w0*i)/iMax;
-    	
-    	float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
-        float boxHeight = 36f*scale;
-        float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
-        float boxTop = topMiddleScreen.y - boxHeight;
   
-       
-    	
-    	shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //draw the box
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
-
-        shapeRenderer.setColor(blue);
-        shapeRenderer.box(boxRight - boxWidth, boxTop+3, 0, w1, h0, 0);
-        shapeRenderer.end();
-        */
-    }
-
-    private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
-        //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
-    	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-    	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
-    	
-    	/*
-    	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
-    	float h0 = 35 * scale - 4;
-    	float x0 = topMiddleScreen.x - 68*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
-    	float y0 = topMiddleScreen.y-h0-1;
-    	float y1 = y0;
-    	float w1 = ((w0*i)/iMax);
-    	float x1 = x0 - w1;
-    	float baseWidth = ((Gdx.graphics.getWidth()/2)-73f*scale);
-        float baseHeight = 35 * scale;
-        float boxLeft = topMiddleScreen.x-Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
-        float boxTop = topMiddleScreen.y - baseHeight;
-        
-    	shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //draw the box
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxLeft, boxTop, 0, baseWidth+5*scale, baseHeight, 0);
-
-
-        shapeRenderer.setColor(green);
-        shapeRenderer.box(x1, y1, 0, w1, h0, 0);
-       
-        shapeRenderer.end();
-        */
-    }
-
-    private void drawSpeedometer(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
-        //A vector that tells us where the top of the screen is, from the players position,
-        Vector2 speedoMeterPos = topMiddleScreen.cpy().add(parent.getLevelManager().getPlayer().getWidth()/2,0);
-
-        float speedometerRadius = 75*scale;
-        Color speedometerColor = getSpeedometerColor();
-        Color seperatingLineColor = getSeperatingLineColor(speedometerColor);
-        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-
-        //calculate seperating line
-        Vector2 n0 = new Vector2(speedoMeterPos.x-speedometerRadius+1, speedoMeterPos.y);
-        Vector2 l0 = n0.cpy().sub(speedoMeterPos);
-        float maxV = parent.getLevelManager().getPlayer().MAX_VELOCITY;
-        float crashV = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
-        float rotation = (crashV * 180) / maxV;
-        Vector2 l1 = l0.cpy().rotate(rotation);
-        Vector2 n1 = speedoMeterPos.cpy().add(l1);
-
-        //calculate speedometer line
-        rotation = (speed * 180) / maxV;
-        l1 = l0.cpy().rotate(rotation);
-        Vector2 s1 = speedoMeterPos.cpy().add(l1);
-       
-
-
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //draw the stroke circle
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius + 5);
-
-        //draw the main circle
-        shapeRenderer.setColor(speedometerColor);
-        shapeRenderer.circle(speedoMeterPos.x, speedoMeterPos.y, speedometerRadius);
-
-        //draw a line seperating the main circle depending on MaxVelocities ratio to Crash Velocity
-        shapeRenderer.setColor(seperatingLineColor);
-        shapeRenderer.rectLine(speedoMeterPos, n1, 3*scale);
-
-        //draw the speedometer line, showing us how fast we go.
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rectLine(speedoMeterPos, s1, 4*scale);
-
-        shapeRenderer.end();
-
-        //float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-        /*
-        Label lSpeed =  parent.getLevelManager().getPlayerSpeedLabel();
-        lSpeed.setScale(scale, scale);
-        float xPos = (Gdx.graphics.getWidth() / 2 - lSpeed.getWidth() / 2)+parent.getLevelManager().getPlayer().getWidth()/1;
-        float yPos = Gdx.graphics.getHeight() - lSpeed.getHeight()-(1*scale);
-        lSpeed.setPosition(xPos, yPos);
-
-        lSpeed.setText(String.format("%.02f", speed));
-        */
-
-    }
 
     /**
      * Decides the color of the speedometer line based on the color of the speedometer
      * if the speedometer is green or blue the line will be red
      * if the speedometer is red, than the line will be green.
      */
-    private Color getSeperatingLineColor(Color c){
-        Color lineColor;
-        if(c == green || c == blue){
-            lineColor = red;
-        }else{
-        	 lineColor = green;
-        }
+    public Color getSeperatingLineColor(float speed){
+    	Color lineColor;
+    	if(speed >= parent.getLevelManager().getPlayer().CRASH_VELOCITY){
+    		lineColor = green;
+    	}else{
+    		lineColor = red;
+    	}
+        
         return lineColor;
     }
 
-    /**
-     * The Speedometer color depends on the relationship of the players current speed
-     * to it's crash velocity. If the player is more than 1m/s less than crash velocity
-     * the speedometer will be green, if the player is within +-1m/s of crash velocity
-     * than the speedometer will be yellow. If the player is +1m/s to crash velocity
-     * than the meter is red.
-     * @return
-     */
-    private Color getSpeedometerColor(){
-        Color c;
-        float speed = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-        float crashSpeed = parent.getLevelManager().getPlayer().CRASH_VELOCITY;
-        if(speed < crashSpeed - 1){
-            c = green;
-           // c = new Color(0, 75, 255, 133);
-        }else if(speed > crashSpeed + 1){
-            c = red;
-        }else{
-            c = blue;
-        }
-        return c;
-    }
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
         Player p = parent.getLevelManager().getPlayer();

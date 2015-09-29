@@ -26,7 +26,10 @@ public class Speedometer{
     private Vector2 dimensions;
     private Vector2 speedometerOrigin;
     private Vector2 speedometerEnd;
+    private Vector2 seperatorOrigin;
+    private Vector2 seperatorEnd;
     private float baseRotation = 25f;
+    private Color speedLineColor;
 
     public static enum MODES{GREEN, BLUE, RED};
 
@@ -36,6 +39,8 @@ public class Speedometer{
         dimensions = new Vector2();
         speedometerOrigin = new Vector2();
         speedometerEnd = new Vector2();
+        seperatorOrigin = new Vector2();
+        seperatorEnd = new Vector2();
         this.textureAtlas = textureAtlas;
         region = textureAtlas.getRegions().get(1);
         setMode(MODES.GREEN);
@@ -76,8 +81,13 @@ public class Speedometer{
         
         shapeRenderer.begin();
         shapeRenderer.set(ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.setColor(speedLineColor);
         shapeRenderer.rectLine(speedometerOrigin.x, speedometerOrigin.y, speedometerEnd.x, speedometerEnd.y, 2*scale);
+        
+        //draw seperator 
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.rectLine(seperatorOrigin.x, seperatorOrigin.y, seperatorEnd.x, seperatorEnd.y, 2*scale);
+        
         shapeRenderer.end();
         
         //draw the stroke
@@ -90,9 +100,12 @@ public class Speedometer{
     }
     
     private void updateSpeedometer(float speed){
+    	speedLineColor = parent.parent.getRenderManager().getSeperatingLineColor(speed);
     	setSpeedometerRegionBySpeed(speed);
     	float scale = parent.parent.getRenderManager().scale;
-    	float rotation, maxV = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	float rotation;
+    	float maxV = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	float crashV = parent.parent.getLevelManager().getPlayer().CRASH_VELOCITY;
     	speedometerOrigin = new Vector2(getX()+getWidth()/2, getY()+getHeight()+30*scale);
     	speedometerEnd = new Vector2(speedometerOrigin.x-getWidth()/2-5*scale, getY()+getHeight()+30*scale);
     	Vector2 line = speedometerEnd.cpy().sub(speedometerOrigin.cpy());
@@ -101,10 +114,22 @@ public class Speedometer{
     	rotation = baseRotation;
         rotation += (speed * 180-baseRotation) / maxV;
         line = line.cpy().rotate(rotation);
-        
         speedometerEnd = speedometerOrigin.cpy().add(line);
         line = line.setLength(getWidth()/15.5f);
         speedometerOrigin = speedometerEnd.cpy().sub(line);
+        
+        //Draw the Seperating Line
+        seperatorOrigin = new Vector2(getX()+getWidth()/2, getY()+getHeight()+30*scale);
+        seperatorEnd = new Vector2(seperatorOrigin.x-getWidth()/2-5*scale, getY()+getHeight()+30*scale);
+    	line = seperatorEnd.cpy().sub(seperatorOrigin.cpy());
+    	//calculate speedometer line
+    	baseRotation = 30f;
+    	rotation = baseRotation;
+        rotation += (crashV * 180-baseRotation) / maxV;
+        line = line.cpy().rotate(rotation);
+        seperatorEnd = seperatorOrigin.cpy().add(line);
+        line = line.setLength(getWidth()/15.5f);
+        seperatorOrigin = seperatorEnd.cpy().sub(line);
     }
     
     private void updateSizes(){
