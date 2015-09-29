@@ -86,7 +86,10 @@ public class SquareMeter {
 	}
 	
 	private float getMeterWidthBasedOnValue(float i, float iMax){
-		return getWidth()/2;
+		float returnValue = 0;
+		returnValue = (i * getWidth()) / iMax;
+		System.out.println("width: " + returnValue);
+		return returnValue;
 	}
 	
 	private void renderBoostMeter(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera d){

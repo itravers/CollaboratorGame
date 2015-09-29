@@ -119,7 +119,7 @@ public class Speedometer{
         
         
         
-        System.out.println("x:y " + getX() + ":" + getY() + "  hXw " + getHeight()  + "X" + getWidth());
+      //  System.out.println("x:y " + getX() + ":" + getY() + "  hXw " + getHeight()  + "X" + getWidth());
     }
     
     /**
