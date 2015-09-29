@@ -197,6 +197,7 @@ public class RenderManager {
     }
 
     private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
+    	/*
    	 //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
     	float h0 = 35 * scale - 3;
     	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
@@ -224,6 +225,7 @@ public class RenderManager {
         shapeRenderer.setColor(blue);
         shapeRenderer.box(boxRight - boxWidth, boxTop+3, 0, w1, h0, 0);
         shapeRenderer.end();
+        */
     }
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){

@@ -19,6 +19,7 @@ public class GuiManager {
 
     Speedometer speedometer;
     SquareMeter healthmeter;
+    SquareMeter boostmeter;
 
     public GuiManager(GameWorld p){
         parent = p;
@@ -33,10 +34,12 @@ public class GuiManager {
     	meterAtlas = new TextureAtlas(Gdx.files.internal("data/speedometer.pack"));
         speedometer = new Speedometer(this, meterAtlas);
         healthmeter = new SquareMeter(this, meterAtlas, SquareMeter.TYPE.HEALTH);
+        boostmeter = new SquareMeter(this, meterAtlas, SquareMeter.TYPE.BOOST);
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shapeRenderer){
     	healthmeter.render(batch, shapeRenderer);
+    	 boostmeter.render(batch, shapeRenderer);
         speedometer.render(batch, shapeRenderer);
        
     }

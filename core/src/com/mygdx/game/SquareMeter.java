@@ -93,23 +93,35 @@ public class SquareMeter {
 	}
 	
 	private void renderBoostMeter(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera d){
-		
+		 updateBoostMeterSizes();
+		 float scale = parent.parent.getRenderManager().scale;
+		 float i = parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+		 float iMax = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+		 float mWidth = getMeterWidthBasedOnValue(i, iMax);
+		 Matrix4 oldMatrix  = batch.getProjectionMatrix();
+		 batch.setProjectionMatrix(d.combined);
+		 batch.begin();
+	     batch.draw(meterAtlas.findRegion("boost_fill"), getX()-mWidth+(Gdx.graphics.getWidth()/2)-50f*scale, getY(), 0, 0, mWidth, getHeight(), 1, 1, 0);
+	     batch.draw(meterAtlas.findRegion("boost_stroke"), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
+	     batch.end();
+	     batch.setProjectionMatrix(oldMatrix);
 	}
 	
 	private void init(){
-		if(type == TYPE.HEALTH) initHealthMeter();
-		if(type == TYPE.BOOST)  initBoostMeter();
-	}
-	
-	private void initHealthMeter(){
 		loc = new Vector2(0,0);
 		dimensions = new Vector2(0,0);
 	}
 	
-	private void initBoostMeter(){
+	private void updateBoostMeterSizes(){
+		float scale = parent.parent.getRenderManager().scale;
+		setWidth(Gdx.graphics.getWidth()/2-(50*scale));
+		setHeight(Gdx.graphics.getHeight()/20);
 		
+		setX(50*scale);
+		setY(0+Gdx.graphics.getHeight()/2 - getHeight());
 	}
 	
+
 	private void updateHealthMeterSizes(){
 		float scale = parent.parent.getRenderManager().scale;
 		setWidth(Gdx.graphics.getWidth()/2-(50*scale));
