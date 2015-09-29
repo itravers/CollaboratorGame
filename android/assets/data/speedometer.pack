@@ -5,29 +5,62 @@ filter: Nearest,Nearest
 repeat: none
 speedometer_blue
   rotate: false
-  xy: 1, 1147
+  xy: 1, 643
   size: 897, 380
   orig: 897, 380
   offset: 0, 0
   index: -1
 speedometer_green
   rotate: false
-  xy: 1, 765
+  xy: 1, 261
   size: 897, 380
   orig: 897, 380
   offset: 0, 0
   index: -1
+boost_fill
+  rotate: false
+  xy: 1, 131
+  size: 609, 128
+  orig: 609, 128
+  offset: 0, 0
+  index: -1
+boost_stroke
+  rotate: false
+  xy: 1, 1
+  size: 609, 128
+  orig: 609, 128
+  offset: 0, 0
+  index: -1
+
+speedometer2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
 speedometer_red
   rotate: false
-  xy: 1, 383
+  xy: 1, 643
   size: 897, 380
   orig: 897, 380
   offset: 0, 0
   index: -1
 speedometer_stroke
   rotate: false
-  xy: 1, 1
+  xy: 1, 261
   size: 897, 380
   orig: 897, 380
+  offset: 0, 0
+  index: -1
+health_fill
+  rotate: false
+  xy: 1, 131
+  size: 609, 128
+  orig: 609, 128
+  offset: 0, 0
+  index: -1
+health_stroke
+  rotate: false
+  xy: 1, 1
+  size: 609, 128
+  orig: 609, 128
   offset: 0, 0
   index: -1

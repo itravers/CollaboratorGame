@@ -30,13 +30,13 @@ public class Speedometer{
 
     public static enum MODES{GREEN, BLUE, RED};
 
-    public Speedometer(GuiManager parent){
+    public Speedometer(GuiManager parent, TextureAtlas textureAtlas){
         this.parent = parent;
         loc = new Vector2();
         dimensions = new Vector2();
         speedometerOrigin = new Vector2();
         speedometerEnd = new Vector2();
-        textureAtlas = new TextureAtlas(Gdx.files.internal("data/speedometer.pack"));
+        this.textureAtlas = textureAtlas;
         region = textureAtlas.getRegions().get(1);
         setMode(MODES.GREEN);
         this.setX(-Gdx.graphics.getWidth()/2);
@@ -58,7 +58,7 @@ public class Speedometer{
     /**
      * Renders the speedometer
      */
-    public void render(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera c){
+    public void render(SpriteBatch batch, ShapeRenderer shapeRenderer){
     	float scale = parent.parent.getRenderManager().scale;
     	updateSizes(); //for debugging
     	updateSpeedometer(parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len());
@@ -84,7 +84,7 @@ public class Speedometer{
         oldMatrix  = batch.getProjectionMatrix();
         batch.setProjectionMatrix(d.combined);
         batch.begin();
-        batch.draw(textureAtlas.getRegions().get(3), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
+        batch.draw(textureAtlas.findRegion("speedometer_stroke"), getX(), getY(), 0, 0, getWidth(), getHeight(), 1, 1, 0);
         batch.end();
         batch.setProjectionMatrix(oldMatrix);
     }
@@ -133,11 +133,11 @@ public class Speedometer{
     private void setSpeedometerRegionBySpeed(float speed){
         float crashSpeed = parent.parent.getLevelManager().getPlayer().CRASH_VELOCITY;
         if(speed < crashSpeed - 1){
-        	region = textureAtlas.getRegions().get(1);
+        	region = textureAtlas.findRegion("speedometer_green");
         }else if(speed > crashSpeed + 1){
-        	region = textureAtlas.getRegions().get(2);
+        	region = textureAtlas.findRegion("speedometer_red");
         }else{
-        	region = textureAtlas.getRegions().get(0);
+        	region = textureAtlas.findRegion("speedometer_blue");
         }
     }
     

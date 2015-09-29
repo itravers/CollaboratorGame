@@ -193,7 +193,7 @@ public class RenderManager {
     }
 
     private void drawSpeedometer(Stage s){
-        parent.getGuiManager().render(batch, shapeRenderer, shapeCamera);
+        parent.getGuiManager().render(batch, shapeRenderer);
     }
 
     private void drawBoostmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
@@ -224,33 +224,14 @@ public class RenderManager {
         shapeRenderer.setColor(blue);
         shapeRenderer.box(boxRight - boxWidth, boxTop+3, 0, w1, h0, 0);
         shapeRenderer.end();
-    	
-    	/*
-        float boxWidth = (Gdx.graphics.getWidth()/2)-73f;
-        float boxHeight = 36f*scale;
-        float boxRight = topMiddleScreen.x+Gdx.graphics.getWidth()/2+parent.getLevelManager().getPlayer().getWidth()/2;
-        float boxTop = topMiddleScreen.y - boxHeight;
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
-        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //draw the box
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.box(boxRight - boxWidth, boxTop, 0, boxWidth, boxHeight, 0);
-        shapeRenderer.arc(boxRight - boxWidth, topMiddleScreen.y, 36f, 270, -45);
-
-        shapeRenderer.setColor(blue);
-        shapeRenderer.box(boxRight - boxWidth + 3, boxTop + 3, 0, boxWidth - 6, boxHeight - 6, 0);
-        shapeRenderer.arc(boxRight - boxWidth + 3, topMiddleScreen.y - 3, 30f, 270, -45);
-        shapeRenderer.end();
-        */
     }
 
     private void drawHealthmeter(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
         //for testing we are going to tie the health meter to the player speed, in effect turning it into a speedometer as well.
     	float i = parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
     	float iMax = parent.getLevelManager().getPlayer().MAX_VELOCITY;
+    	
+    	/*
     	float w0 = ((Gdx.graphics.getWidth()/2)-73f*scale);
     	float h0 = 35 * scale - 4;
     	float x0 = topMiddleScreen.x - 68*scale + parent.getLevelManager().getPlayer().getWidth()/2; //middle of screen minus speedometer radius
@@ -277,6 +258,7 @@ public class RenderManager {
         shapeRenderer.box(x1, y1, 0, w1, h0, 0);
        
         shapeRenderer.end();
+        */
     }
 
     private void drawSpeedometer(float elapsedTime, SpriteBatch batch, Vector2 topMiddleScreen){
