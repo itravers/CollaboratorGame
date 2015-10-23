@@ -62,6 +62,11 @@ public class InputManager implements InputProcessor{
             parent.parent.devMode = !parent.parent.devMode;
             System.out.println("toggle dev mode: " + parent.parent.devMode);
         }
+        
+        if(keycode == Input.Keys.SHIFT_LEFT){
+        	//only boost if player has boostTime left
+        	if(getPlayer().getBoostTime() > 0)getPlayer().setBoostPressed(true);
+        }
 
         GameInput gInput = new GameInput(GameInput.InputType.KEYPRESSED, keycode, parent.parent.getFrameNum(),
                 parent.parent.elapsedTime, getPlayer());
@@ -80,6 +85,7 @@ public class InputManager implements InputProcessor{
      */
     @Override
     public boolean keyUp(int keycode) {
+    	if(keycode == Input.Keys.SHIFT_LEFT) getPlayer().setBoostPressed(false);
         if(keycode == com.badlogic.gdx.Input.Keys.W) getPlayer().forwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.S) getPlayer().backwardPressed = false;
         if((keycode == com.badlogic.gdx.Input.Keys.Q) || (keycode == com.badlogic.gdx.Input.Keys.A)) getPlayer().rotateRightPressed = false;

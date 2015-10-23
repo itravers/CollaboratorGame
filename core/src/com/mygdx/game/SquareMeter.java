@@ -88,15 +88,15 @@ public class SquareMeter {
 	private float getMeterWidthBasedOnValue(float i, float iMax){
 		float returnValue = 0;
 		returnValue = (i * getWidth()) / iMax;
-		System.out.println("width: " + returnValue);
+		//System.out.println("width: " + returnValue);
 		return returnValue;
 	}
 	
 	private void renderBoostMeter(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera d){
 		 updateBoostMeterSizes();
 		 float scale = parent.parent.getRenderManager().scale;
-		 float i = parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-		 float iMax = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+		 float i = parent.parent.getLevelManager().getPlayer().getBoostTime();//parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+		 float iMax = parent.parent.getLevelManager().getPlayer().TOTAL_BOOST_TIME;//parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
 		 float mWidth = getMeterWidthBasedOnValue(i, iMax);
 		 Matrix4 oldMatrix  = batch.getProjectionMatrix();
 		 batch.setProjectionMatrix(d.combined);

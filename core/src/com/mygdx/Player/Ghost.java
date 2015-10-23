@@ -78,11 +78,13 @@ public class Ghost extends Player {
                     if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = true;
                     if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = true;
                     if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = true;
+                    if(keycode == Input.Keys.SHIFT_LEFT && getBoostTime() < 0)boostPressed = true;
                 }else if(i.getType() == GameInput.InputType.KEYRELEASED){
                     if(keycode == Input.Keys.W && vel.dst2(vel) <= MAX_VELOCITY) forwardPressed  = false;
                     if(keycode == Input.Keys.S && vel.dst2(vel) <= MAX_VELOCITY) backwardPressed = false;
                     if(keycode == Input.Keys.Q && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateRightPressed = false;
                     if(keycode == Input.Keys.E && angularVelocity <= MAX_ANGULAR_VELOCITY) rotateLeftPressed  = false;
+                    if(keycode == Input.Keys.SHIFT_LEFT)boostPressed = false;
                 }
 
                 //this.setPosition(i.getLoc().x, i.getLoc().y); //set position

@@ -31,6 +31,9 @@ public class Player extends Sprite {
 	// Rendering Oriented Fields
 	private Animation currentAnimation;
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
+	
+	public float TOTAL_BOOST_TIME = 2;
+	private float boostTime;
 
 	// State Tracking Fields
 	public enum STATE {FLYING, LANDED, EXPLOADING, DEAD}
@@ -55,6 +58,7 @@ public class Player extends Sprite {
 	public boolean backwardPressed;
 	public boolean rotateRightPressed;
 	public boolean rotateLeftPressed;
+	public boolean boostPressed;
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
 
@@ -68,6 +72,7 @@ public class Player extends Sprite {
 		this.parent = parent;
 		setCurrentState(STATE.LANDED);
 		this.setPosition(pos.x, pos.y);
+		boostTime = TOTAL_BOOST_TIME;
 		setupInputs();
 		setupRendering();
 		setupPhysics(world);
@@ -101,16 +106,16 @@ public class Player extends Sprite {
 		}
 
 		/* Change state from landed to flying if we are a certain distance from the nearest planets surface. */
-		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 3.5){
+		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 3.5){ 
 			setCurrentState(STATE.FLYING);
 		}
 
 		 //draws all sprites the same size
-		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(),
+		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 
 				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 				this.getScaleX(), this.getScaleY(), this.getRotation());
 
-		if(forwardPressed){
+		if(forwardPressed && !boostPressed){
 			//draws all sprites the same size
 			//get a directly on the butt of the ship.
 			Vector2 P = new Vector2(getX(), getY());
@@ -118,15 +123,31 @@ public class Player extends Sprite {
 			D = D.rotate(88);
 			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
 			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
-			D = D.setLength(-this.getHeight()*1.45f);
+			D = D.setLength(-this.getHeight()*1.55f);
 			Vector2 B = P.cpy().sub(D);
 			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*2, this.getScaleY()*2, this.getRotation()+180);
 		}
+		
+		if(forwardPressed && boostPressed){
+			//draws all sprites the same size
+			//get a directly on the butt of the ship.
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(88);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
+			D = D.setLength(-this.getHeight()*2.5f);
+			Vector2 B = P.cpy().sub(D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*2, this.getScaleY()*4, this.getRotation()+180);
+		}
 
-		if(backwardPressed){
+		if(backwardPressed && !boostPressed){
 			//draws all sprites the same size
 			//get a directly on the butt of the ship.
 			Vector2 P = new Vector2(getX(), getY());
@@ -140,6 +161,22 @@ public class Player extends Sprite {
 			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
 					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
 					this.getScaleX()*1, this.getScaleY()*1, this.getRotation());
+		}
+		
+		if(backwardPressed && boostPressed){
+			//draws all sprites the same size
+			//get a directly on the butt of the ship.
+			Vector2 P = new Vector2(getX(), getY());
+			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
+			D = D.rotate(270);
+			Animation exhastAnimation = parent.getAnimationManager().getExhastAnimation();
+			TextureRegion exhastFrame = exhastAnimation.getKeyFrame(elapsedTime, true);
+			D = D.setLength(-this.getHeight()*1.55f);
+			Vector2 B = P.cpy().sub(D);
+			//System.out.println("pPos: " + P + " bPos: " + B + " pDir: " + D);
+			batch.draw(parent.getAnimationManager().getExhastAnimation().getKeyFrame(elapsedTime, true), B.x, B.y,
+					this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
+					this.getScaleX()*1, this.getScaleY()*2, this.getRotation());
 		}
 
 		if(rotateRightPressed){ //draw an exast coming out of right side of nose
@@ -232,7 +269,7 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public void setupPhysics(World world){
-		CRASH_VELOCITY = MAX_VELOCITY/3;
+		CRASH_VELOCITY = MAX_VELOCITY/3.25f;
 		gravityForce = new Vector2(0,0);
 		this.world = world;
 		bodyDef = new BodyDef();
@@ -285,6 +322,7 @@ public class Player extends Sprite {
 			body.applyTorque(torque, true);
 			setRotation((float) Math.toDegrees(body.getAngle()));
 		}
+		if(boostTime < 0) boostTime = 0;
 		/* We want the position to be set reguardless of the STATE. */
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
 				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
@@ -338,7 +376,22 @@ public class Player extends Sprite {
 	}
 
 	private void applyInput(float elapsedTime){
-		Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+		float deltaTime = Gdx.graphics.getDeltaTime();
+		Vector2 impulse;
+		System.out.println("boostTime: " + boostTime);
+		System.out.println("elapsedTime " + deltaTime);
+		if(boostPressed && boostTime > 0){
+			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(4f);
+			//update boost time
+			boostTime -= deltaTime;
+		}else if(boostPressed && boostTime <= 0){
+			boostPressed = false;
+			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+
+		}else{
+			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+		}
+		
 		Vector2 pos = body.getPosition();
 		chooseAnimation();
 
@@ -414,5 +467,16 @@ public class Player extends Sprite {
 	public Vector2 getGravityForce() {
 		return gravityForce;
 	}
+	
+	public boolean getBoostPressed(){
+		return boostPressed;
+	}
+	
+	public void setBoostPressed(boolean pressed){
+		boostPressed = pressed;
+	}
 
+	public float getBoostTime(){
+		return boostTime;
+	}
 }
