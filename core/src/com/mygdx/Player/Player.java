@@ -326,7 +326,11 @@ public class Player extends Sprite {
 			body.applyTorque(torque, true);
 			setRotation((float) Math.toDegrees(body.getAngle()));
 		}
-		if(boostTime < 0) boostTime = 0;
+		boostTime += Gdx.graphics.getDeltaTime()/100;
+		//if(boostTime < 0)boostTime = 0;
+		//System.out.println("boostTime:" + boostTime);
+		if(boostTime > TOTAL_BOOST_TIME) boostTime = TOTAL_BOOST_TIME;
+		
 		/* We want the position to be set reguardless of the STATE. */
 		this.setPosition(body.getPosition().x * parent.PIXELS_TO_METERS - getWidth() / 2,
 				body.getPosition().y * parent.PIXELS_TO_METERS - getHeight() / 2);
