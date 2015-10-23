@@ -52,6 +52,9 @@ public class Player extends Sprite {
 	public float MAX_VELOCITY = 35f;
 	public float CRASH_VELOCITY;
 	public float MAX_ANGULAR_VELOCITY = 20f;
+	
+	public float MAX_HEALTH = 100;
+	private float health;
 
 	//Inputs
 	public boolean forwardPressed;
@@ -73,6 +76,7 @@ public class Player extends Sprite {
 		setCurrentState(STATE.LANDED);
 		this.setPosition(pos.x, pos.y);
 		boostTime = TOTAL_BOOST_TIME;
+		health = MAX_HEALTH;
 		setupInputs();
 		setupRendering();
 		setupPhysics(world);
@@ -378,8 +382,8 @@ public class Player extends Sprite {
 	private void applyInput(float elapsedTime){
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		Vector2 impulse;
-		System.out.println("boostTime: " + boostTime);
-		System.out.println("elapsedTime " + deltaTime);
+		//System.out.println("boostTime: " + boostTime);
+		//System.out.println("elapsedTime " + deltaTime);
 		if(boostPressed && boostTime > 0){
 			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(4f);
 			//update boost time
@@ -478,5 +482,13 @@ public class Player extends Sprite {
 
 	public float getBoostTime(){
 		return boostTime;
+	}
+	
+	public float getHealth(){
+		return health;
+	}
+	
+	public void setHealth(float health){
+		this.health = health;
 	}
 }

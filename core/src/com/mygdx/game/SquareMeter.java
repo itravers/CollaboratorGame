@@ -73,8 +73,8 @@ public class SquareMeter {
 	
 	private void renderHealthMeter(SpriteBatch batch, ShapeRenderer shapeRenderer, OrthographicCamera d){
 		 updateHealthMeterSizes();
-		 float i = parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
-		 float iMax = parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
+		 float i = parent.parent.getLevelManager().getPlayer().getHealth();//parent.parent.getLevelManager().getPlayer().getBody().getLinearVelocity().len();
+		 float iMax = parent.parent.getLevelManager().getPlayer().MAX_HEALTH;//parent.parent.getLevelManager().getPlayer().MAX_VELOCITY;
 		 float meterWidthBasedOnValue = getMeterWidthBasedOnValue(i, iMax);
 		 Matrix4 oldMatrix  = batch.getProjectionMatrix();
 		 batch.setProjectionMatrix(d.combined);

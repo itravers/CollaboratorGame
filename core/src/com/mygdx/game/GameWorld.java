@@ -188,16 +188,35 @@ public class GameWorld implements ContactListener{
         float angleDif = planetToPlayer.angle(playerDir);
         angleDif = Math.abs(angleDif);
         if(angleDif >= 45f || 360 - angleDif <= 45){
-            returnVal = true;
+        	//the player will only crash into the planet if his health is gone
+        	//otherwise the players heath will reduce
+        	float newHealth = s.getHealth();
+        	newHealth = newHealth - s.getBody().getLinearVelocity().len()*15;
+        	s.setHealth(newHealth);
+        	System.out.println("newhealth: " + newHealth);
+        	if(s.getHealth() < 0){
+        		returnVal = true;
+        	}else{
+        		returnVal = false;
+        	}
+            
         }else{
             /*the player hit the planet while facing the opposite direction.
               We now need to check if the player was going slow enough */
-            float speed = levelManager.getPlayer().getBody().getLinearVelocity().len();
-            if(speed > levelManager.getPlayer().CRASH_VELOCITY){
-                returnVal = true;
-            }else{
-                returnVal = false;
-            }
+            float speed = s.getBody().getLinearVelocity().len();
+            //if(speed > s.CRASH_VELOCITY){
+            	float newHealth = s.getHealth();
+            	newHealth = newHealth - s.getBody().getLinearVelocity().len()*15;
+            	s.setHealth(newHealth);
+            	System.out.println("newhealth: " + newHealth);
+            	if(s.getHealth() < 0){
+            		returnVal = true;
+            	}else{
+            		returnVal = false;
+            	}
+           // }else{
+           //     returnVal = false;
+            //}
 
         }
 
