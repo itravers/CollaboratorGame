@@ -244,7 +244,7 @@ public class RenderManager {
             playerDir = p.getBody().getLinearVelocity();
         }
 
-        System.out.println("VEL: " + p.getBody().getLinearVelocity());
+
         Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() /2);//new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() / 2);
         Vector2 endPos = playerDir.cpy();//.sub(startPos);
 
@@ -286,9 +286,21 @@ public class RenderManager {
             Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
+            float length = p.getBody().getPosition().sub(closestPlanet.getBody().getPosition()).len();
+            length = Math.abs(length);
+            //length += closestPlanet.getRadius();
+            length = length - closestPlanet.getRadius()/20;
+            //length = 100 - length;
+            length = 100-length;
+            System.out.println("length: " + length + " rad: " + closestPlanet.getRadius()/20);
+            if(length < 5)length = 5;
+            if(length > 100) length = 100;
+            if(p.getCurrentState() == Player.STATE.LANDED)length = 0;
+           // System.out.println("rad: " + closestPlanet.getRadius());
+           // System.out.println("length: " + length);
             endLine.setLength(90f); // set length of distance vector
-            perpLine1.setLength(10f); //set length of perpLineVector
-            perpLine2.setLength(10f); //set length of perpLineVector
+            perpLine1.setLength(length); //set length of perpLineVector
+            perpLine2.setLength(length); //set length of perpLineVector
 
             endLine = startPos.cpy().add(endLine); //convert back to point
             perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
