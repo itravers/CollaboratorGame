@@ -24,11 +24,20 @@ public class GestureManager implements GestureDetector.GestureListener{
 
     @Override
     public boolean longPress(float x, float y) {
+
         return false;
     }
 
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
+        if(Math.abs(velocityX) > 1000 || Math.abs(velocityY) > 1000){
+            System.out.println("FLING: "+velocityX+":"+velocityY);
+            parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME);
+            parent.getLevelManager().getMidGameMessage().setVisible(true);
+            parent.getLevelManager().getNameLabel().setVisible(false);
+            parent.getLevelManager().getElapsedTimeLabel().setVisible(false);
+        }
+
         return false;
     }
 
@@ -44,28 +53,31 @@ public class GestureManager implements GestureDetector.GestureListener{
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-       float newScale =  (distance / initialDistance);
-        System.out.println("zoom newScale:" + newScale);
+        if(!parent.getLevelManager().navButtonProcessor.navButtonPressed){
+            float newScale =  (distance / initialDistance);
+            System.out.println("zoom newScale:" + newScale);
 
-        float zoom = parent.getRenderManager().getCameraZoom();
-        float baseZoom = parent.getRenderManager().getBaseZoom();
-        if(newScale > 1){
-            float zoomChange = zoom/(10/newScale);
-            zoom -= zoomChange;
-            if(zoom <= baseZoom*.4f && !parent.parent.devMode) zoom = baseZoom*.4f;
-            System.out.println("Zoom In " + zoom);
-        }else{
-            float zoomChange = zoom/10;
-            zoom += zoomChange;
+            float zoom = parent.getRenderManager().getCameraZoom();
+            float baseZoom = parent.getRenderManager().getBaseZoom();
+            if(newScale > 1){
+                float zoomChange = zoom/(100/newScale);
+                zoom -= zoomChange;
+                if(zoom <= baseZoom*.4f && !parent.parent.devMode) zoom = baseZoom*.4f;
+                System.out.println("Zoom In " + zoom);
+            }else{
+                float zoomChange = zoom/100;
+                zoom += zoomChange;
 
-            if(zoom > baseZoom*2.5 && !parent.parent.devMode){
-                zoom = baseZoom*2.5f;
-                System.out.println("Zoom Out " + zoom);
+                if(zoom > baseZoom*2.5 && !parent.parent.devMode){
+                    zoom = baseZoom*2.5f;
+                    System.out.println("Zoom Out " + zoom);
+                }
+
             }
-
+            //parent.getRenderManager().viewport.getC
+            parent.getRenderManager().setCameraZoom(zoom);
         }
-        //parent.getRenderManager().viewport.getC
-        parent.getRenderManager().setCameraZoom(zoom);
+
         return false;
     }
 

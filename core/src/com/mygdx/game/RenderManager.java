@@ -209,7 +209,7 @@ public class RenderManager {
 
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
-        Player p = parent.getLevelManager().getPlayer();
+        /*Player p = parent.getLevelManager().getPlayer();
         Vector2 gravityForce = p.getGravityForce();
         Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHeight() / 2);
         Vector2 endPos = gravityForce.cpy().sub(startPos);
@@ -220,6 +220,42 @@ public class RenderManager {
         endPos.setLength(125f); // set length of distance vector
         perpLine1.setLength(30f); //set length of perpLineVector
         perpLine2.setLength(30f); //set length of perpLineVector
+
+        endPos = startPos.cpy().add(endPos); //convert back to point
+        perpLine1 = endPos.cpy().add(perpLine1); // convert back to point
+        perpLine2 = endPos.cpy().add(perpLine2); // convert back to point
+
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.rectLine(endPos, perpLine1, 3);
+        shapeRenderer.rectLine(endPos, perpLine2, 3);
+        shapeRenderer.end();
+        */
+        //Instead of rendering gravity, i actually want to render a velocity direction
+        Vector2 playerDir;
+        Player p = parent.getLevelManager().getPlayer();
+        if(p.getCurrentState() == Player.STATE.LANDED){
+            playerDir = new Vector2(0,0);
+        }else{
+            playerDir = p.getBody().getLinearVelocity();
+        }
+
+        System.out.println("VEL: " + p.getBody().getLinearVelocity());
+        Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() /2);//new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() / 2);
+        Vector2 endPos = playerDir.cpy();//.sub(startPos);
+
+        Vector2 perpLine1 = endPos.cpy().rotate(135f); //get rotated difference vector
+        Vector2 perpLine2 = endPos.cpy().rotate(-135f); //get rotated difference vector
+
+        float length = playerDir.len()*4;
+
+        endPos.setLength(125f); // set length of distance vector
+        perpLine1.setLength(length); //set length of perpLineVector
+        perpLine2.setLength(length); //set length of perpLineVector
 
         endPos = startPos.cpy().add(endPos); //convert back to point
         perpLine1 = endPos.cpy().add(perpLine1); // convert back to point

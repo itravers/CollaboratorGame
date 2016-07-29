@@ -4,7 +4,7 @@
     "atlas": "Planet 01",
     "xLoc": 0,
     "yLoc": -6000,
-    "mass": 300000,
+    "mass": 250000,
     "size": 1000,
     "gravityRadius": 2800,
     "extraInfo": ""
