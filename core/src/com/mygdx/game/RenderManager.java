@@ -29,13 +29,13 @@ public class RenderManager {
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
 
-    private OrthographicCamera camera; //drawing game pieces
+    private ParallaxCamera camera; //drawing game pieces
    // public ScalingViewport viewport;
 
     private float baseZoom;
     private float cameraZoom;
     private ShapeRenderer shapeRenderer;
-    private OrthographicCamera shapeCamera; // need this because other cameras zoom
+    private ParallaxCamera shapeCamera; // need this because other cameras zoom
 
     private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
@@ -80,8 +80,8 @@ public class RenderManager {
        // parent.getLevelManager().setupBackground();
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
@@ -140,11 +140,16 @@ public class RenderManager {
      */
     private void renderInGame(float elapsedTime) {
         Player p = parent.getLevelManager().getPlayer();
+        float angle = p.getBody().getAngle();
         shapeCamera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
         shapeCamera.update();
+        shapeCamera.setToAngle(angle);
         camera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
+
+
+        camera.setToAngle(angle);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         backgroundCamera.position.set(p.getX() + p.getWidth(),
@@ -292,7 +297,7 @@ public class RenderManager {
             length = length - closestPlanet.getRadius()/20;
             //length = 100 - length;
             length = 100-length;
-            System.out.println("length: " + length + " rad: " + closestPlanet.getRadius()/20);
+          //  System.out.println("length: " + length + " rad: " + closestPlanet.getRadius()/20);
             if(length < 5)length = 5;
             if(length > 100) length = 100;
             if(p.getCurrentState() == Player.STATE.LANDED)length = 0;
@@ -541,7 +546,7 @@ public class RenderManager {
         return camera;
     }
 
-    public void setCamera(OrthographicCamera camera) {
+    public void setCamera(ParallaxCamera camera) {
         this.camera = camera;
     }
 

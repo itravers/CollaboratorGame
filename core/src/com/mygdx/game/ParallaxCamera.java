@@ -28,4 +28,32 @@ public class ParallaxCamera extends OrthographicCamera{
         Matrix4.mul(parallaxCombined.val, parallaxView.val);
         return parallaxCombined;
     }
+
+    public void setToAngle(float aGoal){
+        aGoal = (aGoal * (180 / (float)Math.PI));
+        while(aGoal <= 0){
+            aGoal += 360;
+        }
+        while(aGoal > 360){
+            aGoal -= 360;
+        }
+
+        float aCam = -getCurrentAngle()+180;
+        float aMove = (aCam-aGoal)+180;
+        this.rotate(aMove);
+
+
+
+       /* float aCurrent = getCurrentAngle();
+        float aMove = aGoal - aCurrent;
+        aMove = aMove % 360;
+        System.out.println("setToAngle: " + aGoal*(180/Math.PI) + " aCurr: " + aCurrent*(180/Math.PI) + " aMove: " + aMove*(180/Math.PI));
+        this.rotate(aMove);
+*/
+    }
+
+    public float getCurrentAngle(){
+        float aCurrent = (float)Math.atan2(this.up.x, this.up.y);
+        return aCurrent * (180 / (float)Math.PI);
+    }
 }
