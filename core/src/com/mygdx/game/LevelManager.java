@@ -72,6 +72,8 @@ public class LevelManager {
 
     private Boolean levelGoalCompleted;
 
+    public NavButtonProcessor navButtonProcessor;
+
     private TextureAtlas navButtonAtlas;
     private Skin navButtonSkin;
     public TextButton navUpButton;
@@ -87,6 +89,7 @@ public class LevelManager {
         setupScaling();
         setupBackground();
         setLevel(0);
+        navButtonProcessor = new NavButtonProcessor(this);
 
     }
 
@@ -465,6 +468,7 @@ public class LevelManager {
         navRightButton.setHeight(width);
         navRightButton.setWidth(height);
 
+
         //left button
         TextButton.TextButtonStyle navLeftButtonStyle = new TextButton.TextButtonStyle();
         navLeftButtonStyle.up = navButtonSkin.getDrawable("buttonLeft");
@@ -477,10 +481,10 @@ public class LevelManager {
         navLeftButton.setWidth(height);
 
 
-        navUpButton.addListener(new NavButtonProcessor(this));
-        navDownButton.addListener(new NavButtonProcessor(this));
-        navRightButton.addListener(new NavButtonProcessor(this));
-        navLeftButton.addListener(new NavButtonProcessor(this));
+        navUpButton.addListener(navButtonProcessor);
+        navDownButton.addListener(navButtonProcessor);
+        navRightButton.addListener(navButtonProcessor);
+        navLeftButton.addListener(navButtonProcessor);
 
 
         stage.addActor(navUpButton);

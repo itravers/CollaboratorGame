@@ -29,13 +29,13 @@ public class RenderManager {
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
 
-    private OrthographicCamera camera; //drawing game pieces
+    private ParallaxCamera camera; //drawing game pieces
    // public ScalingViewport viewport;
 
     private float baseZoom;
     private float cameraZoom;
     private ShapeRenderer shapeRenderer;
-    private OrthographicCamera shapeCamera; // need this because other cameras zoom
+    private ParallaxCamera shapeCamera; // need this because other cameras zoom
 
     private ParallaxCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
@@ -80,8 +80,8 @@ public class RenderManager {
        // parent.getLevelManager().setupBackground();
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
@@ -140,11 +140,16 @@ public class RenderManager {
      */
     private void renderInGame(float elapsedTime) {
         Player p = parent.getLevelManager().getPlayer();
+        float angle = p.getBody().getAngle();
         shapeCamera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
         shapeCamera.update();
+        shapeCamera.setToAngle(angle);
         camera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
+
+
+        camera.setToAngle(angle);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         backgroundCamera.position.set(p.getX() + p.getWidth(),
@@ -209,7 +214,7 @@ public class RenderManager {
 
 
     private void renderGravityIndicator(float elapsedTime, SpriteBatch batch){
-        Player p = parent.getLevelManager().getPlayer();
+        /*Player p = parent.getLevelManager().getPlayer();
         Vector2 gravityForce = p.getGravityForce();
         Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHeight() / 2);
         Vector2 endPos = gravityForce.cpy().sub(startPos);
@@ -220,6 +225,42 @@ public class RenderManager {
         endPos.setLength(125f); // set length of distance vector
         perpLine1.setLength(30f); //set length of perpLineVector
         perpLine2.setLength(30f); //set length of perpLineVector
+
+        endPos = startPos.cpy().add(endPos); //convert back to point
+        perpLine1 = endPos.cpy().add(perpLine1); // convert back to point
+        perpLine2 = endPos.cpy().add(perpLine2); // convert back to point
+
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setProjectionMatrix(shapeCamera.combined);
+        shapeRenderer.setTransformMatrix(batch.getTransformMatrix());
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.rectLine(endPos, perpLine1, 3);
+        shapeRenderer.rectLine(endPos, perpLine2, 3);
+        shapeRenderer.end();
+        */
+        //Instead of rendering gravity, i actually want to render a velocity direction
+        Vector2 playerDir;
+        Player p = parent.getLevelManager().getPlayer();
+        if(p.getCurrentState() == Player.STATE.LANDED){
+            playerDir = new Vector2(0,0);
+        }else{
+            playerDir = p.getBody().getLinearVelocity();
+        }
+
+
+        Vector2 startPos = new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() /2);//new Vector2(p.getX() + p.getWidth() / 2, p.getY() + p.getHealth() / 2);
+        Vector2 endPos = playerDir.cpy();//.sub(startPos);
+
+        Vector2 perpLine1 = endPos.cpy().rotate(135f); //get rotated difference vector
+        Vector2 perpLine2 = endPos.cpy().rotate(-135f); //get rotated difference vector
+
+        float length = playerDir.len()*4;
+
+        endPos.setLength(125f); // set length of distance vector
+        perpLine1.setLength(length); //set length of perpLineVector
+        perpLine2.setLength(length); //set length of perpLineVector
 
         endPos = startPos.cpy().add(endPos); //convert back to point
         perpLine1 = endPos.cpy().add(perpLine1); // convert back to point
@@ -250,9 +291,21 @@ public class RenderManager {
             Vector2 perpLine1 = endLine.cpy().rotate(135f); //get rotated difference vector
             Vector2 perpLine2 = endLine.cpy().rotate(-135f); //get rotated difference vector
 
+            float length = p.getBody().getPosition().sub(closestPlanet.getBody().getPosition()).len();
+            length = Math.abs(length);
+            //length += closestPlanet.getRadius();
+            length = length - closestPlanet.getRadius()/20;
+            //length = 100 - length;
+            length = 100-length;
+          //  System.out.println("length: " + length + " rad: " + closestPlanet.getRadius()/20);
+            if(length < 5)length = 5;
+            if(length > 100) length = 100;
+            if(p.getCurrentState() == Player.STATE.LANDED)length = 0;
+           // System.out.println("rad: " + closestPlanet.getRadius());
+           // System.out.println("length: " + length);
             endLine.setLength(90f); // set length of distance vector
-            perpLine1.setLength(10f); //set length of perpLineVector
-            perpLine2.setLength(10f); //set length of perpLineVector
+            perpLine1.setLength(length); //set length of perpLineVector
+            perpLine2.setLength(length); //set length of perpLineVector
 
             endLine = startPos.cpy().add(endLine); //convert back to point
             perpLine1 = endLine.cpy().add(perpLine1); // convert back to point
@@ -493,7 +546,7 @@ public class RenderManager {
         return camera;
     }
 
-    public void setCamera(OrthographicCamera camera) {
+    public void setCamera(ParallaxCamera camera) {
         this.camera = camera;
     }
 
