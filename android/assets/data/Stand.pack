@@ -1,0 +1,122 @@
+
+Stand.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+standAni
+  rotate: false
+  xy: 1, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 6
+standAni
+  rotate: false
+  xy: 1, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 8
+standAni
+  rotate: false
+  xy: 246, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 0
+standAni
+  rotate: false
+  xy: 246, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 11
+standAni
+  rotate: false
+  xy: 491, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 5
+standAni
+  rotate: false
+  xy: 491, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 12
+standAni
+  rotate: false
+  xy: 736, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 10
+standAni
+  rotate: false
+  xy: 736, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 3
+
+Stand2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+standAni
+  rotate: false
+  xy: 1, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 1
+standAni
+  rotate: false
+  xy: 1, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 14
+standAni
+  rotate: false
+  xy: 246, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 9
+standAni
+  rotate: false
+  xy: 246, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 2
+standAni
+  rotate: false
+  xy: 491, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 7
+standAni
+  rotate: false
+  xy: 491, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 13
+standAni
+  rotate: false
+  xy: 736, 508
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 15
+standAni
+  rotate: false
+  xy: 736, 1
+  size: 243, 505
+  orig: 243, 505
+  offset: 0, 0
+  index: 4

@@ -25,6 +25,11 @@ public class AnimationManager {
     private TextureAtlas gravityWellAtlas;
     private TextureAtlas exhastAtlas;
 
+    //tests with running figure
+    private TextureAtlas runRightAtlas;
+    private Array<TextureAtlas.AtlasRegion> runRightRegion;
+    private Animation runRightAnimation;
+
     private TextureRegion[] deadFrames;
     //private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
@@ -46,6 +51,7 @@ public class AnimationManager {
     }
 
     public void setupAnimations(){
+        setupRunRightAnimation();
         setupMoveForwardAnimation();
         setupNoMovementAnimation();
         setupExplosionAnimation();
@@ -82,6 +88,12 @@ public class AnimationManager {
         planetAtlas = new TextureAtlas((Gdx.files.internal("data/Planets.pack")));
         planetRegion = planetAtlas.findRegions("Moon");
         planetRotateAnimation = new Animation(1/2f, planetRegion);
+    }
+
+    private void setupRunRightAnimation(){
+        runRightAtlas = new TextureAtlas(Gdx.files.internal("data/RunRight.pack"));
+        runRightRegion = runRightAtlas.getRegions();
+        runRightAnimation = new Animation(1/30f, runRightRegion);
     }
 
     /**
@@ -135,6 +147,12 @@ public class AnimationManager {
 
     public void setExplosionAnimation(Animation explosionAnimation) {
         this.explosionAnimation = explosionAnimation;
+    }
+
+    public Animation getRunRightAnimation(){return runRightAnimation;}
+
+    public void setRunRightAnimation(Animation a){
+        runRightAnimation = a;
     }
 
     public Animation getMoveForwardAnimation() {

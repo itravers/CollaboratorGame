@@ -409,8 +409,14 @@ public class Player extends Sprite {
 			impulse = impulse.scl(.5f);
 			body.applyLinearImpulse(impulse, pos, true);
 		}
-		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
-		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
+		if(this.getCurrentState() == STATE.LANDED){
+			if(rotateLeftPressed) body.applyLinearImpulse(impulse.rotate(-90), pos, true);
+			if(rotateRightPressed) body.applyLinearImpulse(impulse.rotate(90), pos, true);
+		}else{
+			if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
+			if(rotateRightPressed) body.applyAngularImpulse(1f, true);
+		}
+
 	}
 
 	/**
@@ -421,7 +427,8 @@ public class Player extends Sprite {
 			if(forwardPressed || backwardPressed){
 				currentAnimation = parent.getAnimationManager().getMoveForwardAnimation();
 			}else{
-				currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
+				//currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
+				currentAnimation = parent.getAnimationManager().getRunRightAnimation();
 			}
 		}else if(getCurrentState() == STATE.EXPLOADING){
 			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
