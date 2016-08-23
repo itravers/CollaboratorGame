@@ -36,7 +36,9 @@ public class Player extends Sprite {
 	private float boostTime;
 
 	// State Tracking Fields
-	public enum STATE {FLYING, LANDED, EXPLOADING, DEAD}
+	public enum STATE {FLYING, LANDED, EXPLOADING, DEAD, STANDING_STILL, WALKING_SLOWLY,
+						WALKING_FAST, JUMPING_FORWARD, JUMPING_SIDEWAYS, RUNNING_SLOWLY, RUNNING_FAST, FLOATING_STILL_FORWARDS,
+						FLOATING_STILL_SIDEWAYS, LANDING_FORWARD, LANDING_SIDEWAYS}
 	private STATE currentState;
 
 	// Physics Oriented Fields

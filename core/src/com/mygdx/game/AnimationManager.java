@@ -30,6 +30,49 @@ public class AnimationManager {
     private Array<TextureAtlas.AtlasRegion> runRightRegion;
     private Animation runRightAnimation;
 
+    //New Avatar Animations
+    private TextureAtlas standingStillAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillRegion;
+    private Animation standingStillAnimation;
+
+    private TextureAtlas walkingAtlas;
+    private Array<TextureAtlas.AtlasRegion> walkingRegion;
+    private Animation walkingSlowlyAnimation;
+    private Animation walkingFastAnimation;
+
+    private TextureAtlas runningAtlas;
+    private Array<TextureAtlas.AtlasRegion> runningRegion;
+    private Animation runningSlowlyAnimation;
+    private Animation runningFastAnimation;
+
+    private TextureAtlas jumpingForwardAtlas;
+    private Array<TextureAtlas.AtlasRegion> jumpingForwardRegion;
+    private Animation jumpingForwardAnimation;
+
+    private TextureAtlas jumpingSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> jumpingSidewaysRegion;
+    private Animation jumpingSidewaysAnimation;
+
+    private TextureAtlas flyingAtlas;
+    private Array<TextureAtlas.AtlasRegion> flyingRegion;
+    private Animation flyingAnimation;
+
+    private TextureAtlas floatingStillForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> floatingStillForwardsRegion;
+    private Animation floatingStillForwardsAnimation;
+
+    private TextureAtlas floatingStillSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> floatingStillSidewaysRegion;
+    private Animation floatingStillSidewaysAnimation;
+
+    private TextureAtlas landingSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> landingSidewaysRegion;
+    private Animation landingSidewaysAnimation;
+
+    private TextureAtlas landingForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> landingForwardsRegion;
+    private Animation landingForwardsAnimation;
+
     private TextureRegion[] deadFrames;
     //private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
