@@ -396,4 +396,12 @@ public class AnimationManager {
     public Animation getRunSlowAnimation() {
         return runSlowAnimation;
     }
+
+    public Animation getWalkSlowAnimation() {
+        return walkSlowAnimation;
+    }
+
+    public Animation getWalkFastAnimation() {
+        return walkFastAnimation;
+    }
 }

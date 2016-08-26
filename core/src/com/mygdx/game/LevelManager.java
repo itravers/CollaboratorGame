@@ -165,18 +165,22 @@ public class LevelManager {
             //we know the goal is completed if the player has landed on the goal planet and he is not a ghost.
             if(stateGood && goalGood && playerTypeGood){
 
-                setLevelGoalCompleted(true);//levelGoalCompleted = true;
+                completeLevel();
+            }
+        }
+    }
+
+    public void completeLevel(){
+        setLevelGoalCompleted(true);//levelGoalCompleted = true;
                 /*we completed the level goal, lets mark it, set a few labels
                   and transition into midgame mode to tell the player how much
                   they don't suck.
                  */
-                getMidGameMessage().setColor(Color.GREEN);
-                getMidGameMessage().setText("You Completed The Level. Good Job!");
-                parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME); //must be after levelGoalCompleted = true;
+        getMidGameMessage().setColor(Color.GREEN);
+        getMidGameMessage().setText("You Completed The Level. Good Job!");
+        parent.parent.setGameState(MyGdxGame.GAME_STATE.MIDGAME); //must be after levelGoalCompleted = true;
 
-                System.out.println("Completed Level Goal " + level);
-            }
-        }
+        System.out.println("Completed Level Goal " + level);
     }
 
     /**

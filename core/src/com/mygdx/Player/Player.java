@@ -75,7 +75,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
 		this.parent = parent;
-		setCurrentState(STATE.STAND_STILL_FORWARD);
+		setCurrentState(STATE.WALK_SLOW);
 		this.setPosition(pos.x, pos.y);
 		boostTime = TOTAL_BOOST_TIME;
 		health = MAX_HEALTH;
@@ -294,7 +294,7 @@ public class Player extends Sprite {
 		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
-		fixtureDef.friction = .4f;
+		fixtureDef.friction = .2f;
 		fixture = body.createFixture(fixtureDef);
 		body.setUserData(this);
 		shape.dispose();
@@ -418,8 +418,16 @@ public class Player extends Sprite {
 		   If we are off the planet we want to apply an angular impulse.
 		 */
 		if(onPlanet()){
-			if(rotateLeftPressed) body.applyLinearImpulse(impulse.rotate(-90), pos, true);
-			if(rotateRightPressed) body.applyLinearImpulse(impulse.rotate(90), pos, true);
+			if(rotateLeftPressed){
+				System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(-90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+			}
+			if(rotateRightPressed){
+				System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+			}
 		}else{
 			if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
 			if(rotateRightPressed) body.applyAngularImpulse(1f, true);
@@ -478,6 +486,10 @@ public class Player extends Sprite {
 			currentAnimation = a.getRunFastAnimation();
 		}else if(s == STATE.RUN_SLOW){
 			currentAnimation = a.getRunSlowAnimation();
+		}else if(s == STATE.WALK_SLOW){
+			currentAnimation = a.getWalkSlowAnimation();
+		}else if(s == STATE.WALK_FAST){
+			currentAnimation = a.getWalkFastAnimation();
 		}
 		/*if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
