@@ -79,6 +79,10 @@ public class AnimationManager {
     private Array<TextureAtlas.AtlasRegion> landingForwardsRegion;
     private Animation landingForwardsAnimation;
 
+    private TextureAtlas waveAtlas;
+    private Array<TextureAtlas.AtlasRegion> waveRegion;
+    private Animation waveAnimation;
+
     private TextureRegion[] deadFrames;
     //private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
