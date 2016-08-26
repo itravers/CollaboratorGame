@@ -1,0 +1,94 @@
+
+RunSlow.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+RunSlo
+  rotate: false
+  xy: 1, 1349
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 5
+RunSlo
+  rotate: false
+  xy: 1, 675
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 1
+RunSlo
+  rotate: false
+  xy: 540, 1349
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 10
+RunSlo
+  rotate: false
+  xy: 1, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 2
+RunSlo
+  rotate: false
+  xy: 540, 675
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 7
+RunSlo
+  rotate: false
+  xy: 1079, 1349
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 0
+RunSlo
+  rotate: false
+  xy: 540, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 4
+RunSlo
+  rotate: false
+  xy: 1079, 675
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 6
+RunSlo
+  rotate: false
+  xy: 1079, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 8
+
+RunSlow2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+RunSlo
+  rotate: false
+  xy: 1, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 9
+RunSlo
+  rotate: false
+  xy: 540, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 11
+RunSlo
+  rotate: false
+  xy: 1079, 1
+  size: 537, 672
+  orig: 537, 672
+  offset: 0, 0
+  index: 3

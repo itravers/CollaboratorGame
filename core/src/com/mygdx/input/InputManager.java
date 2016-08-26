@@ -62,6 +62,10 @@ public class InputManager implements InputProcessor{
             parent.parent.devMode = !parent.parent.devMode;
             System.out.println("toggle dev mode: " + parent.parent.devMode);
         }
+
+        if(keycode == Input.Keys.N && parent.parent.devMode){
+            parent.getLevelManager().completeLevel();
+        }
         
         if(keycode == Input.Keys.SHIFT_LEFT){
         	//only boost if player has boostTime left

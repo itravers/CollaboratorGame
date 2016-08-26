@@ -1,0 +1,366 @@
+
+RunRight.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 24
+ship2
+  rotate: false
+  xy: 1, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 16
+ship2
+  rotate: false
+  xy: 561, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 34
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 10
+ship2
+  rotate: false
+  xy: 561, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 8
+ship2
+  rotate: false
+  xy: 1121, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 2
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 39
+ship2
+  rotate: false
+  xy: 1121, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 3
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 30
+
+RunRight2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 26
+ship2
+  rotate: false
+  xy: 1, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 4
+ship2
+  rotate: false
+  xy: 561, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 9
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 44
+ship2
+  rotate: false
+  xy: 561, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 5
+ship2
+  rotate: false
+  xy: 1121, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 31
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 36
+ship2
+  rotate: false
+  xy: 1121, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 25
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 47
+
+RunRight3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 35
+ship2
+  rotate: false
+  xy: 1, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 0
+ship2
+  rotate: false
+  xy: 561, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 46
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 29
+ship2
+  rotate: false
+  xy: 561, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 22
+ship2
+  rotate: false
+  xy: 1121, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 28
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 32
+ship2
+  rotate: false
+  xy: 1121, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 6
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 1
+
+RunRight4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 38
+ship2
+  rotate: false
+  xy: 1, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 15
+ship2
+  rotate: false
+  xy: 561, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 37
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 40
+ship2
+  rotate: false
+  xy: 561, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 12
+ship2
+  rotate: false
+  xy: 1121, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 11
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 27
+ship2
+  rotate: false
+  xy: 1121, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 19
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 42
+
+RunRight5.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 20
+ship2
+  rotate: false
+  xy: 1, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 7
+ship2
+  rotate: false
+  xy: 561, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 17
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 33
+ship2
+  rotate: false
+  xy: 561, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 18
+ship2
+  rotate: false
+  xy: 1121, 1103
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 43
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 14
+ship2
+  rotate: false
+  xy: 1121, 552
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 23
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 41
+
+RunRight6.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship2
+  rotate: false
+  xy: 1, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 21
+ship2
+  rotate: false
+  xy: 561, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 45
+ship2
+  rotate: false
+  xy: 1121, 1
+  size: 558, 549
+  orig: 558, 549
+  offset: 0, 0
+  index: 13
