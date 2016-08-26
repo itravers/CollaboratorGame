@@ -1,0 +1,122 @@
+
+WalkSlow.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+WalkSlo
+  rotate: false
+  xy: 1, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 1
+WalkSlo
+  rotate: false
+  xy: 1, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 15
+WalkSlo
+  rotate: false
+  xy: 441, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 12
+WalkSlo
+  rotate: false
+  xy: 441, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 0
+WalkSlo
+  rotate: false
+  xy: 881, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 8
+WalkSlo
+  rotate: false
+  xy: 881, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 2
+WalkSlo
+  rotate: false
+  xy: 1321, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 9
+WalkSlo
+  rotate: false
+  xy: 1321, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 5
+
+WalkSlow2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+WalkSlo
+  rotate: false
+  xy: 1, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 4
+WalkSlo
+  rotate: false
+  xy: 1, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 14
+WalkSlo
+  rotate: false
+  xy: 441, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 3
+WalkSlo
+  rotate: false
+  xy: 441, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 13
+WalkSlo
+  rotate: false
+  xy: 881, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 11
+WalkSlo
+  rotate: false
+  xy: 881, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 10
+WalkSlo
+  rotate: false
+  xy: 1321, 704
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 6
+WalkSlo
+  rotate: false
+  xy: 1321, 1
+  size: 438, 701
+  orig: 438, 701
+  offset: 0, 0
+  index: 7

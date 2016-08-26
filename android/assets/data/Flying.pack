@@ -1,0 +1,122 @@
+
+Flying.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Flyin
+  rotate: false
+  xy: 1, 1243
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 6
+Flyin
+  rotate: false
+  xy: 1, 622
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 15
+Flyin
+  rotate: false
+  xy: 433, 1243
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 9
+Flyin
+  rotate: false
+  xy: 1, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 14
+Flyin
+  rotate: false
+  xy: 433, 622
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 0
+Flyin
+  rotate: false
+  xy: 865, 1243
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 12
+Flyin
+  rotate: false
+  xy: 433, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 7
+Flyin
+  rotate: false
+  xy: 865, 622
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 5
+Flyin
+  rotate: false
+  xy: 1297, 1243
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 13
+Flyin
+  rotate: false
+  xy: 865, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 11
+Flyin
+  rotate: false
+  xy: 1297, 622
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 4
+Flyin
+  rotate: false
+  xy: 1297, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 10
+
+Flying2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Flyin
+  rotate: false
+  xy: 1, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 8
+Flyin
+  rotate: false
+  xy: 433, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 2
+Flyin
+  rotate: false
+  xy: 865, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 3
+Flyin
+  rotate: false
+  xy: 1297, 1
+  size: 430, 619
+  orig: 430, 619
+  offset: 0, 0
+  index: 1

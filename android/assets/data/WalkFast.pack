@@ -1,0 +1,122 @@
+
+WalkFast.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+WalkFas
+  rotate: false
+  xy: 1, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 15
+WalkFas
+  rotate: false
+  xy: 1, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 8
+WalkFas
+  rotate: false
+  xy: 480, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 0
+WalkFas
+  rotate: false
+  xy: 480, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 7
+WalkFas
+  rotate: false
+  xy: 959, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 12
+WalkFas
+  rotate: false
+  xy: 959, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 10
+WalkFas
+  rotate: false
+  xy: 1438, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 2
+WalkFas
+  rotate: false
+  xy: 1438, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 3
+
+WalkFast2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+WalkFas
+  rotate: false
+  xy: 1, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 9
+WalkFas
+  rotate: false
+  xy: 1, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 4
+WalkFas
+  rotate: false
+  xy: 480, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 13
+WalkFas
+  rotate: false
+  xy: 480, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 1
+WalkFas
+  rotate: false
+  xy: 959, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 5
+WalkFas
+  rotate: false
+  xy: 959, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 11
+WalkFas
+  rotate: false
+  xy: 1438, 708
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 14
+WalkFas
+  rotate: false
+  xy: 1438, 1
+  size: 477, 705
+  orig: 477, 705
+  offset: 0, 0
+  index: 6
