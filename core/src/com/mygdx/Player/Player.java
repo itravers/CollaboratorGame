@@ -464,6 +464,20 @@ public class Player extends Sprite {
 			currentAnimation = a.getDeadAnimation();
 		}else if(s == STATE.EXPLOADING){
 			currentAnimation = a.getExplosionAnimation();
+		}else if(s == STATE.FLOAT_SIDEWAYS){
+			currentAnimation = a.getFloatSidewaysAnimation();
+		}else if(s == STATE.JUMP_FORWARD){
+			currentAnimation = a.getJumpForwardsAnimation();
+		}else if(s == STATE.JUMP_SIDEWAYS){
+			currentAnimation = a.getJumpSidewaysAnimation();
+		}else if(s == STATE.LAND_FORWARD){
+			currentAnimation = a.getLandForwardsAnimation();
+		}else if(s == STATE.LAND_SIDEWAYS){
+			currentAnimation = a.getLandSidewaysAnimation();
+		}else if(s == STATE.RUN_FAST){
+			currentAnimation = a.getRunFastAnimation();
+		}else if(s == STATE.RUN_SLOW){
+			currentAnimation = a.getRunSlowAnimation();
 		}
 		/*if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
