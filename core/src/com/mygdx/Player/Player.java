@@ -457,7 +457,13 @@ public class Player extends Sprite {
 		}else if(s == STATE.WAVE){
 			currentAnimation = a.getWaveAnimation();
 		}else if(s == STATE.STAND_STILL_SIDEWAYS){
-			currentAnimation = a.getStandingStillAnimation();
+			currentAnimation = a.getStandingStillSidewaysAnimation();
+		}else if(s == STATE.STAND_STILL_FORWARD){
+			currentAnimation = a.getStandingStillForwardsAnimation();
+		}else if(s == STATE.DEAD){
+			currentAnimation = a.getDeadAnimation();
+		}else if(s == STATE.EXPLOADING){
+			currentAnimation = a.getExplosionAnimation();
 		}
 		/*if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
