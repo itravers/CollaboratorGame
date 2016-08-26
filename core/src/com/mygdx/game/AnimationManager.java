@@ -39,15 +39,21 @@ public class AnimationManager {
     private Array<TextureAtlas.AtlasRegion> standingStillSidewaysRegion;
     private Animation standingStillForwardsSidewaysAnimation;
 
-    private TextureAtlas walkingAtlas;
-    private Array<TextureAtlas.AtlasRegion> walkingRegion;
-    private Animation walkingSlowlyAnimation;
+    private TextureAtlas walkSlowAtlas;
+    private Array<TextureAtlas.AtlasRegion> walkSlowRegion;
+    private Animation walkingSlowAnimation;
+
+    private TextureAtlas walkFastAtlas;
+    private Array<TextureAtlas.AtlasRegion> walkFastRegion;
     private Animation walkingFastAnimation;
 
-    private TextureAtlas runningAtlas;
-    private Array<TextureAtlas.AtlasRegion> runningRegion;
-    private Animation runningSlowlyAnimation;
-    private Animation runningFastAnimation;
+    private TextureAtlas runSlowAtlas;
+    private Array<TextureAtlas.AtlasRegion> runSlowRegion;
+    private Animation runSlowAnimation;
+
+    private TextureAtlas runFastAtlas;
+    private Array<TextureAtlas.AtlasRegion> runFastRegion;
+    private Animation runFastAnimation;
 
     private TextureAtlas jumpingForwardAtlas;
     private Array<TextureAtlas.AtlasRegion> jumpingForwardRegion;
