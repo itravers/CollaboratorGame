@@ -31,9 +31,13 @@ public class AnimationManager {
     private Animation runRightAnimation;
 
     //New Avatar Animations
-    private TextureAtlas standingStillAtlas;
-    private Array<TextureAtlas.AtlasRegion> standingStillRegion;
-    private Animation standingStillAnimation;
+    private TextureAtlas standingStillForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillForwardsRegion;
+    private Animation standingStillForwardsAnimation;
+
+    private TextureAtlas standingStillForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillForwardsRegion;
+    private Animation standingStillForwardsAnimation;
 
     private TextureAtlas walkingAtlas;
     private Array<TextureAtlas.AtlasRegion> walkingRegion;
