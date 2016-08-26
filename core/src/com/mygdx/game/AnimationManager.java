@@ -35,9 +35,9 @@ public class AnimationManager {
     private Array<TextureAtlas.AtlasRegion> standingStillForwardsRegion;
     private Animation standingStillForwardsAnimation;
 
-    private TextureAtlas standingStillForwardsAtlas;
-    private Array<TextureAtlas.AtlasRegion> standingStillForwardsRegion;
-    private Animation standingStillForwardsAnimation;
+    private TextureAtlas standingStillSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillSidewaysRegion;
+    private Animation standingStillForwardsSidewaysAnimation;
 
     private TextureAtlas walkingAtlas;
     private Array<TextureAtlas.AtlasRegion> walkingRegion;
