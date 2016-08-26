@@ -432,7 +432,7 @@ public class Player extends Sprite {
 	 * a planet, or are we off a planet.
 	 * @return True if on a planet. False if off a Planet.
      */
-	private boolean onPlanet(){
+	public boolean onPlanet(){
 		boolean returnVal = false;
 		STATE s = getCurrentState();
 //

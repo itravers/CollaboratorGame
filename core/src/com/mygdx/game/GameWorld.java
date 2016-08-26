@@ -156,10 +156,10 @@ public class GameWorld implements ContactListener{
                 if(didPlayerCrashIntoPlanet(s, p)){
                     s.setCurrentState(Player.STATE.EXPLOADING);
                 }else{
-                    s.setCurrentState(Player.STATE.LANDED);
+                    s.setCurrentState(Player.STATE.STAND_STILL_FORWARD);
                     levelManager.checkGoal(p, s);
                 }
-            }else if(s.getCurrentState() == Player.STATE.LANDED){
+            }else if(s.onPlanet()){
 
             }else if(s.getCurrentState() == Player.STATE.EXPLOADING){
                 //we don't need to do anything here, we transition elsewhere
