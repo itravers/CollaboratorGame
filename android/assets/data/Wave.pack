@@ -1,0 +1,122 @@
+
+Wave.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Wav
+  rotate: false
+  xy: 1, 1229
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 2
+Wav
+  rotate: false
+  xy: 1, 615
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 3
+Wav
+  rotate: false
+  xy: 470, 1229
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 9
+Wav
+  rotate: false
+  xy: 1, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 8
+Wav
+  rotate: false
+  xy: 470, 615
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 0
+Wav
+  rotate: false
+  xy: 939, 1229
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 12
+Wav
+  rotate: false
+  xy: 470, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 6
+Wav
+  rotate: false
+  xy: 939, 615
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 1
+Wav
+  rotate: false
+  xy: 1408, 1229
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 11
+Wav
+  rotate: false
+  xy: 939, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 14
+Wav
+  rotate: false
+  xy: 1408, 615
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 5
+Wav
+  rotate: false
+  xy: 1408, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 10
+
+Wave2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Wav
+  rotate: false
+  xy: 1, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 13
+Wav
+  rotate: false
+  xy: 470, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 15
+Wav
+  rotate: false
+  xy: 939, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 4
+Wav
+  rotate: false
+  xy: 1408, 1
+  size: 467, 612
+  orig: 467, 612
+  offset: 0, 0
+  index: 7

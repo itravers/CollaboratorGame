@@ -25,6 +25,64 @@ public class AnimationManager {
     private TextureAtlas gravityWellAtlas;
     private TextureAtlas exhastAtlas;
 
+    //tests with running figure
+    private TextureAtlas runRightAtlas;
+    private Array<TextureAtlas.AtlasRegion> runRightRegion;
+    private Animation runRightAnimation;
+
+    //New Avatar Animations
+    private TextureAtlas standingStillForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillForwardsRegion;
+    private Animation standingStillForwardsAnimation;
+
+    private TextureAtlas standingStillSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> standingStillSidewaysRegion;
+    private Animation standingStillSidewaysAnimation;
+
+    private TextureAtlas walkSlowAtlas;
+    private Array<TextureAtlas.AtlasRegion> walkSlowRegion;
+    private Animation walkSlowAnimation;
+
+    private TextureAtlas walkFastAtlas;
+    private Array<TextureAtlas.AtlasRegion> walkFastRegion;
+    private Animation walkFastAnimation;
+
+    private TextureAtlas runSlowAtlas;
+    private Array<TextureAtlas.AtlasRegion> runSlowRegion;
+    private Animation runSlowAnimation;
+
+    private TextureAtlas runFastAtlas;
+    private Array<TextureAtlas.AtlasRegion> runFastRegion;
+    private Animation runFastAnimation;
+
+    private TextureAtlas jumpForwardAtlas;
+    private Array<TextureAtlas.AtlasRegion> jumpForwardRegion;
+    private Animation jumpForwardAnimation;
+
+    private TextureAtlas jumpSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> jumpSidewaysRegion;
+    private Animation jumpSidewaysAnimation;
+
+    private TextureAtlas flyingAtlas;
+    private Array<TextureAtlas.AtlasRegion> flyingRegion;
+    private Animation flyingAnimation;
+
+    private TextureAtlas floatSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> floatSidewaysRegion;
+    private Animation floatSidewaysAnimation;
+
+    private TextureAtlas landingSidewaysAtlas;
+    private Array<TextureAtlas.AtlasRegion> landingSidewaysRegion;
+    private Animation landingSidewaysAnimation;
+
+    private TextureAtlas landingForwardsAtlas;
+    private Array<TextureAtlas.AtlasRegion> landingForwardsRegion;
+    private Animation landingForwardsAnimation;
+
+    private TextureAtlas waveAtlas;
+    private Array<TextureAtlas.AtlasRegion> waveRegion;
+    private Animation waveAnimation;
+
     private TextureRegion[] deadFrames;
     //private TextureRegion[] moveForwardFrames;
     private TextureRegion[] noMovementAnimationFrames;
@@ -46,6 +104,7 @@ public class AnimationManager {
     }
 
     public void setupAnimations(){
+        setupRunRightAnimation();
         setupMoveForwardAnimation();
         setupNoMovementAnimation();
         setupExplosionAnimation();
@@ -54,8 +113,100 @@ public class AnimationManager {
         setupGravityWells();
         setupExhastAnimation();
 
+        setupJumpForwardAnimation();
+        setupFlyingAnimation();
+        setupLandingForwardAnimation();
+        setupStandingStillSidewaysAnimation();
+        setupStandingStillForwardsAnimation();
+        setupWalkSlowAnimation();
+        setupWalkFastAnimation();
+        setupRunSlowAnimation();
+        setupRunFastAnimation();
+        setupJumpSidewaysAnimation();
+        setupFloatSidewaysAnimation();
+        setupLandSidewaysAnimation();
+        setupWaveAnimation();
+
     }
 
+    private void setupWaveAnimation() {
+        waveAtlas = new TextureAtlas(Gdx.files.internal("data/Wave.pack"));
+        waveRegion = waveAtlas.getRegions();
+        waveAnimation = new Animation(1/30f, waveRegion);
+    }
+
+    private void setupLandSidewaysAnimation() {
+        landingSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/LandingSideways.pack"));
+        landingSidewaysRegion = landingSidewaysAtlas.getRegions();
+        landingSidewaysAnimation = new Animation(1/30f, landingSidewaysRegion);
+    }
+
+    private void setupFloatSidewaysAnimation() {
+        floatSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/FloatingSideways.pack"));
+        floatSidewaysRegion = floatSidewaysAtlas.getRegions();
+        floatSidewaysAnimation = new Animation(1/30f, floatSidewaysRegion);
+    }
+
+    private void setupJumpSidewaysAnimation() {
+        jumpSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/JumpSideways.pack"));
+        jumpSidewaysRegion = jumpSidewaysAtlas.getRegions();
+        jumpSidewaysAnimation = new Animation(1/30f, jumpSidewaysRegion);
+    }
+
+    private void setupRunFastAnimation() {
+        runFastAtlas = new TextureAtlas(Gdx.files.internal("data/RunFast.pack"));
+        runFastRegion = runFastAtlas.getRegions();
+        runFastAnimation = new Animation(1/30f, runFastRegion);
+    }
+
+    private void setupRunSlowAnimation() {
+        runSlowAtlas = new TextureAtlas(Gdx.files.internal("data/RunSlow.pack"));
+        runSlowRegion = runSlowAtlas.getRegions();
+        runSlowAnimation = new Animation(1/30f, runSlowRegion);
+    }
+
+    private void setupWalkFastAnimation() {
+        walkFastAtlas = new TextureAtlas(Gdx.files.internal("data/WalkFast.pack"));
+        walkFastRegion = walkFastAtlas.getRegions();
+        walkFastAnimation = new Animation(1/30f, walkFastRegion);
+    }
+
+    private void setupWalkSlowAnimation() {
+        walkSlowAtlas = new TextureAtlas(Gdx.files.internal("data/WalkSlow.pack"));
+        walkSlowRegion = walkSlowAtlas.getRegions();
+        walkSlowAnimation = new Animation(1/30f, walkSlowRegion);
+    }
+
+    private void setupStandingStillForwardsAnimation() {
+        standingStillForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/StandingStillForward.pack"));
+        standingStillForwardsRegion = standingStillForwardsAtlas.getRegions();
+        standingStillForwardsAnimation = new Animation(1/30f, standingStillForwardsRegion);
+    }
+
+    private void setupStandingStillSidewaysAnimation() {
+        standingStillSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/StandingStillSideways.pack"));
+        standingStillSidewaysRegion = standingStillSidewaysAtlas.getRegions();
+        standingStillSidewaysAnimation = new Animation(1/30f, standingStillSidewaysRegion);
+    }
+
+    private void setupLandingForwardAnimation() {
+        landingForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/LandingForward.pack"));
+        landingForwardsRegion = landingForwardsAtlas.getRegions();
+        landingForwardsAnimation = new Animation(1/30f, landingForwardsRegion);
+    }
+
+    private void setupFlyingAnimation() {
+        flyingAtlas = new TextureAtlas(Gdx.files.internal("data/Flying.pack"));
+        flyingRegion = flyingAtlas.getRegions();
+        flyingAnimation = new Animation(1/30f, flyingRegion);
+    }
+
+    private void setupJumpForwardAnimation() {
+        jumpForwardAtlas = new TextureAtlas(Gdx.files.internal("data/JumpForward.pack"));
+        jumpForwardRegion = jumpForwardAtlas.getRegions();
+        jumpForwardAnimation = new Animation(1/30f, jumpForwardRegion);
+
+    }
 
 
     public Animation getExhastAnimation() {
@@ -82,6 +233,12 @@ public class AnimationManager {
         planetAtlas = new TextureAtlas((Gdx.files.internal("data/Planets.pack")));
         planetRegion = planetAtlas.findRegions("Moon");
         planetRotateAnimation = new Animation(1/2f, planetRegion);
+    }
+
+    private void setupRunRightAnimation(){
+        runRightAtlas = new TextureAtlas(Gdx.files.internal("data/RunRight.pack"));
+        runRightRegion = runRightAtlas.getRegions();
+        runRightAnimation = new Animation(1/30f, runRightRegion);
     }
 
     /**
@@ -137,6 +294,12 @@ public class AnimationManager {
         this.explosionAnimation = explosionAnimation;
     }
 
+    public Animation getRunRightAnimation(){return runRightAnimation;}
+
+    public void setRunRightAnimation(Animation a){
+        runRightAnimation = a;
+    }
+
     public Animation getMoveForwardAnimation() {
         return moveForwardAnimation;
     }
@@ -190,5 +353,55 @@ public class AnimationManager {
     }
 
 
+    public Animation getFlyingAnimation() {
+        return flyingAnimation;
+    }
 
+    public Animation getWaveAnimation() {
+        return waveAnimation;
+    }
+
+    public Animation getStandingStillForwardsAnimation() {
+        return standingStillForwardsAnimation;
+    }
+
+    public Animation getStandingStillSidewaysAnimation() {
+        return standingStillSidewaysAnimation;
+    }
+
+    public Animation getFloatSidewaysAnimation() {
+        return floatSidewaysAnimation;
+    }
+
+    public Animation getJumpSidewaysAnimation() {
+        return jumpSidewaysAnimation;
+    }
+
+    public Animation getLandForwardsAnimation() {
+        return landingForwardsAnimation;
+    }
+
+    public Animation getJumpForwardsAnimation() {
+        return jumpForwardAnimation;
+    }
+
+    public Animation getLandSidewaysAnimation() {
+        return landingSidewaysAnimation;
+    }
+
+    public Animation getRunFastAnimation() {
+        return runFastAnimation;
+    }
+
+    public Animation getRunSlowAnimation() {
+        return runSlowAnimation;
+    }
+
+    public Animation getWalkSlowAnimation() {
+        return walkSlowAnimation;
+    }
+
+    public Animation getWalkFastAnimation() {
+        return walkFastAnimation;
+    }
 }

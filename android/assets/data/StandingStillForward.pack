@@ -1,0 +1,117 @@
+
+StandingStillForward.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+StandingStillForwar
+  rotate: false
+  xy: 1, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 9
+StandingStillForwar
+  rotate: false
+  xy: 1, 622
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 2
+StandingStillForwar
+  rotate: false
+  xy: 309, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 15
+StandingStillForwar
+  rotate: false
+  xy: 1, 1
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 10
+StandingStillForwar
+  rotate: false
+  xy: 309, 622
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 0
+StandingStillForwar
+  rotate: false
+  xy: 617, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 4
+StandingStillForwar
+  rotate: false
+  xy: 309, 1
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 1
+StandingStillForwar
+  rotate: false
+  xy: 617, 622
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 14
+StandingStillForwar
+  rotate: false
+  xy: 925, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 3
+StandingStillForwar
+  rotate: false
+  xy: 617, 1
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 13
+StandingStillForwar
+  rotate: false
+  xy: 925, 622
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 5
+StandingStillForwar
+  rotate: false
+  xy: 1233, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 8
+StandingStillForwar
+  rotate: false
+  xy: 925, 1
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 11
+StandingStillForwar
+  rotate: false
+  xy: 1233, 622
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 12
+StandingStillForwar
+  rotate: false
+  xy: 1541, 1243
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 7
+StandingStillForwar
+  rotate: false
+  xy: 1233, 1
+  size: 306, 619
+  orig: 306, 619
+  offset: 0, 0
+  index: 6

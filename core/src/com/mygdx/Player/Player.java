@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mygdx.game.AnimationManager;
 import com.mygdx.game.GameWorld;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Planet;
@@ -36,7 +37,8 @@ public class Player extends Sprite {
 	private float boostTime;
 
 	// State Tracking Fields
-	public enum STATE {FLYING, LANDED, EXPLOADING, DEAD}
+	public enum STATE {FLYING, LAND_FORWARD, LAND_SIDEWAYS, EXPLOADING, DEAD, STAND_STILL_SIDEWAYS, STAND_STILL_FORWARD,
+		WALK_SLOW, WALK_FAST, JUMP_FORWARD, JUMP_SIDEWAYS, RUN_SLOW, RUN_FAST, FLOAT_SIDEWAYS, WAVE}
 	private STATE currentState;
 
 	// Physics Oriented Fields
@@ -73,7 +75,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
 		this.parent = parent;
-		setCurrentState(STATE.LANDED);
+		setCurrentState(STATE.WALK_SLOW);
 		this.setPosition(pos.x, pos.y);
 		boostTime = TOTAL_BOOST_TIME;
 		health = MAX_HEALTH;
@@ -109,8 +111,10 @@ public class Player extends Sprite {
 			setCurrentState(STATE.DEAD);
 		}
 
-		/* Change state from landed to flying if we are a certain distance from the nearest planets surface. */
-		if(getCurrentState() == STATE.LANDED && getDistanceFromClosestPlanet() > 3.5){ 
+		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
+		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
+		  * and we were previously in the mentioned states.*/
+		if((getCurrentState() == STATE.JUMP_FORWARD || getCurrentState() == STATE.FLOAT_SIDEWAYS) && getDistanceFromClosestPlanet() > 3.5){
 			setCurrentState(STATE.FLYING);
 		}
 
@@ -290,7 +294,7 @@ public class Player extends Sprite {
 		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
-		fixtureDef.friction = .4f;
+		fixtureDef.friction = .2f;
 		fixture = body.createFixture(fixtureDef);
 		body.setUserData(this);
 		shape.dispose();
@@ -409,25 +413,96 @@ public class Player extends Sprite {
 			impulse = impulse.scl(.5f);
 			body.applyLinearImpulse(impulse, pos, true);
 		}
-		if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
-		if(rotateRightPressed) body.applyAngularImpulse(1f, true);
+
+		/* If we are on the planet we want to apply a sideways linear impulse on our body.
+		   If we are off the planet we want to apply an angular impulse.
+		 */
+		if(onPlanet()){
+			if(rotateLeftPressed){
+				System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(-90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+			}
+			if(rotateRightPressed){
+				System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+			}
+		}else{
+			if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
+			if(rotateRightPressed) body.applyAngularImpulse(1f, true);
+		}
+
 	}
 
 	/**
-	 * Choose animation based on current input as well as current state
+	 * Examines the current state we are in and decides if that state means we are on
+	 * a planet, or are we off a planet.
+	 * @return True if on a planet. False if off a Planet.
+     */
+	public boolean onPlanet(){
+		boolean returnVal = false;
+		STATE s = getCurrentState();
+//
+		if(s == STATE.FLYING){
+			returnVal = false;
+		}else{
+			returnVal = true;
+		}
+		return returnVal;
+	}
+
+	/**
+	 * Choose animation based on current input as well as current state.
+	 *
 	 */
 	private void chooseAnimation(){
-		if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
+		STATE s = getCurrentState();
+		AnimationManager a = parent.getAnimationManager();
+
+		if(s == STATE.FLYING){
+			currentAnimation = a.getFlyingAnimation();
+		}else if(s == STATE.WAVE){
+			currentAnimation = a.getWaveAnimation();
+		}else if(s == STATE.STAND_STILL_SIDEWAYS){
+			currentAnimation = a.getStandingStillSidewaysAnimation();
+		}else if(s == STATE.STAND_STILL_FORWARD){
+			currentAnimation = a.getStandingStillForwardsAnimation();
+		}else if(s == STATE.DEAD){
+			currentAnimation = a.getDeadAnimation();
+		}else if(s == STATE.EXPLOADING){
+			currentAnimation = a.getExplosionAnimation();
+		}else if(s == STATE.FLOAT_SIDEWAYS){
+			currentAnimation = a.getFloatSidewaysAnimation();
+		}else if(s == STATE.JUMP_FORWARD){
+			currentAnimation = a.getJumpForwardsAnimation();
+		}else if(s == STATE.JUMP_SIDEWAYS){
+			currentAnimation = a.getJumpSidewaysAnimation();
+		}else if(s == STATE.LAND_FORWARD){
+			currentAnimation = a.getLandForwardsAnimation();
+		}else if(s == STATE.LAND_SIDEWAYS){
+			currentAnimation = a.getLandSidewaysAnimation();
+		}else if(s == STATE.RUN_FAST){
+			currentAnimation = a.getRunFastAnimation();
+		}else if(s == STATE.RUN_SLOW){
+			currentAnimation = a.getRunSlowAnimation();
+		}else if(s == STATE.WALK_SLOW){
+			currentAnimation = a.getWalkSlowAnimation();
+		}else if(s == STATE.WALK_FAST){
+			currentAnimation = a.getWalkFastAnimation();
+		}
+		/*if(getCurrentState() == STATE.FLYING || getCurrentState() == STATE.LANDED){
 			if(forwardPressed || backwardPressed){
 				currentAnimation = parent.getAnimationManager().getMoveForwardAnimation();
 			}else{
-				currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
+				//currentAnimation = parent.getAnimationManager().getNoMovementAnimation();
+				currentAnimation = parent.getAnimationManager().getRunRightAnimation();
 			}
 		}else if(getCurrentState() == STATE.EXPLOADING){
 			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(getCurrentState() == STATE.DEAD){
 			currentAnimation = parent.getAnimationManager().getDeadAnimation();
-		}
+		}*/
 
 	}
 

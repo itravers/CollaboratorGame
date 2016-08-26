@@ -243,7 +243,7 @@ public class RenderManager {
         //Instead of rendering gravity, i actually want to render a velocity direction
         Vector2 playerDir;
         Player p = parent.getLevelManager().getPlayer();
-        if(p.getCurrentState() == Player.STATE.LANDED){
+        if(p.onPlanet()){
             playerDir = new Vector2(0,0);
         }else{
             playerDir = p.getBody().getLinearVelocity();
@@ -300,7 +300,7 @@ public class RenderManager {
           //  System.out.println("length: " + length + " rad: " + closestPlanet.getRadius()/20);
             if(length < 5)length = 5;
             if(length > 100) length = 100;
-            if(p.getCurrentState() == Player.STATE.LANDED)length = 0;
+            if(p.onPlanet())length = 0;
            // System.out.println("rad: " + closestPlanet.getRadius());
            // System.out.println("length: " + length);
             endLine.setLength(90f); // set length of distance vector
