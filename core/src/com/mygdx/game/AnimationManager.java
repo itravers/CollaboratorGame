@@ -261,5 +261,47 @@ public class AnimationManager {
     }
 
 
+    public Animation getFlyingAnimation() {
+        return flyingAnimation;
+    }
 
+    public Animation getWaveAnimation() {
+        return waveAnimation;
+    }
+
+    public Animation getStandingStillForwardsAnimation() {
+        return standingStillForwardsAnimation;
+    }
+
+    public Animation getStandingStillSidewaysAnimation() {
+        return standingStillForwardsSidewaysAnimation;
+    }
+
+    public Animation getFloatSidewaysAnimation() {
+        return floatSidewaysAnimation;
+    }
+
+    public Animation getJumpSidewaysAnimation() {
+        return jumpSidewaysAnimation;
+    }
+
+    public Animation getLandForwardsAnimation() {
+        return landingForwardsAnimation;
+    }
+
+    public Animation getJumpForwardsAnimation() {
+        return jumpForwardAnimation;
+    }
+
+    public Animation getLandSidewaysAnimation() {
+        return landingSidewaysAnimation;
+    }
+
+    public Animation getRunFastAnimation() {
+        return runFastAnimation;
+    }
+
+    public Animation getRunSlowAnimation() {
+        return runSlowAnimation;
+    }
 }
