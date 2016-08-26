@@ -87,7 +87,7 @@ public class InputManager implements InputProcessor{
     public boolean keyUp(int keycode) {
     	if(keycode == Input.Keys.SHIFT_LEFT) getPlayer().setBoostPressed(false);
         if(keycode == com.badlogic.gdx.Input.Keys.W) getPlayer().forwardPressed = false;
-        if(keycode == com.badlogic.gdx.Input.Keys.S) getPlayer().backwardPressed = false;
+        if(keycode == com.badlogic.wwwwwwwwwwwwgdx.Input.Keys.S) getPlayer().backwardPressed = false;
         if((keycode == com.badlogic.gdx.Input.Keys.Q) || (keycode == com.badlogic.gdx.Input.Keys.A)) getPlayer().rotateRightPressed = false;
         if((keycode == com.badlogic.gdx.Input.Keys.E)||(keycode == com.badlogic.gdx.Input.Keys.D)) getPlayer().rotateLeftPressed  = false;
         //System.out.println("pressed at" + parent.parent.getFrameNum());

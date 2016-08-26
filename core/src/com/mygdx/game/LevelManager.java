@@ -159,7 +159,7 @@ public class LevelManager {
         //we only do this if the levelGoal has not been completed
         if(!levelGoalCompleted){
 
-            boolean stateGood = p.getCurrentState() == Player.STATE.LANDED;
+            boolean stateGood = p.onPlanet();
             boolean goalGood = (goal.equals(planet));
             boolean playerTypeGood = (!(p instanceof Ghost));
             //we know the goal is completed if the player has landed on the goal planet and he is not a ghost.

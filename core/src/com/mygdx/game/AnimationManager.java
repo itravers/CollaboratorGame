@@ -142,7 +142,7 @@ public class AnimationManager {
     }
 
     private void setupFloatSidewaysAnimation() {
-        floatSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/FloatSideways.pack"));
+        floatSidewaysAtlas = new TextureAtlas(Gdx.files.internal("data/FloatingSideways.pack"));
         floatSidewaysRegion = floatSidewaysAtlas.getRegions();
         floatSidewaysAnimation = new Animation(1/30f, floatSidewaysRegion);
     }
@@ -178,7 +178,7 @@ public class AnimationManager {
     }
 
     private void setupStandingStillForwardsAnimation() {
-        standingStillForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/StandingStillForwards.pack"));
+        standingStillForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/StandingStillForward.pack"));
         standingStillForwardsRegion = standingStillForwardsAtlas.getRegions();
         standingStillForwardsAnimation = new Animation(1/30f, standingStillForwardsRegion);
     }
@@ -190,7 +190,7 @@ public class AnimationManager {
     }
 
     private void setupLandingForwardAnimation() {
-        landingForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/LandingForwards.pack"));
+        landingForwardsAtlas = new TextureAtlas(Gdx.files.internal("data/LandingForward.pack"));
         landingForwardsRegion = landingForwardsAtlas.getRegions();
         landingForwardsAnimation = new Animation(1/30f, landingForwardsRegion);
     }
