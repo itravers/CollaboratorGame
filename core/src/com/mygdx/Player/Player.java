@@ -76,7 +76,8 @@ public class Player extends Sprite {
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
 
-	private int WAVE_TIME; //The number of times Stand Still Animation plays, before wave animation plays.
+	private int WAVE_TIME = 20; //The number of times Stand Still Animation plays, before wave animation plays.
+	private int STANDING_STILL_SIDEWAYS_TIME = 4;
 
 	/**
 	 * Player Constructor
@@ -85,7 +86,6 @@ public class Player extends Sprite {
 	 */
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
-		WAVE_TIME = 20;
 		this.parent = parent;
 		setCurrentState(STATE.STAND_STILL_FORWARD);
 		this.setPosition(pos.x, pos.y);
@@ -140,6 +140,20 @@ public class Player extends Sprite {
 		 */
 		if(getCurrentState() == STATE.WAVE && currentAnimation.getLoops(stateTime) >= 1){
 			setCurrentState(STATE.STAND_STILL_FORWARD);
+		}
+
+		/* Transition from Standing Still Sideways to Standing Still Forward State.
+		 * We want to transition to the standing still forward state if:
+		 * 1. The former state was standing still sideways.
+		 * 2. Avatar is on a planet.
+		 * 3. Avatar is not moving.
+		 * 4. Standing Still Sideways animation has played at least STANDING_STILL_SIDEWAYS times.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS &&
+				onPlanet() &&
+				getBody().getLinearVelocity().len2() < .001 &&
+				currentAnimation.getLoops(stateTime) >= STANDING_STILL_SIDEWAYS_TIME){
+					setCurrentState(STATE.STAND_STILL_FORWARD);
 		}
 
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
