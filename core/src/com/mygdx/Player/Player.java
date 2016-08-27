@@ -75,7 +75,7 @@ public class Player extends Sprite {
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
 		this.parent = parent;
-		setCurrentState(STATE.WALK_SLOW);
+		setCurrentState(STATE.STAND_STILL_FORWARD);
 		this.setPosition(pos.x, pos.y);
 		boostTime = TOTAL_BOOST_TIME;
 		health = MAX_HEALTH;
