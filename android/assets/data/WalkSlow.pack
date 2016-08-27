@@ -3,120 +3,120 @@ WalkSlow.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 1, 704
-  size: 438, 701
-  orig: 438, 701
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 11
+WalkSlow
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7
+WalkSlow
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 1
-WalkSlo
+WalkSlow
   rotate: false
   xy: 1, 1
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 15
-WalkSlo
-  rotate: false
-  xy: 441, 704
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 12
-WalkSlo
-  rotate: false
-  xy: 441, 1
-  size: 438, 701
-  orig: 438, 701
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 0
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 881, 704
-  size: 438, 701
-  orig: 438, 701
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 8
-WalkSlo
+  index: 6
+WalkSlow
   rotate: false
-  xy: 881, 1
-  size: 438, 701
-  orig: 438, 701
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+WalkSlow
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 2
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 1321, 704
-  size: 438, 701
-  orig: 438, 701
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 9
-WalkSlo
+  index: 13
+WalkSlow
   rotate: false
-  xy: 1321, 1
-  size: 438, 701
-  orig: 438, 701
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 5
+  index: 14
 
 WalkSlow2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 1, 704
-  size: 438, 701
-  orig: 438, 701
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 5
+WalkSlow
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 4
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 1, 1
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 14
-WalkSlo
-  rotate: false
-  xy: 441, 704
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 3
-WalkSlo
-  rotate: false
-  xy: 441, 1
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 13
-WalkSlo
-  rotate: false
-  xy: 881, 704
-  size: 438, 701
-  orig: 438, 701
-  offset: 0, 0
-  index: 11
-WalkSlo
-  rotate: false
-  xy: 881, 1
-  size: 438, 701
-  orig: 438, 701
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 10
-WalkSlo
+WalkSlow
   rotate: false
-  xy: 1321, 704
-  size: 438, 701
-  orig: 438, 701
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 6
-WalkSlo
+  index: 9
+WalkSlow
   rotate: false
-  xy: 1321, 1
-  size: 438, 701
-  orig: 438, 701
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 7
+  index: 8
+WalkSlow
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 15
+WalkSlow
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12

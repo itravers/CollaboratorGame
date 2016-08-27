@@ -76,7 +76,7 @@ public class Player extends Sprite {
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
 
-	private int WAVE_TIME = 20; //The number of times Stand Still Animation plays, before wave animation plays.
+	private int WAVE_TIME = 5; //The number of times Stand Still Animation plays, before wave animation plays.
 	private int STANDING_STILL_SIDEWAYS_TIME = 4;
 	private float WALK_SLOW_THRESHOLD = 5f;
 	private float RUN_SLOW_THRESHOLD = 20f;
@@ -88,7 +88,7 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
-		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
+		super(textureAtlas.getRegions().first(), 0, 0, 50, 50);
 		this.parent = parent;
 		setCurrentState(STATE.STAND_STILL_FORWARD);
 		this.setPosition(pos.x, pos.y);
@@ -141,7 +141,7 @@ public class Player extends Sprite {
 		 * The former state is WAVE, and:
 		 * WAVE has looped more than 1 time.
 		 */
-		if(getCurrentState() == STATE.WAVE && currentAnimation.getLoops(stateTime) >= 1){
+		if(getCurrentState() == STATE.WAVE && currentAnimation.getLoops(stateTime) > 1){
 			setCurrentState(STATE.STAND_STILL_FORWARD);
 		}
 
@@ -262,11 +262,24 @@ public class Player extends Sprite {
 			setCurrentState(STATE.FLYING);
 		}
 
+		//boolean lastFrame = false;
+		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
+		//if(frame == currentAnimation.)
 		 //draws all sprites the same size
-		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 
-				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-				this.getScaleX(), this.getScaleY(), this.getRotation());
-
+		batch.draw(frame,
+				getX(), getY(),
+				this.getOriginX(), this.getOriginY(),
+				this.getWidth(), this.getHeight(),
+				this.getScaleX(), this.getScaleY(),
+				this.getRotation());
+		/*TextureRegion f = currentAnimation.getKeyFrame(elapsedTime, true);
+		batch.draw(f,
+				getX(), getY(),
+				this.getOriginX(), this.getOriginY(),
+				this.getWidth(), this.getHeight(),
+				f.getRegionWidth(), f.getRegionHeight(),
+				this.getRotation());
+*/
 		if(forwardPressed && !boostPressed){
 			//draws all sprites the same size
 			//get a directly on the butt of the ship.
@@ -331,7 +344,7 @@ public class Player extends Sprite {
 					this.getScaleX()*1, this.getScaleY()*2, this.getRotation());
 		}
 
-		if(rotateRightPressed){ //draw an exast coming out of right side of nose
+		if(rotateRightPressed && !onPlanet()){ //draw an exast coming out of right side of nose
 			Vector2 P = new Vector2(getX(), getY());
 			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 			D = D.rotate(-150);
@@ -344,7 +357,7 @@ public class Player extends Sprite {
 					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-95);
 		}
 
-		if(rotateLeftPressed){ //draw an exast coming out of right side of nose
+		if(rotateLeftPressed && !onPlanet()){ //draw an exast coming out of right side of nose
 			Vector2 P = new Vector2(getX(), getY());
 			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 			D = D.rotate(325);
@@ -438,7 +451,7 @@ public class Player extends Sprite {
 		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
-		fixtureDef.friction = .2f;
+		fixtureDef.friction = .5f;
 		fixture = body.createFixture(fixtureDef);
 		body.setUserData(this);
 		shape.dispose();
@@ -564,12 +577,12 @@ public class Player extends Sprite {
 		if(onPlanet()){
 			if(rotateLeftPressed){
 				//System.out.println("impulse: " + impulse.len());
-				body.applyLinearImpulse(impulse.rotate(-90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(-90).scl(2.5f), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
 			if(rotateRightPressed){
 				//System.out.println("impulse: " + impulse.len());
-				body.applyLinearImpulse(impulse.rotate(90), pos, true);
+				body.applyLinearImpulse(impulse.rotate(90).scl(2.5f), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
 		}else{

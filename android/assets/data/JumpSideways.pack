@@ -5,46 +5,67 @@ filter: Nearest,Nearest
 repeat: none
 JumpSideway
   rotate: false
-  xy: 1, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 15
 JumpSideway
   rotate: false
-  xy: 1, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 0
 JumpSideway
   rotate: false
-  xy: 546, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 9
 JumpSideway
   rotate: false
-  xy: 546, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 12
 JumpSideway
   rotate: false
-  xy: 1091, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 7
 JumpSideway
   rotate: false
-  xy: 1091, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 13
+JumpSideway
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+JumpSideway
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 10
+JumpSideway
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
 
 JumpSideways2.png
 format: RGBA8888
@@ -52,76 +73,50 @@ filter: Nearest,Nearest
 repeat: none
 JumpSideway
   rotate: false
-  xy: 1, 838
-  size: 543, 835
-  orig: 543, 835
-  offset: 0, 0
-  index: 2
-JumpSideway
-  rotate: false
-  xy: 1, 1
-  size: 543, 835
-  orig: 543, 835
-  offset: 0, 0
-  index: 10
-JumpSideway
-  rotate: false
-  xy: 546, 838
-  size: 543, 835
-  orig: 543, 835
-  offset: 0, 0
-  index: 3
-JumpSideway
-  rotate: false
-  xy: 546, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 5
 JumpSideway
   rotate: false
-  xy: 1091, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 11
 JumpSideway
   rotate: false
-  xy: 1091, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 4
-
-JumpSideways3.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
 JumpSideway
   rotate: false
-  xy: 1, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 6
 JumpSideway
   rotate: false
-  xy: 1, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 8
 JumpSideway
   rotate: false
-  xy: 546, 838
-  size: 543, 835
-  orig: 543, 835
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 14
 JumpSideway
   rotate: false
-  xy: 546, 1
-  size: 543, 835
-  orig: 543, 835
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 1
