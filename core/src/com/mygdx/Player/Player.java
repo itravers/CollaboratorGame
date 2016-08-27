@@ -76,6 +76,8 @@ public class Player extends Sprite {
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
 
+	private int WAVE_TIME; //The number of times Stand Still Animation plays, before wave animation plays.
+
 	/**
 	 * Player Constructor
 	 * @param textureAtlas The spritesheet, etc
@@ -83,6 +85,7 @@ public class Player extends Sprite {
 	 */
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
 		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
+		WAVE_TIME = 20;
 		this.parent = parent;
 		setCurrentState(STATE.STAND_STILL_FORWARD);
 		this.setPosition(pos.x, pos.y);
@@ -114,10 +117,29 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
+		//System.out.println("CurrentAnimLoops: " + parent.getLevelManager().getPlayer().getCurrentAnimation().getLoops(stateTime));
 		//System.out.println("Mass: " + this.body.getMass());
 		/* Change state from exploading to dead if the exploading animation is done. */
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(stateTime)){
 			setCurrentState(STATE.DEAD);
+		}
+
+		/* Transition To Wave State
+		 * We want to Transition to the wave state if:
+		 * FormerState = Standing Still Forward, and:
+		 * Stand Still Forward Animation has played WAVE_TIME times.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD && currentAnimation.getLoops(stateTime) >= WAVE_TIME){
+			setCurrentState(STATE.WAVE);
+		}
+
+		/* Transition From Wave State To Standing Still Forward State .
+		 * We want to transition to the standing still forward state if:
+		 * The former state is WAVE, and:
+		 * WAVE has looped more than 1 time.
+		 */
+		if(getCurrentState() == STATE.WAVE && currentAnimation.getLoops(stateTime) >= 1){
+			setCurrentState(STATE.STAND_STILL_FORWARD);
 		}
 
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
@@ -532,7 +554,7 @@ public class Player extends Sprite {
 	 * @param currentState
 	 */
 	public void setCurrentState(STATE currentState) {
-		//System.out.println("Setting State to: " + currentState);
+		System.out.println("Setting State to: " + currentState);
 		if(currentState == STATE.EXPLOADING){
 			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(currentState == STATE.DEAD){
@@ -554,6 +576,7 @@ public class Player extends Sprite {
 		//System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;
 		stateTime = 0;
+		chooseAnimation();
 	}
 
 	public Vector2 getGravityForce() {
