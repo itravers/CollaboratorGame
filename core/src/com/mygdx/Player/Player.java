@@ -78,6 +78,9 @@ public class Player extends Sprite {
 
 	private int WAVE_TIME = 20; //The number of times Stand Still Animation plays, before wave animation plays.
 	private int STANDING_STILL_SIDEWAYS_TIME = 4;
+	private float WALK_SLOW_THRESHOLD = 5f;
+	private float RUN_SLOW_THRESHOLD = 20f;
+	private float RUN_FAST_THRESHOLD = 60f;
 
 	/**
 	 * Player Constructor
@@ -156,6 +159,102 @@ public class Player extends Sprite {
 					setCurrentState(STATE.STAND_STILL_FORWARD);
 		}
 
+		/* State Transition: WalkSlow -> StandStillSideways
+		 * We want to transition to the StandingStillSideways state if:
+		 * 1. Former State is WalkSlow, and:
+		 * 2. Avatar has stopped moving.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW && getBody().getLinearVelocity().len2() < .001){
+			setCurrentState(STATE.STAND_STILL_SIDEWAYS);
+		}
+
+		/* State Transition: STAND_STILL_FORWARD -> WALK_SLOW
+		 * 1. Avatar must have a "walk input" ie rotate input when on planet.
+		 * 2. Former State must be STAND_STILL_FORWARD
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD){
+			if(onPlanet()){
+				if(rotateRightPressed || rotateLeftPressed){
+					setCurrentState(STATE.WALK_SLOW);
+				}
+			}
+		}
+
+		/* State Transition: STAND_STILL_SIDEWAYS -> WALK_SLOW
+		 * 1. Avatar must have a "walk input" ie rotate input when on planet.
+		 * 2. Former State must be STAND_STILL_SIDEWAYS
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS){
+			if(onPlanet()){
+				if(rotateRightPressed || rotateLeftPressed){
+					setCurrentState(STATE.WALK_SLOW);
+				}
+			}
+		}
+
+		/* State Transition: WALK_FAST -> WALK_SLOW
+		 * 1. Former State must be WALK_FAST
+		 * 2. Avatar Velocity Must be below WALK_SLOW threshold.
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(getBody().getLinearVelocity().len2() < WALK_SLOW_THRESHOLD){
+					setCurrentState(STATE.WALK_SLOW);
+			}
+		}
+
+		/* State Transition: WALK_SLOW -> WALK_FAST
+		 * 1. Former State must be WALK_SLOW, and:
+		 * 2. Avatar Velocity Must be above WALK_SLOW threshold.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW){
+			if(getBody().getLinearVelocity().len2() >= WALK_SLOW_THRESHOLD){
+				setCurrentState(STATE.WALK_FAST);
+
+			}
+		}
+
+		/* State Transition: RUN_SLOW -> WALK_FAST
+		 * 1. Former State Must be RUN_SLOW, and:
+		 * 2. Avatar Velocity must be below RUN_SLOW_THRESHOLD.
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(getBody().getLinearVelocity().len2() < RUN_SLOW_THRESHOLD){
+				setCurrentState(STATE.WALK_FAST);
+			}
+		}
+
+		/* State Transition: WALK_FAST -> RUN_SLOW
+		 * 1. Former State must be WALK_FAST, and:
+		 * 2. Avatar Velocity must be above or equal to RUN_SLOW_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(getBody().getLinearVelocity().len2() >= RUN_SLOW_THRESHOLD){
+				setCurrentState(STATE.RUN_SLOW);
+			}
+		}
+
+		/* State Transition: RUN_FAST -> RUN_SLOW
+		 * 1. Former State must be RUN_FAST, and:
+		 * 2. Avatar Velocity must be blow RUN_FAST_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.RUN_FAST){
+			if(getBody().getLinearVelocity().len2() < RUN_FAST_THRESHOLD){
+				setCurrentState(STATE.RUN_SLOW);
+			}
+		}
+
+		/* State Transition: RUN_SLOW -> RUN_FAST
+		 * 1. Former State must be RUN_SLOW, and:
+		 * 2. Avatar Velocity must be above or equal to RUN_FAST_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(getBody().getLinearVelocity().len2() >= RUN_FAST_THRESHOLD){
+				setCurrentState(STATE.RUN_FAST);
+			}
+		}
+
+
+		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
 		  * and we were previously in the mentioned states.*/
@@ -464,12 +563,12 @@ public class Player extends Sprite {
 		 */
 		if(onPlanet()){
 			if(rotateLeftPressed){
-				System.out.println("impulse: " + impulse.len());
+				//System.out.println("impulse: " + impulse.len());
 				body.applyLinearImpulse(impulse.rotate(-90), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
 			if(rotateRightPressed){
-				System.out.println("impulse: " + impulse.len());
+				//System.out.println("impulse: " + impulse.len());
 				body.applyLinearImpulse(impulse.rotate(90), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
