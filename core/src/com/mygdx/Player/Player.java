@@ -29,6 +29,15 @@ import com.mygdx.input.GameInput;
  */
 public class Player extends Sprite {
 	GameWorld parent;
+
+	public Animation getCurrentAnimation() {
+		return currentAnimation;
+	}
+
+	public void setCurrentAnimation(Animation currentAnimation) {
+		this.currentAnimation = currentAnimation;
+	}
+
 	// Rendering Oriented Fields
 	private Animation currentAnimation;
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.

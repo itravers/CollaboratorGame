@@ -24,6 +24,8 @@ public class InputManager implements InputProcessor{
     @Override
     public boolean keyDown(int keycode) {
 
+        System.out.println("CurrentAnimLoops: " + parent.getLevelManager().getPlayer().getCurrentAnimation().getLoops());
+
         Vector2 vel = getPlayer().getBody().getLinearVelocity();
         float angularVelocity = getPlayer().getBody().getAngularVelocity();
         if(keycode == Input.Keys.W && vel.dst2(vel) <= getPlayer().MAX_VELOCITY){

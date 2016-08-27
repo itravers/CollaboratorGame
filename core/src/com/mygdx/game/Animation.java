@@ -211,4 +211,13 @@ public class Animation {
     public float getAnimationDuration () {
         return animationDuration;
     }
+
+    /**
+     * Returns The number of times this animation has looped since it has been in this state.
+     */
+    public float getLoops(){
+        float dur = getAnimationDuration();
+        float stateTime = lastStateTime;
+        return stateTime / dur;
+    }
 }
