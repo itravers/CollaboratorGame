@@ -400,7 +400,31 @@ public class Player extends Sprite {
 		 */
 		if(getCurrentState() == STATE.FLOAT_SIDEWAYS){
 			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
-				setCurrentState(STATE.LAND_SIDEWAYS);
+					setCurrentState(STATE.LAND_SIDEWAYS);
+
+			}
+		}
+
+		/* State Transition: JUMP_SIDEWAYS -> LAND_SIDEWAYS
+		 * 1. Former State must be JUMP_SIDEWAYS
+		 * 2. Avatar is within LANDING_DISTANCE
+		 * 3. JUMP_SIDEWAYS animation has played at least once.
+		 */
+		/*if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+					setCurrentState(STATE.LAND_SIDEWAYS);
+				}
+			}
+		}*/
+
+		/* State Transition: LAND_SIDEWAYS -> STAND_STILL_SIDEWAYS
+		 * 1. Former State must be LAND_SIDEWAYS.
+		 * 2. Former animation has looped once.
+		 */
+		if(getCurrentState() == STATE.LAND_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				setCurrentState(STATE.STAND_STILL_SIDEWAYS);
 			}
 		}
 
