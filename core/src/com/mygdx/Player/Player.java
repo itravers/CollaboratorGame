@@ -394,6 +394,18 @@ public class Player extends Sprite {
 			}
 		}
 
+		/* State Transition: FLOAT_SIDEWAYS -> LAND_SIDEWAYS
+		 * 1. Former State must be FLOAT_SIDEWAYS, and:
+		 * 2. Avatar is within FLYING_DISTANCE of nearest planet.
+		 */
+		if(getCurrentState() == STATE.FLOAT_SIDEWAYS){
+			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+				setCurrentState(STATE.LAND_SIDEWAYS);
+			}
+		}
+
+
+
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
