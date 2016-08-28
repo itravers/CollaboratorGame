@@ -70,6 +70,7 @@ public class RenderManager {
         System.out.println("setup Rendering");
         System.out.println("W x H: " + Gdx.graphics.getWidth() + " x " + Gdx.graphics.getHeight());
         fpsLogger = new FPSLogger();
+
         red = new Color(193/255f, 39/255f, 45/255f, .5f);
         green = new Color(55/255f, 255/255f, 55/255f, .5f);
         blue = new Color(0/255f, 210/255f, 246/255f, .5f);
@@ -389,7 +390,7 @@ public class RenderManager {
      * @param elapsedTime The elapsed Time
      */
     public void render(float elapsedTime){
-        fpsLogger.log();
+       // fpsLogger.log();
         int level = parent.getLevelManager().getLevel();
         switch (level){
             case 0: //Pregame menu

@@ -3,120 +3,120 @@ FloatingSideways.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-FloatingSideway
+FloatingSideways
   rotate: false
-  xy: 1, 1175
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 7
-FloatingSideway
-  rotate: false
-  xy: 1, 588
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 8
-FloatingSideway
-  rotate: false
-  xy: 468, 1175
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 1
-FloatingSideway
-  rotate: false
-  xy: 1, 1
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 3
-FloatingSideway
-  rotate: false
-  xy: 468, 588
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 6
-FloatingSideway
-  rotate: false
-  xy: 935, 1175
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 0
-FloatingSideway
-  rotate: false
-  xy: 468, 1
-  size: 465, 585
-  orig: 465, 585
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 5
-FloatingSideway
+FloatingSideways
   rotate: false
-  xy: 935, 588
-  size: 465, 585
-  orig: 465, 585
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 2
-FloatingSideway
+  index: 7
+FloatingSideways
   rotate: false
-  xy: 1402, 1175
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 9
-FloatingSideway
-  rotate: false
-  xy: 935, 1
-  size: 465, 585
-  orig: 465, 585
-  offset: 0, 0
-  index: 13
-FloatingSideway
-  rotate: false
-  xy: 1402, 588
-  size: 465, 585
-  orig: 465, 585
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 14
-FloatingSideway
+FloatingSideways
   rotate: false
-  xy: 1402, 1
-  size: 465, 585
-  orig: 465, 585
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+FloatingSideways
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 4
+FloatingSideways
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+FloatingSideways
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 9
+FloatingSideways
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 11
+FloatingSideways
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 8
 
 FloatingSideways2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-FloatingSideway
+FloatingSideways
+  rotate: false
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 6
+FloatingSideways
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 0
+FloatingSideways
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+FloatingSideways
   rotate: false
   xy: 1, 1
-  size: 465, 585
-  orig: 465, 585
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 4
-FloatingSideway
+  index: 13
+FloatingSideways
   rotate: false
-  xy: 468, 1
-  size: 465, 585
-  orig: 465, 585
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 15
-FloatingSideway
+FloatingSideways
   rotate: false
-  xy: 935, 1
-  size: 465, 585
-  orig: 465, 585
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 12
-FloatingSideway
+  index: 1
+FloatingSideways
   rotate: false
-  xy: 1402, 1
-  size: 465, 585
-  orig: 465, 585
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 10

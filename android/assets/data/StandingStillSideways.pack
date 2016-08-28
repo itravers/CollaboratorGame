@@ -3,120 +3,120 @@ StandingStillSideways.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-StandingStillSideway
+StandingStillSideways
   rotate: false
-  xy: 1, 1349
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 15
-StandingStillSideway
-  rotate: false
-  xy: 1, 675
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 7
-StandingStillSideway
-  rotate: false
-  xy: 351, 1349
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 13
-StandingStillSideway
-  rotate: false
-  xy: 1, 1
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 12
-StandingStillSideway
-  rotate: false
-  xy: 351, 675
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 8
-StandingStillSideway
-  rotate: false
-  xy: 701, 1349
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 0
-StandingStillSideway
-  rotate: false
-  xy: 351, 1
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 5
-StandingStillSideway
-  rotate: false
-  xy: 701, 675
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 1
-StandingStillSideway
-  rotate: false
-  xy: 1051, 1349
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 6
-StandingStillSideway
-  rotate: false
-  xy: 701, 1
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 3
-StandingStillSideway
-  rotate: false
-  xy: 1051, 675
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 10
-StandingStillSideway
-  rotate: false
-  xy: 1401, 1349
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 14
-StandingStillSideway
-  rotate: false
-  xy: 1051, 1
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 2
-StandingStillSideway
-  rotate: false
-  xy: 1401, 675
-  size: 348, 672
-  orig: 348, 672
-  offset: 0, 0
-  index: 9
-StandingStillSideway
-  rotate: false
-  xy: 1401, 1
-  size: 348, 672
-  orig: 348, 672
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 11
+StandingStillSideways
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 5
+StandingStillSideways
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+StandingStillSideways
+  rotate: false
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 9
+StandingStillSideways
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 4
+StandingStillSideways
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 10
+StandingStillSideways
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 8
+StandingStillSideways
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 14
+StandingStillSideways
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 0
 
 StandingStillSideways2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-StandingStillSideway
+StandingStillSideways
+  rotate: false
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 15
+StandingStillSideways
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 6
+StandingStillSideways
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+StandingStillSideways
   rotate: false
   xy: 1, 1
-  size: 348, 672
-  orig: 348, 672
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 4
+  index: 13
+StandingStillSideways
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 1
+StandingStillSideways
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+StandingStillSideways
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7

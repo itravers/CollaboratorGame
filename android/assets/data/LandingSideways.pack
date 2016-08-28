@@ -3,120 +3,120 @@ LandingSideways.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-LandingSideway
+LandingSideways
   rotate: false
-  xy: 1, 724
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 5
-LandingSideway
-  rotate: false
-  xy: 1, 1
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 2
-LandingSideway
-  rotate: false
-  xy: 512, 724
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 6
-LandingSideway
-  rotate: false
-  xy: 512, 1
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 4
-LandingSideway
-  rotate: false
-  xy: 1023, 724
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 3
-LandingSideway
-  rotate: false
-  xy: 1023, 1
-  size: 509, 721
-  orig: 509, 721
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 9
-LandingSideway
+LandingSideways
   rotate: false
-  xy: 1534, 724
-  size: 509, 721
-  orig: 509, 721
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+LandingSideways
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 8
+LandingSideways
+  rotate: false
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+LandingSideways
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 11
+LandingSideways
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7
+LandingSideways
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 13
-LandingSideway
+LandingSideways
   rotate: false
-  xy: 1534, 1
-  size: 509, 721
-  orig: 509, 721
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 14
+  index: 0
+LandingSideways
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 1
 
 LandingSideways2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-LandingSideway
+LandingSideways
   rotate: false
-  xy: 1, 724
-  size: 509, 721
-  orig: 509, 721
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 8
-LandingSideway
+  index: 5
+LandingSideways
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 14
+LandingSideways
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 6
+LandingSideways
   rotate: false
   xy: 1, 1
-  size: 509, 721
-  orig: 509, 721
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 0
-LandingSideway
+  index: 4
+LandingSideways
   rotate: false
-  xy: 512, 724
-  size: 509, 721
-  orig: 509, 721
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 10
-LandingSideway
+  index: 2
+LandingSideways
   rotate: false
-  xy: 512, 1
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 11
-LandingSideway
-  rotate: false
-  xy: 1023, 724
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 12
-LandingSideway
-  rotate: false
-  xy: 1023, 1
-  size: 509, 721
-  orig: 509, 721
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 15
-LandingSideway
+LandingSideways
   rotate: false
-  xy: 1534, 724
-  size: 509, 721
-  orig: 509, 721
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 1
-LandingSideway
-  rotate: false
-  xy: 1534, 1
-  size: 509, 721
-  orig: 509, 721
-  offset: 0, 0
-  index: 7
+  index: 10

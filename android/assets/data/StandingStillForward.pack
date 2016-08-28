@@ -3,115 +3,120 @@ StandingStillForward.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-StandingStillForwar
+StandingStillForward
   rotate: false
-  xy: 1, 1243
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 9
-StandingStillForwar
-  rotate: false
-  xy: 1, 622
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 2
-StandingStillForwar
-  rotate: false
-  xy: 309, 1243
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 15
-StandingStillForwar
-  rotate: false
-  xy: 1, 1
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 10
-StandingStillForwar
-  rotate: false
-  xy: 309, 622
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 0
-StandingStillForwar
-  rotate: false
-  xy: 617, 1243
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 4
-StandingStillForwar
-  rotate: false
-  xy: 309, 1
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 1
-StandingStillForwar
-  rotate: false
-  xy: 617, 622
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 14
-StandingStillForwar
-  rotate: false
-  xy: 925, 1243
-  size: 306, 619
-  orig: 306, 619
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 3
-StandingStillForwar
+StandingStillForward
   rotate: false
-  xy: 617, 1
-  size: 306, 619
-  orig: 306, 619
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 13
-StandingStillForwar
+  index: 0
+StandingStillForward
   rotate: false
-  xy: 925, 622
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 5
-StandingStillForwar
-  rotate: false
-  xy: 1233, 1243
-  size: 306, 619
-  orig: 306, 619
-  offset: 0, 0
-  index: 8
-StandingStillForwar
-  rotate: false
-  xy: 925, 1
-  size: 306, 619
-  orig: 306, 619
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 11
-StandingStillForwar
+StandingStillForward
   rotate: false
-  xy: 1233, 622
-  size: 306, 619
-  orig: 306, 619
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 12
-StandingStillForwar
+  index: 9
+StandingStillForward
   rotate: false
-  xy: 1541, 1243
-  size: 306, 619
-  orig: 306, 619
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+StandingStillForward
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 14
+StandingStillForward
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 4
+StandingStillForward
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 5
+StandingStillForward
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 10
+
+StandingStillForward2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+StandingStillForward
+  rotate: false
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 8
+StandingStillForward
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 13
+StandingStillForward
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 7
-StandingStillForwar
+StandingStillForward
   rotate: false
-  xy: 1233, 1
-  size: 306, 619
-  orig: 306, 619
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+StandingStillForward
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 6
+StandingStillForward
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 1
+StandingStillForward
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 15
