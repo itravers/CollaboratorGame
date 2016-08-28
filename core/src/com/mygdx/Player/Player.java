@@ -298,7 +298,7 @@ public class Player extends Sprite {
 		 * 3. Avatar is moving towards nearest planet.
 		 */
 		if(getCurrentState() == STATE.FLYING){
-			System.out.println("DIST: " + getDistanceFromClosestPlanet());
+			//System.out.println("DIST: " + getDistanceFromClosestPlanet());
 			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
 				setCurrentState(STATE.LAND_FORWARD);
 			}
@@ -311,6 +311,16 @@ public class Player extends Sprite {
 		if(getCurrentState() == STATE.LAND_FORWARD){
 			if(currentAnimation.getLoops(stateTime) >= .9){
 				setCurrentState(STATE.STAND_STILL_FORWARD);
+			}
+		}
+
+		/* State Transition: WAVE -> JUMP_FORWARD
+		 * 1. Former state must be WAVE.
+		 * 2. AVATAR must have JUMP input.
+		 */
+		if(getCurrentState() == STATE.WAVE){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_FORWARD);
 			}
 		}
 
