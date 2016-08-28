@@ -428,6 +428,18 @@ public class Player extends Sprite {
 			}
 		}
 
+		/* State Transition: FLOAT_SIDEWAYS -> FLYING
+		 * 1. Former State Must be FLOAT_SIDEWAYS, and:
+		 * 2. Avatar is FLYING_DISTANCE away from planet.
+		 * 3. Avatar has a thruster input.
+		 */
+		if(getCurrentState() == STATE.FLOAT_SIDEWAYS){
+			if(getDistanceFromClosestPlanet() >= FLYING_DISTANCE){
+				if(backwardPressed || forwardPressed || rotateLeftPressed || rotateRightPressed){
+					setCurrentState(STATE.FLYING);
+				}
+			}
+		}
 
 
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
@@ -723,6 +735,7 @@ public class Player extends Sprite {
 	private void applyInput(float elapsedTime){
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		Vector2 impulse;
+		Vector2 baseImpulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
 		//System.out.println("boostTime: " + boostTime);
 		//System.out.println("elapsedTime " + deltaTime);
 		if(boostPressed && boostTime > 0){
@@ -731,10 +744,10 @@ public class Player extends Sprite {
 			boostTime -= deltaTime;
 		}else if(boostPressed && boostTime <= 0){
 			boostPressed = false;
-			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+			impulse = baseImpulse;
 
 		}else{
-			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+			impulse = baseImpulse;
 		}
 		
 		Vector2 pos = body.getPosition();
