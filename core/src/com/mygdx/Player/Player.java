@@ -73,6 +73,7 @@ public class Player extends Sprite {
 	public boolean rotateRightPressed;
 	public boolean rotateLeftPressed;
 	public boolean boostPressed;
+	public boolean jumpPressed;
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
 
@@ -81,6 +82,7 @@ public class Player extends Sprite {
 	private float WALK_SLOW_THRESHOLD = 5f;
 	private float RUN_SLOW_THRESHOLD = 20f;
 	private float RUN_FAST_THRESHOLD = 60f;
+	private float FLYING_DISTANCE = 3.5F;
 
 	/**
 	 * Player Constructor
@@ -111,6 +113,7 @@ public class Player extends Sprite {
 		backwardPressed = false;
 		rotateLeftPressed = false;
 		rotateRightPressed = false;
+		jumpPressed = false;
 		inputList = new ArrayList<GameInput>();
 	}
 
@@ -253,14 +256,49 @@ public class Player extends Sprite {
 			}
 		}
 
+		/* State Transition: STAND_STILL_FORWARD -> JUMP_FORWARD
+		 * 1. Former State Must be STAND_STILL_FORWARD, and:
+		 * 2. Avatar has the "Jump Input"
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_FORWARD);
+			}
+		}
+
+		/* Check if current state is JUMP_FORWARD and animation has played 1 time
+		 * If So: apply a jump impulse to avatar
+		 */
+
+
+		/* State Transition: JUMP_FORWARD -> Flying
+		 * 1. Former State Must be Jump_Forward
+		 * 2. Avatar must be FLYING_DISTANCE away from planet.
+		 * 3. JUMP_FORWARD animation has played through once.
+		 */
+		if(getCurrentState() == STATE.JUMP_FORWARD){
+			if(getDistanceFromClosestPlanet() >= FLYING_DISTANCE){
+				setCurrentState(STATE.FLYING);
+			}
+
+		}
+
+		if(getCurrentState() == STATE.JUMP_FORWARD){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(20f);
+				System.out.println("Applying Impulse: " + impulse);
+				getBody().applyLinearImpulse(impulse, getBody().getPosition(), true);
+			}
+		}
+
 
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
 		  * and we were previously in the mentioned states.*/
-		if((getCurrentState() == STATE.JUMP_FORWARD || getCurrentState() == STATE.FLOAT_SIDEWAYS) && getDistanceFromClosestPlanet() > 3.5){
-			setCurrentState(STATE.FLYING);
-		}
+		//if((getCurrentState() == STATE.JUMP_FORWARD || getCurrentState() == STATE.FLOAT_SIDEWAYS) && getDistanceFromClosestPlanet() > 3.5){
+		//	setCurrentState(STATE.FLYING);
+		//}
 
 		//boolean lastFrame = false;
 		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
