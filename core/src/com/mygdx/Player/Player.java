@@ -83,6 +83,7 @@ public class Player extends Sprite {
 	private float RUN_SLOW_THRESHOLD = 20f;
 	private float RUN_FAST_THRESHOLD = 60f;
 	private float FLYING_DISTANCE = 3.5F;
+	private float LANDING_DISTANCE = FLYING_DISTANCE /2 ;
 
 	/**
 	 * Player Constructor
@@ -286,11 +287,32 @@ public class Player extends Sprite {
 		if(getCurrentState() == STATE.JUMP_FORWARD){
 			if(currentAnimation.getLoops(stateTime) >= .9){
 				Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(20f);
-				System.out.println("Applying Impulse: " + impulse);
+				//System.out.println("Applying Impulse: " + impulse);
 				getBody().applyLinearImpulse(impulse, getBody().getPosition(), true);
 			}
 		}
 
+		/* State Transition: FLYING -> LAND_FORWARD
+		 * 1. Former State must be FLYING
+		 * 2. Avatar is withing LANDING_DISTANCE of the nearest planet.
+		 * 3. Avatar is moving towards nearest planet.
+		 */
+		if(getCurrentState() == STATE.FLYING){
+			System.out.println("DIST: " + getDistanceFromClosestPlanet());
+			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+				setCurrentState(STATE.LAND_FORWARD);
+			}
+		}
+
+		/* State Transition: Land Forward -> Standing Still Forward
+		 * 1. Former State must be Land Forward.
+		 * 2. Former Animation must have looped once.
+		 */
+		if(getCurrentState() == STATE.LAND_FORWARD){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				setCurrentState(STATE.STAND_STILL_FORWARD);
+			}
+		}
 
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
