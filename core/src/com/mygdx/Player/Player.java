@@ -735,11 +735,11 @@ public class Player extends Sprite {
 	private void applyInput(float elapsedTime){
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		Vector2 impulse;
-		Vector2 baseImpulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(2f);
+		Vector2 baseImpulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(4f);
 		//System.out.println("boostTime: " + boostTime);
 		//System.out.println("elapsedTime " + deltaTime);
 		if(boostPressed && boostTime > 0){
-			impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(4f);
+			impulse = baseImpulse.scl(2f);
 			//update boost time
 			boostTime -= deltaTime;
 		}else if(boostPressed && boostTime <= 0){

@@ -1,12 +1,22 @@
 [
   {
     "type": "planet",
-    "atlas": "Planet 01",
+    "atlas": "Moon",
     "xLoc": 0,
-    "yLoc": 0,
-    "mass": 65000,
-    "size": 60,
-    "gravityRadius": 1000,
+    "yLoc": -3000,
+    "mass": 400000,
+    "size": 1400,
+    "gravityRadius": 5000,
+    "extraInfo": ""
+  },
+  {
+    "type": "planet",
+    "atlas": "Planet 02",
+    "xLoc": 0,
+    "yLoc": 3000,
+    "mass": 400000,
+    "size": 1400,
+    "gravityRadius": 4000,
     "extraInfo": ""
   },
   {
@@ -15,16 +25,17 @@
     "xLoc": 0,
     "yLoc": 0,
     "mass": 0,
-    "size": 50,
-    "extraInfo": "0"
+    "size": 0,
+    "extraInfo": "1"
   },
   {
     "type": "player",
     "atlas": "shipAtlas",
-    "xLoc": 0,
-    "yLoc": 500,
+    "xLoc": 680,
+    "yLoc": -2000,
     "mass": 0,
     "size": 0,
     "extraInfo": ""
   }
+
 ]
