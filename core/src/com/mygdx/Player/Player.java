@@ -324,6 +324,56 @@ public class Player extends Sprite {
 			}
 		}
 
+		/* State Transition WALK_SLOW -> JUMP_SIDEWAYS
+		 * 1. Former State Must be WALK_SLOW, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition STAND_STILL_SIDEWAYS -> JUMP_SIDEWAYS
+		 * 1. Former State Must be STAND_STILL_SIDEWAYS
+		 * 2. Avatar must have "Jump" Input.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition WALk_FAST -> JUMP_SIDEWAYS
+		 * 1. Former State Must be WALK_FAST, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition RUN_SLOW -> JUMP_SIDEWAYS
+		 * 1. Former State Must be RUN_SLOW, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition RUN_FAST -> JUMP_SIDEWAYS
+		 * 1. Former State Must be RUN_FAST, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.RUN_FAST){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
