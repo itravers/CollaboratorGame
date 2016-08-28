@@ -374,6 +374,26 @@ public class Player extends Sprite {
 			}
 		}
 
+		/* State Transition: JUMP_SIDEWAYS -> FLOAT_SIDEWAYS
+		 * 1. Former State Must be JUMP_SIDEWAYS
+		 * 2. Avatar must be FLYING_DISTANCE away from planet.
+		 */
+		if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(getDistanceFromClosestPlanet() >= FLYING_DISTANCE){
+				setCurrentState(STATE.FLOAT_SIDEWAYS);
+			}
+
+		}
+
+		/* Apply Jump Impulse After Jump Animation Completes. */
+		if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(20f);
+				//System.out.println("Applying Impulse: " + impulse);
+				getBody().applyLinearImpulse(impulse, getBody().getPosition(), true);
+			}
+		}
+
 		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
