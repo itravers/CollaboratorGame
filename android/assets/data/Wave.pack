@@ -3,120 +3,120 @@ Wave.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Wav
+Wave
   rotate: false
-  xy: 1, 1229
-  size: 467, 612
-  orig: 467, 612
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 2
-Wav
+  index: 4
+Wave
   rotate: false
-  xy: 1, 615
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 3
-Wav
-  rotate: false
-  xy: 470, 1229
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 9
-Wav
-  rotate: false
-  xy: 1, 1
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 8
-Wav
-  rotate: false
-  xy: 470, 615
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 0
-Wav
-  rotate: false
-  xy: 939, 1229
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 12
-Wav
-  rotate: false
-  xy: 470, 1
-  size: 467, 612
-  orig: 467, 612
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 6
-Wav
+Wave
   rotate: false
-  xy: 939, 615
-  size: 467, 612
-  orig: 467, 612
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+Wave
+  rotate: false
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 9
+Wave
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7
+Wave
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+Wave
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 8
+Wave
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 1
-Wav
+Wave
   rotate: false
-  xy: 1408, 1229
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 11
-Wav
-  rotate: false
-  xy: 939, 1
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 14
-Wav
-  rotate: false
-  xy: 1408, 615
-  size: 467, 612
-  orig: 467, 612
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 5
-Wav
-  rotate: false
-  xy: 1408, 1
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 10
 
 Wave2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Wav
+Wave
+  rotate: false
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+Wave
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 14
+Wave
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 10
+Wave
   rotate: false
   xy: 1, 1
-  size: 467, 612
-  orig: 467, 612
-  offset: 0, 0
-  index: 13
-Wav
-  rotate: false
-  xy: 470, 1
-  size: 467, 612
-  orig: 467, 612
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 15
-Wav
+Wave
   rotate: false
-  xy: 939, 1
-  size: 467, 612
-  orig: 467, 612
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 4
-Wav
+  index: 0
+Wave
   rotate: false
-  xy: 1408, 1
-  size: 467, 612
-  orig: 467, 612
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 7
+  index: 11
+Wave
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 13

@@ -3,120 +3,120 @@ WalkFast.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-WalkFas
+WalkFast
   rotate: false
-  xy: 1, 708
-  size: 477, 705
-  orig: 477, 705
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 15
-WalkFas
+  index: 13
+WalkFast
+  rotate: false
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 6
+WalkFast
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 14
+WalkFast
   rotate: false
   xy: 1, 1
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 8
-WalkFas
-  rotate: false
-  xy: 480, 708
-  size: 477, 705
-  orig: 477, 705
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 0
-WalkFas
+WalkFast
   rotate: false
-  xy: 480, 1
-  size: 477, 705
-  orig: 477, 705
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 7
-WalkFas
+  index: 15
+WalkFast
   rotate: false
-  xy: 959, 708
-  size: 477, 705
-  orig: 477, 705
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 12
-WalkFas
+  index: 8
+WalkFast
   rotate: false
-  xy: 959, 1
-  size: 477, 705
-  orig: 477, 705
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 10
-WalkFas
+WalkFast
   rotate: false
-  xy: 1438, 708
-  size: 477, 705
-  orig: 477, 705
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 2
-WalkFas
+  index: 11
+WalkFast
   rotate: false
-  xy: 1438, 1
-  size: 477, 705
-  orig: 477, 705
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 3
+  index: 9
 
 WalkFast2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-WalkFas
+WalkFast
   rotate: false
-  xy: 1, 708
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 9
-WalkFas
-  rotate: false
-  xy: 1, 1
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 4
-WalkFas
-  rotate: false
-  xy: 480, 708
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 13
-WalkFas
-  rotate: false
-  xy: 480, 1
-  size: 477, 705
-  orig: 477, 705
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 1
-WalkFas
+WalkFast
   rotate: false
-  xy: 959, 708
-  size: 477, 705
-  orig: 477, 705
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7
+WalkFast
+  rotate: false
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 12
+WalkFast
+  rotate: false
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+WalkFast
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+WalkFast
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 4
+WalkFast
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 5
-WalkFas
-  rotate: false
-  xy: 959, 1
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 11
-WalkFas
-  rotate: false
-  xy: 1438, 708
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 14
-WalkFas
-  rotate: false
-  xy: 1438, 1
-  size: 477, 705
-  orig: 477, 705
-  offset: 0, 0
-  index: 6

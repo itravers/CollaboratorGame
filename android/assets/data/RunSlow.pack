@@ -3,92 +3,92 @@ RunSlow.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-RunSlo
+RunSlow
   rotate: false
-  xy: 1, 1349
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 5
-RunSlo
-  rotate: false
-  xy: 1, 675
-  size: 537, 672
-  orig: 537, 672
+  xy: 1, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 1
-RunSlo
+RunSlow
   rotate: false
-  xy: 540, 1349
-  size: 537, 672
-  orig: 537, 672
+  xy: 1, 679
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 10
-RunSlo
+  index: 5
+RunSlow
   rotate: false
-  xy: 1, 1
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 2
-RunSlo
-  rotate: false
-  xy: 540, 675
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 7
-RunSlo
-  rotate: false
-  xy: 1079, 1349
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 0
-RunSlo
-  rotate: false
-  xy: 540, 1
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 4
-RunSlo
-  rotate: false
-  xy: 1079, 675
-  size: 537, 672
-  orig: 537, 672
-  offset: 0, 0
-  index: 6
-RunSlo
-  rotate: false
-  xy: 1079, 1
-  size: 537, 672
-  orig: 537, 672
+  xy: 679, 1357
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 8
+RunSlow
+  rotate: false
+  xy: 1, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 7
+RunSlow
+  rotate: false
+  xy: 679, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 11
+RunSlow
+  rotate: false
+  xy: 1357, 1357
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 6
+RunSlow
+  rotate: false
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 3
+RunSlow
+  rotate: false
+  xy: 1357, 679
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 2
+RunSlow
+  rotate: false
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
+  offset: 0, 0
+  index: 10
 
 RunSlow2.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-RunSlo
+RunSlow
   rotate: false
   xy: 1, 1
-  size: 537, 672
-  orig: 537, 672
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
   index: 9
-RunSlo
+RunSlow
   rotate: false
-  xy: 540, 1
-  size: 537, 672
-  orig: 537, 672
+  xy: 679, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 11
-RunSlo
+  index: 4
+RunSlow
   rotate: false
-  xy: 1079, 1
-  size: 537, 672
-  orig: 537, 672
+  xy: 1357, 1
+  size: 676, 676
+  orig: 676, 676
   offset: 0, 0
-  index: 3
+  index: 0

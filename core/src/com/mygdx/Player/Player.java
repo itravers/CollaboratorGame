@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mygdx.game.Animation;
 import com.mygdx.game.AnimationManager;
 import com.mygdx.game.GameWorld;
 import com.mygdx.game.MyGdxGame;
@@ -29,6 +29,15 @@ import com.mygdx.input.GameInput;
  */
 public class Player extends Sprite {
 	GameWorld parent;
+
+	public Animation getCurrentAnimation() {
+		return currentAnimation;
+	}
+
+	public void setCurrentAnimation(Animation currentAnimation) {
+		this.currentAnimation = currentAnimation;
+	}
+
 	// Rendering Oriented Fields
 	private Animation currentAnimation;
 	private float lastFrameTime = 0; //Used by gravity to calculate the time since last frame.
@@ -64,8 +73,17 @@ public class Player extends Sprite {
 	public boolean rotateRightPressed;
 	public boolean rotateLeftPressed;
 	public boolean boostPressed;
+	public boolean jumpPressed;
 	public ArrayList<GameInput>inputList;
 	public float stateTime;
+
+	private int WAVE_TIME = 5; //The number of times Stand Still Animation plays, before wave animation plays.
+	private int STANDING_STILL_SIDEWAYS_TIME = 4;
+	private float WALK_SLOW_THRESHOLD = 5f;
+	private float RUN_SLOW_THRESHOLD = 20f;
+	private float RUN_FAST_THRESHOLD = 60f;
+	private float FLYING_DISTANCE = 3.5F;
+	private float LANDING_DISTANCE = FLYING_DISTANCE /2 ;
 
 	/**
 	 * Player Constructor
@@ -73,9 +91,9 @@ public class Player extends Sprite {
 	 * @param world The physics world the player exists in.
 	 */
 	public Player(Vector2 pos, TextureAtlas textureAtlas, World world, GameWorld parent){
-		super(textureAtlas.getRegions().first(), 0, 0, 32, 40);
+		super(textureAtlas.getRegions().first(), 0, 0, 50, 50);
 		this.parent = parent;
-		setCurrentState(STATE.WALK_SLOW);
+		setCurrentState(STATE.STAND_STILL_FORWARD);
 		this.setPosition(pos.x, pos.y);
 		boostTime = TOTAL_BOOST_TIME;
 		health = MAX_HEALTH;
@@ -96,6 +114,7 @@ public class Player extends Sprite {
 		backwardPressed = false;
 		rotateLeftPressed = false;
 		rotateRightPressed = false;
+		jumpPressed = false;
 		inputList = new ArrayList<GameInput>();
 	}
 
@@ -105,24 +124,338 @@ public class Player extends Sprite {
 	 * @param batch The GL batch renderer.
 	 */
 	public void render(float elapsedTime, SpriteBatch batch){
+		//System.out.println("CurrentAnimLoops: " + parent.getLevelManager().getPlayer().getCurrentAnimation().getLoops(stateTime));
 		//System.out.println("Mass: " + this.body.getMass());
 		/* Change state from exploading to dead if the exploading animation is done. */
 		if(getCurrentState() == STATE.EXPLOADING && currentAnimation.isAnimationFinished(stateTime)){
 			setCurrentState(STATE.DEAD);
 		}
 
+		/* Transition To Wave State
+		 * We want to Transition to the wave state if:
+		 * FormerState = Standing Still Forward, and:
+		 * Stand Still Forward Animation has played WAVE_TIME times.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD && currentAnimation.getLoops(stateTime) >= WAVE_TIME){
+			setCurrentState(STATE.WAVE);
+		}
+
+		/* Transition From Wave State To Standing Still Forward State .
+		 * We want to transition to the standing still forward state if:
+		 * The former state is WAVE, and:
+		 * WAVE has looped more than 1 time.
+		 */
+		if(getCurrentState() == STATE.WAVE && currentAnimation.getLoops(stateTime) > 1){
+			setCurrentState(STATE.STAND_STILL_FORWARD);
+		}
+
+		/* Transition from Standing Still Sideways to Standing Still Forward State.
+		 * We want to transition to the standing still forward state if:
+		 * 1. The former state was standing still sideways.
+		 * 2. Avatar is on a planet.
+		 * 3. Avatar is not moving.
+		 * 4. Standing Still Sideways animation has played at least STANDING_STILL_SIDEWAYS times.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS &&
+				onPlanet() &&
+				getBody().getLinearVelocity().len2() < .001 &&
+				currentAnimation.getLoops(stateTime) >= STANDING_STILL_SIDEWAYS_TIME){
+					setCurrentState(STATE.STAND_STILL_FORWARD);
+		}
+
+		/* State Transition: WalkSlow -> StandStillSideways
+		 * We want to transition to the StandingStillSideways state if:
+		 * 1. Former State is WalkSlow, and:
+		 * 2. Avatar has stopped moving.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW && getBody().getLinearVelocity().len2() < .001){
+			setCurrentState(STATE.STAND_STILL_SIDEWAYS);
+		}
+
+		/* State Transition: STAND_STILL_FORWARD -> WALK_SLOW
+		 * 1. Avatar must have a "walk input" ie rotate input when on planet.
+		 * 2. Former State must be STAND_STILL_FORWARD
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD){
+			if(onPlanet()){
+				if(rotateRightPressed || rotateLeftPressed){
+					setCurrentState(STATE.WALK_SLOW);
+				}
+			}
+		}
+
+		/* State Transition: STAND_STILL_SIDEWAYS -> WALK_SLOW
+		 * 1. Avatar must have a "walk input" ie rotate input when on planet.
+		 * 2. Former State must be STAND_STILL_SIDEWAYS
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS){
+			if(onPlanet()){
+				if(rotateRightPressed || rotateLeftPressed){
+					setCurrentState(STATE.WALK_SLOW);
+				}
+			}
+		}
+
+		/* State Transition: WALK_FAST -> WALK_SLOW
+		 * 1. Former State must be WALK_FAST
+		 * 2. Avatar Velocity Must be below WALK_SLOW threshold.
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(getBody().getLinearVelocity().len2() < WALK_SLOW_THRESHOLD){
+					setCurrentState(STATE.WALK_SLOW);
+			}
+		}
+
+		/* State Transition: WALK_SLOW -> WALK_FAST
+		 * 1. Former State must be WALK_SLOW, and:
+		 * 2. Avatar Velocity Must be above WALK_SLOW threshold.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW){
+			if(getBody().getLinearVelocity().len2() >= WALK_SLOW_THRESHOLD){
+				setCurrentState(STATE.WALK_FAST);
+
+			}
+		}
+
+		/* State Transition: RUN_SLOW -> WALK_FAST
+		 * 1. Former State Must be RUN_SLOW, and:
+		 * 2. Avatar Velocity must be below RUN_SLOW_THRESHOLD.
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(getBody().getLinearVelocity().len2() < RUN_SLOW_THRESHOLD){
+				setCurrentState(STATE.WALK_FAST);
+			}
+		}
+
+		/* State Transition: WALK_FAST -> RUN_SLOW
+		 * 1. Former State must be WALK_FAST, and:
+		 * 2. Avatar Velocity must be above or equal to RUN_SLOW_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(getBody().getLinearVelocity().len2() >= RUN_SLOW_THRESHOLD){
+				setCurrentState(STATE.RUN_SLOW);
+			}
+		}
+
+		/* State Transition: RUN_FAST -> RUN_SLOW
+		 * 1. Former State must be RUN_FAST, and:
+		 * 2. Avatar Velocity must be blow RUN_FAST_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.RUN_FAST){
+			if(getBody().getLinearVelocity().len2() < RUN_FAST_THRESHOLD){
+				setCurrentState(STATE.RUN_SLOW);
+			}
+		}
+
+		/* State Transition: RUN_SLOW -> RUN_FAST
+		 * 1. Former State must be RUN_SLOW, and:
+		 * 2. Avatar Velocity must be above or equal to RUN_FAST_THRESHOLD
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(getBody().getLinearVelocity().len2() >= RUN_FAST_THRESHOLD){
+				setCurrentState(STATE.RUN_FAST);
+			}
+		}
+
+		/* State Transition: STAND_STILL_FORWARD -> JUMP_FORWARD
+		 * 1. Former State Must be STAND_STILL_FORWARD, and:
+		 * 2. Avatar has the "Jump Input"
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_FORWARD){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_FORWARD);
+			}
+		}
+
+		/* Check if current state is JUMP_FORWARD and animation has played 1 time
+		 * If So: apply a jump impulse to avatar
+		 */
+
+
+		/* State Transition: JUMP_FORWARD -> Flying
+		 * 1. Former State Must be Jump_Forward
+		 * 2. Avatar must be FLYING_DISTANCE away from planet.
+		 * 3. JUMP_FORWARD animation has played through once.
+		 */
+		if(getCurrentState() == STATE.JUMP_FORWARD){
+			if(getDistanceFromClosestPlanet() >= FLYING_DISTANCE){
+				setCurrentState(STATE.FLYING);
+			}
+
+		}
+
+		if(getCurrentState() == STATE.JUMP_FORWARD){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(20f);
+				//System.out.println("Applying Impulse: " + impulse);
+				getBody().applyLinearImpulse(impulse, getBody().getPosition(), true);
+			}
+		}
+
+		/* State Transition: FLYING -> LAND_FORWARD
+		 * 1. Former State must be FLYING
+		 * 2. Avatar is withing LANDING_DISTANCE of the nearest planet.
+		 * 3. Avatar is moving towards nearest planet.
+		 */
+		if(getCurrentState() == STATE.FLYING){
+			//System.out.println("DIST: " + getDistanceFromClosestPlanet());
+			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+				setCurrentState(STATE.LAND_FORWARD);
+			}
+		}
+
+		/* State Transition: Land Forward -> Standing Still Forward
+		 * 1. Former State must be Land Forward.
+		 * 2. Former Animation must have looped once.
+		 */
+		if(getCurrentState() == STATE.LAND_FORWARD){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				setCurrentState(STATE.STAND_STILL_FORWARD);
+			}
+		}
+
+		/* State Transition: WAVE -> JUMP_FORWARD
+		 * 1. Former state must be WAVE.
+		 * 2. AVATAR must have JUMP input.
+		 */
+		if(getCurrentState() == STATE.WAVE){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_FORWARD);
+			}
+		}
+
+		/* State Transition WALK_SLOW -> JUMP_SIDEWAYS
+		 * 1. Former State Must be WALK_SLOW, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.WALK_SLOW){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition STAND_STILL_SIDEWAYS -> JUMP_SIDEWAYS
+		 * 1. Former State Must be STAND_STILL_SIDEWAYS
+		 * 2. Avatar must have "Jump" Input.
+		 */
+		if(getCurrentState() == STATE.STAND_STILL_SIDEWAYS){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition WALk_FAST -> JUMP_SIDEWAYS
+		 * 1. Former State Must be WALK_FAST, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.WALK_FAST){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition RUN_SLOW -> JUMP_SIDEWAYS
+		 * 1. Former State Must be RUN_SLOW, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.RUN_SLOW){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition RUN_FAST -> JUMP_SIDEWAYS
+		 * 1. Former State Must be RUN_FAST, and:
+		 * 2. Avatar must have "Jump" input.
+		 */
+		if(getCurrentState() == STATE.RUN_FAST){
+			if(jumpPressed){
+				setCurrentState(STATE.JUMP_SIDEWAYS);
+			}
+		}
+
+		/* State Transition: JUMP_SIDEWAYS -> FLOAT_SIDEWAYS
+		 * 1. Former State Must be JUMP_SIDEWAYS
+		 * 2. Avatar must be FLYING_DISTANCE away from planet.
+		 */
+		if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(getDistanceFromClosestPlanet() >= FLYING_DISTANCE){
+				setCurrentState(STATE.FLOAT_SIDEWAYS);
+			}
+
+		}
+
+		/* Apply Jump Impulse After Jump Animation Completes. */
+		if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				Vector2 impulse = new Vector2(-(float)Math.sin(body.getAngle()), (float)Math.cos(body.getAngle())).scl(20f);
+				//System.out.println("Applying Impulse: " + impulse);
+				getBody().applyLinearImpulse(impulse, getBody().getPosition(), true);
+			}
+		}
+
+		/* State Transition: FLOAT_SIDEWAYS -> LAND_SIDEWAYS
+		 * 1. Former State must be FLOAT_SIDEWAYS, and:
+		 * 2. Avatar is within FLYING_DISTANCE of nearest planet.
+		 */
+		if(getCurrentState() == STATE.FLOAT_SIDEWAYS){
+			if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+					setCurrentState(STATE.LAND_SIDEWAYS);
+
+			}
+		}
+
+		/* State Transition: JUMP_SIDEWAYS -> LAND_SIDEWAYS
+		 * 1. Former State must be JUMP_SIDEWAYS
+		 * 2. Avatar is within LANDING_DISTANCE
+		 * 3. JUMP_SIDEWAYS animation has played at least once.
+		 */
+		/*if(getCurrentState() == STATE.JUMP_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				if(getDistanceFromClosestPlanet() < FLYING_DISTANCE){
+					setCurrentState(STATE.LAND_SIDEWAYS);
+				}
+			}
+		}*/
+
+		/* State Transition: LAND_SIDEWAYS -> STAND_STILL_SIDEWAYS
+		 * 1. Former State must be LAND_SIDEWAYS.
+		 * 2. Former animation has looped once.
+		 */
+		if(getCurrentState() == STATE.LAND_SIDEWAYS){
+			if(currentAnimation.getLoops(stateTime) >= .9){
+				setCurrentState(STATE.STAND_STILL_SIDEWAYS);
+			}
+		}
+
+
+
+		//System.out.println("vel: " + getBody().getLinearVelocity().len2());
 		/* We only want to transition to flying if we are currently Jumping forward, or floating sideways
 		 * (see state flow chart). We are considered to be flying when we are over 3.5 units (magic num) from the planet
 		  * and we were previously in the mentioned states.*/
-		if((getCurrentState() == STATE.JUMP_FORWARD || getCurrentState() == STATE.FLOAT_SIDEWAYS) && getDistanceFromClosestPlanet() > 3.5){
-			setCurrentState(STATE.FLYING);
-		}
+		//if((getCurrentState() == STATE.JUMP_FORWARD || getCurrentState() == STATE.FLOAT_SIDEWAYS) && getDistanceFromClosestPlanet() > 3.5){
+		//	setCurrentState(STATE.FLYING);
+		//}
 
+		//boolean lastFrame = false;
+		TextureRegion frame = currentAnimation.getKeyFrame(elapsedTime, true);
+		//if(frame == currentAnimation.)
 		 //draws all sprites the same size
-		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), getX(), getY(), 
-				this.getOriginX(), this.getOriginY(), this.getWidth(), this.getHeight(),
-				this.getScaleX(), this.getScaleY(), this.getRotation());
-
+		batch.draw(frame,
+				getX(), getY(),
+				this.getOriginX(), this.getOriginY(),
+				this.getWidth(), this.getHeight(),
+				this.getScaleX(), this.getScaleY(),
+				this.getRotation());
+		/*TextureRegion f = currentAnimation.getKeyFrame(elapsedTime, true);
+		batch.draw(f,
+				getX(), getY(),
+				this.getOriginX(), this.getOriginY(),
+				this.getWidth(), this.getHeight(),
+				f.getRegionWidth(), f.getRegionHeight(),
+				this.getRotation());
+*/
 		if(forwardPressed && !boostPressed){
 			//draws all sprites the same size
 			//get a directly on the butt of the ship.
@@ -187,7 +520,7 @@ public class Player extends Sprite {
 					this.getScaleX()*1, this.getScaleY()*2, this.getRotation());
 		}
 
-		if(rotateRightPressed){ //draw an exast coming out of right side of nose
+		if(rotateRightPressed && !onPlanet()){ //draw an exast coming out of right side of nose
 			Vector2 P = new Vector2(getX(), getY());
 			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 			D = D.rotate(-150);
@@ -200,7 +533,7 @@ public class Player extends Sprite {
 					this.getScaleX()*.5f, this.getScaleY()*.5f, this.getRotation()-95);
 		}
 
-		if(rotateLeftPressed){ //draw an exast coming out of right side of nose
+		if(rotateLeftPressed && !onPlanet()){ //draw an exast coming out of right side of nose
 			Vector2 P = new Vector2(getX(), getY());
 			Vector2 D = new Vector2((float)Math.cos(body.getAngle()), (float)Math.sin(body.getAngle()));
 			D = D.rotate(325);
@@ -294,7 +627,7 @@ public class Player extends Sprite {
 		fixtureDef.filter.groupIndex = parent.CATEGORY_PLAYER;
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1.25f;
-		fixtureDef.friction = .2f;
+		fixtureDef.friction = .5f;
 		fixture = body.createFixture(fixtureDef);
 		body.setUserData(this);
 		shape.dispose();
@@ -419,13 +752,13 @@ public class Player extends Sprite {
 		 */
 		if(onPlanet()){
 			if(rotateLeftPressed){
-				System.out.println("impulse: " + impulse.len());
-				body.applyLinearImpulse(impulse.rotate(-90), pos, true);
+				//System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(-90).scl(2.5f), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
 			if(rotateRightPressed){
-				System.out.println("impulse: " + impulse.len());
-				body.applyLinearImpulse(impulse.rotate(90), pos, true);
+				//System.out.println("impulse: " + impulse.len());
+				body.applyLinearImpulse(impulse.rotate(90).scl(2.5f), pos, true);
 				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
 			}
 		}else{
@@ -523,7 +856,7 @@ public class Player extends Sprite {
 	 * @param currentState
 	 */
 	public void setCurrentState(STATE currentState) {
-		//System.out.println("Setting State to: " + currentState);
+		System.out.println("Setting State to: " + currentState);
 		if(currentState == STATE.EXPLOADING){
 			currentAnimation = parent.getAnimationManager().getExplosionAnimation();
 		}else if(currentState == STATE.DEAD){
@@ -545,6 +878,7 @@ public class Player extends Sprite {
 		//System.out.println("STATECHANGE: + " + currentState);
 		this.currentState = currentState;
 		stateTime = 0;
+		chooseAnimation();
 	}
 
 	public Vector2 getGravityForce() {

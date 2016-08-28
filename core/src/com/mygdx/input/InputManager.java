@@ -24,6 +24,8 @@ public class InputManager implements InputProcessor{
     @Override
     public boolean keyDown(int keycode) {
 
+
+
         Vector2 vel = getPlayer().getBody().getLinearVelocity();
         float angularVelocity = getPlayer().getBody().getAngularVelocity();
         if(keycode == Input.Keys.W && vel.dst2(vel) <= getPlayer().MAX_VELOCITY){
@@ -38,8 +40,11 @@ public class InputManager implements InputProcessor{
         if(((keycode == Input.Keys.E)||(keycode == Input.Keys.D)) && angularVelocity <= getPlayer().MAX_ANGULAR_VELOCITY){
             getPlayer().rotateLeftPressed  = true;
         }
-        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+        if(keycode == Input.Keys.M && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
             parent.getRenderManager().setDrawSprite(!parent.getRenderManager().isDrawSprite());
+        }
+        if(keycode == Input.Keys.SPACE && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
+           getPlayer().jumpPressed = true;
         }
         if(keycode == Input.Keys.ENTER && parent.parent.getGameState() == MyGdxGame.GAME_STATE.INGAME){
             parent.getLevelManager().nextLevel();
@@ -89,6 +94,7 @@ public class InputManager implements InputProcessor{
      */
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.SPACE) getPlayer().jumpPressed = false;
     	if(keycode == Input.Keys.SHIFT_LEFT) getPlayer().setBoostPressed(false);
         if(keycode == com.badlogic.gdx.Input.Keys.W) getPlayer().forwardPressed = false;
         if(keycode == com.badlogic.gdx.Input.Keys.S) getPlayer().backwardPressed = false;
