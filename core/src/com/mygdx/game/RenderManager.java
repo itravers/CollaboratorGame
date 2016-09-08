@@ -120,7 +120,7 @@ public class RenderManager {
 
         //maybe don't need this
 
-model.get
+
         //move model down a bit
         modelInstance.transform.translate(0, -15, -60);
         modelInstance.transform.rotate(0, 1, 0, 90);
