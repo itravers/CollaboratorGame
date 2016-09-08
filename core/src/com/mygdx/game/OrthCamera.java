@@ -7,13 +7,13 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by Isaac Assegai on 8/14/2015.
  */
-public class ParallaxCamera extends OrthographicCamera{
+public class OrthCamera extends OrthographicCamera{
     Matrix4 parallaxView = new Matrix4();
     Matrix4 parallaxCombined = new Matrix4();
     Vector3 tmp = new Vector3();
     Vector3 tmp2 = new Vector3();
 
-    public ParallaxCamera (float viewportWidth, float viewportHeight) {
+    public OrthCamera(float viewportWidth, float viewportHeight) {
         super(viewportWidth, viewportHeight);
     }
 

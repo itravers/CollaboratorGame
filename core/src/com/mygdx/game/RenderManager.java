@@ -1,18 +1,28 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
+import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.UBJsonReader;
 import com.mygdx.Player.Player;
 
 /**
@@ -29,15 +39,23 @@ public class RenderManager {
     private SpriteBatch batch;
     private SpriteBatch backGroundBatch;
 
-    private ParallaxCamera camera; //drawing game pieces
+    //3d testing
+    private OrthographicCamera pCamera;
+    private ModelBatch modelBatch;
+    private Model model;
+    private ModelInstance modelInstance;
+    private Environment environment;
+    private AnimationController aController;
+
+    private OrthCamera camera; //drawing game pieces
    // public ScalingViewport viewport;
 
     private float baseZoom;
     private float cameraZoom;
     private ShapeRenderer shapeRenderer;
-    private ParallaxCamera shapeCamera; // need this because other cameras zoom
+    private OrthCamera shapeCamera; // need this because other cameras zoom
 
-    private ParallaxCamera backgroundCamera; //drawing sprites
+    private OrthCamera backgroundCamera; //drawing sprites
     private Matrix4 debugMatrix;
 
     private Box2DDebugRenderer debugRenderer;
@@ -81,9 +99,60 @@ public class RenderManager {
        // parent.getLevelManager().setupBackground();
         parent.getLevelManager().setupMenu(this.parent, batch);
         parent.getAnimationManager().setupAnimations();
-        camera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        backgroundCamera = new ParallaxCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera = new OrthCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
+        pCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+      //  pCamera.position.set(0, 0, 7f);
+       // pCamera.rotate(90);
+        //pCamera.rotate(90,0,0,1);
+
+       // pCamera.rotate
+
+       // pCamera.lookAt(0, 0, 0);
+        //pCamera.near = 0.1f;
+        //pCamera.far = 300.0f;
+        modelBatch = new ModelBatch();
+        UBJsonReader jsonReader = new UBJsonReader();
+        G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
+        model = modelLoader.loadModel(Gdx.files.getFileHandle("data/CanMan4.g3db", Files.FileType.Internal));
+        modelInstance = new ModelInstance(model);
+
+        //maybe don't need this
+
+model.get
+        //move model down a bit
+        modelInstance.transform.translate(0, -15, -60);
+        modelInstance.transform.rotate(0, 1, 0, 90);
+
+        //setup some light
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 1.0f));
+        aController = new AnimationController(modelInstance);
+        System.out.println("animations: " + modelInstance.animations);
+        aController.setAnimation("Walk_Polish",1, new AnimationController.AnimationListener(){
+
+            @Override
+            public void onEnd(AnimationController.AnimationDesc animation) {
+                // this will be called when the current animation is done.
+                // queue up another animation called "balloon".
+                // Passing a negative to loop count loops forever.  1f for speed is normal speed.
+                aController.queue("Walk_Polish",-1,1f,null,0f);
+            }
+
+            @Override
+            public void onLoop(AnimationController.AnimationDesc animation) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
+
+
+
+        shapeCamera = new OrthCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        backgroundCamera = new OrthCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.setProjectionMatrix(camera.combined);
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         shapeRenderer = new ShapeRenderer();
@@ -120,6 +189,10 @@ public class RenderManager {
         camera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
         camera.update();
+
+
+
+
         batch.setProjectionMatrix(camera.combined);
         backgroundCamera.position.set(p.getX() + p.getWidth(),
                 p.getY() + p.getHeight(), 0);
@@ -159,13 +232,21 @@ public class RenderManager {
         backGroundBatch.setProjectionMatrix(backgroundCamera.combined);
         parent.getLevelManager().getWorld().step(1f / 60f, 6, 2);
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
+        //2d rendering
+
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+         Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+       // Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(parent.PIXELS_TO_METERS, parent.PIXELS_TO_METERS, 0);
         renderBackground(elapsedTime, backGroundBatch); //Should be done before other renders
 
         batch.begin();
-        if(drawSprite){ /* Draw sprites if true */
+        if(drawSprite){
             renderPlanets(elapsedTime, batch);
             renderGhosts(elapsedTime, batch);
             renderPlayer(elapsedTime, batch);
@@ -178,6 +259,29 @@ public class RenderManager {
         renderGravityIndicator(elapsedTime, batch);
         renderUI(elapsedTime, batch); /* this needs to be after batch.end */
         renderHUD(elapsedTime, batch);
+
+
+        //3d rendering
+        // You've seen all this before, just be sure to clear the GL_DEPTH_BUFFER_BIT when working in 3D
+        //Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+       // Gdx.gl.glClearColor(1, 1, 1, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+
+        // For some flavor, lets spin our camera around the Y axis by 1 degree each time render is called
+        //camera.rotateAround(Vector3.Zero, new Vector3(0,1,0),1f);
+        // When you change the camera details, you need to call update();
+        // Also note, you need to call update() at least once.
+        pCamera.update();
+        pCamera.zoom = camera.zoom / 4f;
+        //camera.update();
+        // You need to call update on the animation controller so it will advance the animation.  Pass in frame delta
+        aController.update(Gdx.graphics.getDeltaTime());
+        // Like spriteBatch, just with models!  pass in the box Instance and the environment
+        modelBatch.begin(pCamera);
+        modelBatch.render(modelInstance, environment);
+        modelBatch.end();
+
         if(!drawSprite) debugRenderer.render(parent.getLevelManager().getWorld(), debugMatrix); /* Render box2d physics items */
 
         //Update after rendering, this will be rendered next frame
@@ -502,11 +606,11 @@ public class RenderManager {
     }
 
 
-    public ParallaxCamera getBackgroundCamera() {
+    public OrthCamera getBackgroundCamera() {
         return backgroundCamera;
     }
 
-    public void setBackgroundCamera(ParallaxCamera backgroundCamera) {
+    public void setBackgroundCamera(OrthCamera backgroundCamera) {
         this.backgroundCamera = backgroundCamera;
     }
 
@@ -547,7 +651,7 @@ public class RenderManager {
         return camera;
     }
 
-    public void setCamera(ParallaxCamera camera) {
+    public void setCamera(OrthCamera camera) {
         this.camera = camera;
     }
 

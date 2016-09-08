@@ -767,12 +767,12 @@ public class Player extends Sprite {
 			if(rotateLeftPressed){
 				//System.out.println("impulse: " + impulse.len());
 				body.applyLinearImpulse(impulse.rotate(-90).scl(2.5f), pos, true);
-				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/2), pos, true);
 			}
 			if(rotateRightPressed){
 				//System.out.println("impulse: " + impulse.len());
 				body.applyLinearImpulse(impulse.rotate(90).scl(2.5f), pos, true);
-				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/4), pos, true);
+				body.applyLinearImpulse(impulse.rotate(180).limit(impulse.len()/2), pos, true);
 			}
 		}else{
 			if(rotateLeftPressed) body.applyAngularImpulse(-1f, true);
@@ -790,7 +790,7 @@ public class Player extends Sprite {
 		boolean returnVal = false;
 		STATE s = getCurrentState();
 //
-		if(s == STATE.FLYING){
+		if(s == STATE.FLYING && getDistanceFromClosestPlanet() > FLYING_DISTANCE / 2){
 			returnVal = false;
 		}else{
 			returnVal = true;
